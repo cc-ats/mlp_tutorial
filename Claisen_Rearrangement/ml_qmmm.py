@@ -70,10 +70,10 @@ def local_environment(coords: Tensor) -> Tuple[Tensor, Tensor]:
     num_batches, num_channels, _ = coords.size()
     rij = coords[:, :, None] - coords[:, None]
     dij = torch.norm(rij, dim=3)
-    mask = ~torch.eye(num_channels, dtype=torch.bool) # remove self-distance
+    mask = ~torch.eye(num_channels, dtype=torch.bool, device=coords.device) # remove self-distance
     rij = torch.masked_select(rij, mask.unsqueeze(2)).view(num_batches, num_channels, num_channels - 1, 3)
     dij = torch.masked_select(dij, mask).view(num_batches, num_channels, num_channels - 1)
-    dij_inv = 1 / dij# * 5 - 2.5
+    dij_inv = 1 / dij
     dij2_inv = dij_inv * dij_inv
 
     loc_env_r = dij_inv
@@ -85,8 +85,8 @@ def local_environment(coords: Tensor) -> Tuple[Tensor, Tensor]:
 def electric_efield(atom_coords: Tensor, charge_coords: Tensor, charges: Tensor) -> Tuple[Tensor, Tensor]:
     rij = atom_coords[:, :, None] - charge_coords[:, None]
     dij = torch.norm(rij, dim=3)
-    esp = torch.sum(charges[..., None, :] / dij, dim=-1) * (27.2114 * 0.529177249)# - 3.5
-    efield = torch.sum(charges[..., None, :, None] * rij / (dij**3)[..., None], dim=-2) * (27.2114 * 0.529177249)# * 2
+    esp = torch.sum(charges[..., None, :] / dij, dim=-1) * (27.2114 * 0.529177249)
+    efield = torch.sum(charges[..., None, :, None] * rij / (dij**3)[..., None], dim=-2) * (27.2114 * 0.529177249)
     return esp, efield
 
 
@@ -107,7 +107,7 @@ class Feature(nn.Module):
         loc_env_r, loc_env_a = local_environment(coords)
 
         neighbor_types = atom_types.repeat(num_channels, 1)
-        mask = ~torch.eye(num_channels, dtype=torch.bool)
+        mask = ~torch.eye(num_channels, dtype=torch.bool, device=coords.device)
         neighbor_types = torch.masked_select(neighbor_types, mask).view(num_channels, -1)
         indices = ((atom_types * self.n_types).unsqueeze(-1) + neighbor_types).view(-1)
 
@@ -115,7 +115,7 @@ class Feature(nn.Module):
         output = output.view(num_batches, num_channels, num_channels - 1, -1)
 
         output = torch.transpose(output, 2, 3) @ (loc_env_a @ (torch.transpose(loc_env_a, 2, 3) @ output[..., :self.axis_neuron]))
-        output = output.view(num_batches, num_channels, -1)# / 100
+        output = output.view(num_batches, num_channels, -1)
 
         return output
 
@@ -150,7 +150,7 @@ class ElectrostaticPotential(nn.Module):
         output = torch.bmm(loc_env_a.view(-1, num_channels - 1, 3), efield.view(-1, 3, 1)).view(num_batches, num_channels, num_channels - 1)
 
         neighbor_types = atom_types.repeat(num_channels, 1)
-        mask = ~torch.eye(num_channels, dtype=torch.bool)
+        mask = ~torch.eye(num_channels, dtype=torch.bool, device=coords.device)
         neighbor_types = torch.masked_select(neighbor_types, mask).view(num_channels, -1)
         indices = ((atom_types * self.n_types).unsqueeze(-1) + neighbor_types).view(-1)
 
@@ -158,7 +158,7 @@ class ElectrostaticPotential(nn.Module):
         output = output.view(num_batches, num_channels, num_channels - 1, -1)
 
         output = torch.transpose(output, 2, 3) @ output[..., :self.axis_neuron]
-        output = output.view(num_batches, num_channels, -1)# / 2
+        output = output.view(num_batches, num_channels, -1)
 
         output = torch.cat((esp_output, output), dim=2)
 
@@ -181,20 +181,3 @@ class Fitting(nn.Module):
     def forward(self, input : Tuple[Tensor, Tensor]) -> Tensor:
         output, _ = self.fitting_net(input)
         return output
-
-
-class DeepPotMM(nn.Module):
-    def __init__(self, descriptor: nn.Module, fitting_net: nn.Module, learning_rate=5e-4) -> None:
-        super().__init__()
-        self.descriptor = descriptor
-        self.fitting_net = fitting_net
-        self.learning_rate = learning_rate
-
-    def forward(self, coords: torch.Tensor, atom_types: torch.Tensor, charge_coords: torch.Tensor, charges: torch.Tensor):
-        coords.requires_grad_()
-        descriptors = self.descriptor(coords, atom_types)
-        atomic_energies = self.fitting_net((descriptors, atom_types))
-        energy = torch.unbind(torch.sum(atomic_energies, dim=1))
-        gradient, = torch.autograd.grad(energy, [coords], create_graph=True)
-        return torch.hstack(energy), gradient
-
