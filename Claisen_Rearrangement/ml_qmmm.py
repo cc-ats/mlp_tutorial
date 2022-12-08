@@ -82,14 +82,6 @@ def local_environment(coords: Tensor) -> Tuple[Tensor, Tensor]:
     return loc_env_r, loc_env_a
 
 
-def electric_efield(atom_coords: Tensor, charge_coords: Tensor, charges: Tensor) -> Tuple[Tensor, Tensor]:
-    rij = atom_coords[:, :, None] - charge_coords[:, None]
-    dij = torch.norm(rij, dim=3)
-    esp = torch.sum(charges[..., None, :] / dij, dim=-1) * (27.2114 * 0.529177249)
-    efield = torch.sum(charges[..., None, :, None] * rij / (dij**3)[..., None], dim=-2) * (27.2114 * 0.529177249)
-    return esp, efield
-
-
 class Feature(nn.Module):
     def __init__(self, n_types: int, neuron: Sequence[int] = [25, 50, 100], axis_neuron: int = 4) -> None:
         super().__init__()
@@ -122,51 +114,6 @@ class Feature(nn.Module):
     @property
     def output_length(self) -> int:
         return self.neuron[-1] * self.axis_neuron
-
-
-class ElectrostaticPotential(nn.Module):
-    def __init__(self, n_types: int, neuron: Sequence[int] = [5, 10, 20], axis_neuron: int = 4) -> None:
-        super().__init__()
-        self.n_types = n_types
-        self.neuron = neuron
-        self.axis_neuron = axis_neuron
-
-        layers = [Dense(n_types, 1, neuron[0], activation=True)]
-        for i in range(len(neuron)-1):
-            layers.append(Dense(n_types, neuron[i], neuron[i+1], activation=True, residual=True))
-        self.esp_embedding = Sequential(*layers)
-
-        layers = [Dense(n_types * n_types, 1, neuron[0], activation=True)]
-        for i in range(len(neuron)-1):
-            layers.append(Dense(n_types * n_types, neuron[i], neuron[i+1], activation=True, residual=True))
-        self.efield_embedding = Sequential(*layers)
-
-    def forward(self, atom_coords: Tensor, atom_types: Tensor, charge_coords: Tensor, charges: Tensor) -> Tensor:
-        num_batches, num_channels, _ = atom_coords.size()
-        _, loc_env_a = local_environment(atom_coords)
-        esp, efield = electric_efield(atom_coords, charge_coords, charges)
-        esp_output, _ = self.esp_embedding((esp.unsqueeze(-1), atom_types))
-
-        output = torch.bmm(loc_env_a.view(-1, num_channels - 1, 3), efield.view(-1, 3, 1)).view(num_batches, num_channels, num_channels - 1)
-
-        neighbor_types = atom_types.repeat(num_channels, 1)
-        mask = ~torch.eye(num_channels, dtype=torch.bool, device=coords.device)
-        neighbor_types = torch.masked_select(neighbor_types, mask).view(num_channels, -1)
-        indices = ((atom_types * self.n_types).unsqueeze(-1) + neighbor_types).view(-1)
-
-        output, _ = self.efield_embedding((output.view(num_batches, -1, 1), indices))
-        output = output.view(num_batches, num_channels, num_channels - 1, -1)
-
-        output = torch.transpose(output, 2, 3) @ output[..., :self.axis_neuron]
-        output = output.view(num_batches, num_channels, -1)
-
-        output = torch.cat((esp_output, output), dim=2)
-
-        return output
-
-    @property
-    def output_length(self) -> int:
-        return self.neuron[-1] * (self.axis_neuron + 1)
 
 
 class Fitting(nn.Module):
