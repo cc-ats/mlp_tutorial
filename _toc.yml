@@ -1,0 +1,22 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: index
+parts:
+  - caption: A. Machine Learning Models
+    numbered: true
+    chapters:
+    - file: mueller_brown
+    - file: Mueller_Brown_GPR
+  - caption: B. Molecular Representations
+    numbered: true
+    chapters:
+    - file: Butane_BP_PyTorch
+    - file: DeepPot_PyTorch
+  - caption: C. Machine Learning Potentials
+    numbered: true
+    chapters:
+    - file: ClaisenRearrangement_BP_PyTorch
+    - file: ClaisenRearrangement_PyTorch
+    - file: BPGPR_ClaisenRearrangement
