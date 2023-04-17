@@ -1,0 +1,47 @@
+Traceback (most recent call last):
+  File "/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+  File "/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/nbclient/client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/nbclient/util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/nbclient/util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/asyncio/base_events.py", line 647, in run_until_complete
+    return future.result()
+  File "/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/nbclient/client.py", line 663, in async_execute
+    await self.async_execute_cell(
+  File "/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/nbclient/client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/nbclient/client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import numpy as np
+coord = torch.from_numpy(np.array(np.load("/content/drive/MyDrive/Colab Notebooks/deeppot_pytorch/input_coord.npy"), dtype="float32"))
+atom_types = torch.from_numpy(np.loadtxt("/content/drive/MyDrive/Colab Notebooks/deeppot_pytorch/type.raw", dtype="int64"))
+atom_types = atom_types.repeat(len(coord), 1)
+grad = torch.from_numpy(np.array(np.load("/content/drive/MyDrive/Colab Notebooks/deeppot_pytorch/input_grad.npy"), dtype="float32"))
+
+dataset = TensorDataset(coord, atom_types, grad)
+train_loader = DataLoader(dataset, batch_size=32)
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mFileNotFoundError[0m                         Traceback (most recent call last)
+Cell [0;32mIn[9], line 2[0m
+[1;32m      1[0m [38;5;28;01mimport[39;00m [38;5;21;01mnumpy[39;00m [38;5;28;01mas[39;00m [38;5;21;01mnp[39;00m
+[0;32m----> 2[0m coord [38;5;241m=[39m torch[38;5;241m.[39mfrom_numpy(np[38;5;241m.[39marray([43mnp[49m[38;5;241;43m.[39;49m[43mload[49m[43m([49m[38;5;124;43m"[39;49m[38;5;124;43m/content/drive/MyDrive/Colab Notebooks/deeppot_pytorch/input_coord.npy[39;49m[38;5;124;43m"[39;49m[43m)[49m, dtype[38;5;241m=[39m[38;5;124m"[39m[38;5;124mfloat32[39m[38;5;124m"[39m))
+[1;32m      3[0m atom_types [38;5;241m=[39m torch[38;5;241m.[39mfrom_numpy(np[38;5;241m.[39mloadtxt([38;5;124m"[39m[38;5;124m/content/drive/MyDrive/Colab Notebooks/deeppot_pytorch/type.raw[39m[38;5;124m"[39m, dtype[38;5;241m=[39m[38;5;124m"[39m[38;5;124mint64[39m[38;5;124m"[39m))
+[1;32m      4[0m atom_types [38;5;241m=[39m atom_types[38;5;241m.[39mrepeat([38;5;28mlen[39m(coord), [38;5;241m1[39m)
+
+File [0;32m/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/numpy/lib/npyio.py:405[0m, in [0;36mload[0;34m(file, mmap_mode, allow_pickle, fix_imports, encoding, max_header_size)[0m
+[1;32m    403[0m     own_fid [38;5;241m=[39m [38;5;28;01mFalse[39;00m
+[1;32m    404[0m [38;5;28;01melse[39;00m:
+[0;32m--> 405[0m     fid [38;5;241m=[39m stack[38;5;241m.[39menter_context([38;5;28;43mopen[39;49m[43m([49m[43mos_fspath[49m[43m([49m[43mfile[49m[43m)[49m[43m,[49m[43m [49m[38;5;124;43m"[39;49m[38;5;124;43mrb[39;49m[38;5;124;43m"[39;49m[43m)[49m)
+[1;32m    406[0m     own_fid [38;5;241m=[39m [38;5;28;01mTrue[39;00m
+[1;32m    408[0m [38;5;66;03m# Code to distinguish from NumPy binary files and pickles.[39;00m
+
+[0;31mFileNotFoundError[0m: [Errno 2] No such file or directory: '/content/drive/MyDrive/Colab Notebooks/deeppot_pytorch/input_coord.npy'
+FileNotFoundError: [Errno 2] No such file or directory: '/content/drive/MyDrive/Colab Notebooks/deeppot_pytorch/input_coord.npy'
+

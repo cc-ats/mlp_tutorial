@@ -1,0 +1,1280 @@
+
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+    <title>2. Gaussian Process Regression &#8212; MLP Class</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=e353d410970836974a52" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=e353d410970836974a52" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=e353d410970836974a52" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=14f4ca6b54d191a8c7657f6c759bf11a5fb86285" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css" />
+    <link rel="stylesheet" type="text/css" href="_static/design-style.4045f2051d55cab465a707391d5b2007.min.css" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=e353d410970836974a52" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52" />
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/clipboard.min.js"></script>
+    <script src="_static/copybutton.js"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=5a5c038af52cf7bc1a1ec88eea08e6366ee68824"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.6/require.min.js"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"
+const thebe_selector = ".thebe,.cell"
+const thebe_selector_input = "pre"
+const thebe_selector_output = ".output, .cell_output"
+</script>
+    <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Lesson2_GPR';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="3. Behler-Parrinello Symmetry Functions" href="Lesson3_BP.html" />
+    <link rel="prev" title="1. Fitting Neural Network Models" href="Lesson1_FNN.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+  
+
+<a class="navbar-brand logo" href="index.html">
+  
+  
+  
+  
+  
+    <p class="title logo__title">MLP Class</p>
+  
+</a></div>
+        <div class="sidebar-primary-item"><nav class="bd-links" id="bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="index.html">
+                    MLP Class
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">A. Machine Learning Models</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Lesson1_FNN.html">1. Fitting Neural Network Models</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">2. Gaussian Process Regression</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">B. Molecular Representations</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Lesson3_BP.html">3. Behler-Parrinello Symmetry Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lesson4_DeepPot.html">4. Deep Potential</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">C. Machine Learning Potentials</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Lesson5_BP-FNN_MLP.html">5. Neural Netwotk with Behler-Parrinello Symmetry Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lesson6_DeepPot-FNN_MLP.html">6. Neural Netwotk with Deep Potential</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lesson7_BP-GPR_MLP.html">7. Gaussian Process Regression with Behler-Parrinello Symmetry Functions</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><label class="sidebar-toggle primary-toggle btn btn-sm" for="__primary" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</label></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-launch-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Launch interactive content">
+    <i class="fas fa-rocket"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://colab.research.google.com/github/cc-ats/mlp_class/blob/main/Lesson2_GPR.ipynb" target="_blank"
+   class="btn btn-sm dropdown-item"
+   title="Launch onColab"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  
+    <img src="_static/images/logo_colab.png">
+  </span>
+<span class="btn__text-container">Colab</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/cc-ats/mlp_class" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/cc-ats/mlp_class/issues/new?title=Issue%20on%20page%20%2FLesson2_GPR.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/Lesson2_GPR.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+<script>
+document.write(`
+  <button class="theme-switch-button btn btn-sm btn-outline-primary navbar-btn rounded-circle" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch" data-mode="light"><i class="fa-solid fa-sun"></i></span>
+    <span class="theme-switch" data-mode="dark"><i class="fa-solid fa-moon"></i></span>
+    <span class="theme-switch" data-mode="auto"><i class="fa-solid fa-circle-half-stroke"></i></span>
+  </button>
+`);
+</script>
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Gaussian Process Regression</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="gaussian-process-regression">
+<h1><span class="section-number">2. </span>Gaussian Process Regression<a class="headerlink" href="#gaussian-process-regression" title="Permalink to this heading">#</a></h1>
+<p>For the definition of Mueller-Brown potential, see <a class="reference external" href="https://www.wolframcloud.com/objects/demonstrations/TrajectoriesOnTheMullerBrownPotentialEnergySurface-source.nb">https://www.wolframcloud.com/objects/demonstrations/TrajectoriesOnTheMullerBrownPotentialEnergySurface-source.nb</a>.</p>
+<p><span class="math notranslate nohighlight">\(v(x,y) = \sum_{k=0}^3 A_k \mathrm{exp}\left[ a_k (x - x_k^0)^2 + b_k (x - x_k^0) (y - y_k^0) + c_k (y - y_k^0)^2 \right] \)</span></p>
+<p><strong>Generate Traning Data</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">exp</span><span class="p">,</span> <span class="nb">pow</span><span class="p">,</span> <span class="n">tanh</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+
+<span class="k">def</span> <span class="nf">mueller_brown_potential</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+  <span class="n">A</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">200</span><span class="p">,</span> <span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="o">-</span><span class="mi">170</span><span class="p">,</span> <span class="mi">15</span><span class="p">]</span>
+  <span class="n">a</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.5</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">]</span>
+  <span class="n">b</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="mf">0.6</span><span class="p">]</span>
+  <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mf">6.5</span><span class="p">,</span> <span class="mf">0.7</span><span class="p">]</span>
+  <span class="n">x0</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="mf">0.5</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">]</span>
+  <span class="n">y0</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">]</span>
+  <span class="n">value</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">):</span>
+    <span class="n">value</span> <span class="o">+=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">A</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="n">exp</span><span class="p">(</span> <span class="n">a</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="nb">pow</span><span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">x0</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="mf">2.0</span><span class="p">)</span> <span class="o">+</span> <span class="n">b</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="o">-</span><span class="n">x0</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="o">*</span> <span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">y0</span><span class="p">[</span><span class="n">k</span><span class="p">])</span> <span class="o">+</span> <span class="n">c</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">*</span> <span class="nb">pow</span><span class="p">(</span><span class="n">y</span><span class="o">-</span><span class="n">y0</span><span class="p">[</span><span class="n">k</span><span class="p">],</span> <span class="mf">2.0</span><span class="p">))</span>
+  <span class="k">return</span> <span class="n">value</span>
+
+<span class="c1">#main function</span>
+<span class="n">xx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">1.8</span><span class="p">,</span> <span class="mf">1.4</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="n">yy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mf">0.4</span><span class="p">,</span> <span class="mf">2.4</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">xx</span><span class="p">,</span> <span class="n">yy</span><span class="p">)</span>
+<span class="n">xy</span><span class="p">,</span> <span class="n">xy_truncated</span> <span class="o">=</span> <span class="p">[],[]</span>
+<span class="n">z</span><span class="p">,</span> <span class="n">z_truncated</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">yy</span><span class="p">:</span>
+  <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">xx</span><span class="p">:</span>
+    <span class="n">v</span> <span class="o">=</span> <span class="n">mueller_brown_potential</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+    <span class="n">z</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+    <span class="n">xy</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">])</span>
+    <span class="k">if</span> <span class="n">v</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>  <span class="c1">#keep only low-energy points for ML training</span>
+      <span class="n">xy_truncated</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span>
+      <span class="n">z_truncated</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">v</span><span class="p">)</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">z</span><span class="p">,(</span><span class="nb">len</span><span class="p">(</span><span class="n">yy</span><span class="p">),</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Zmin:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="n">Z</span><span class="p">),</span> <span class="s2">&quot;Zmax:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">Z</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Size of (future) training set:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">z_truncated</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Zmin: -14.599803525171698 Zmax: 1194.4772333054245
+Size of (future) training set: 696
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>3-d Projection Surface</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># %matplotlib widget</span>
+<span class="c1"># from mpl_toolkits.mplot3d import Axes3D</span>
+<span class="c1"># from google.colab import output</span>
+<span class="c1"># output.enable_custom_widget_manager()</span>
+<span class="kn">import</span> <span class="nn">copy</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+
+<span class="c1"># Made copy of Z just to clean up the plot.</span>
+<span class="n">clean_Z</span> <span class="o">=</span> <span class="n">copy</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">Z</span><span class="p">)</span>
+<span class="n">clean_Z</span><span class="p">[</span><span class="n">clean_Z</span><span class="o">&gt;</span><span class="mi">35</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">clean_Z</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="n">clean_Z</span><span class="p">))</span>
+<span class="n">surf</span><span class="o">=</span><span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">clean_Z</span><span class="p">,</span> <span class="n">rstride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cstride</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+                <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">coolwarm</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mi">15</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">40</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">view_init</span><span class="p">(</span><span class="mi">30</span><span class="p">,</span><span class="o">-</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Mueller Brown Surface&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">(</span><span class="n">surf</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>nan nan
+</pre></div>
+</div>
+<img alt="_images/8039a3aef7f7c87ca91091a70f2a92c2ab6dc396dfb828a4c4b9215cafab2792.png" src="_images/8039a3aef7f7c87ca91091a70f2a92c2ab6dc396dfb828a4c4b9215cafab2792.png" />
+</div>
+</div>
+<p><strong>Contour surface</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span> 
+<span class="n">levels</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span> 
+<span class="n">ct</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">levels</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">clabel</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%3.0f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span> 
+<span class="n">ct</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">levels</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">rainbow</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mi">15</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span> 
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/7888c6f270fa317dcd2e2c15abf2347c9eea87702bd6c246e5b6df519ce7eb6c.png" src="_images/7888c6f270fa317dcd2e2c15abf2347c9eea87702bd6c246e5b6df519ce7eb6c.png" />
+</div>
+</div>
+<p><strong>Loading PyTorch, GpyTorch, and training data</strong></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>gpytorch
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">torch</span>
+<span class="kn">import</span> <span class="nn">gpytorch</span>
+<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+
+<span class="c1">#dataset = TensorDataset(Tensor(xy_truncated), Tensor(z_truncated))</span>
+<span class="c1">#train_loader = DataLoader(dataset, batch_size=32)</span>
+<span class="c1">#print(&quot;Size of training set:&quot;, len(train_loader.dataset))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting gpytorch
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  Downloading gpytorch-1.10-py3-none-any.whl (255 kB)
+?25l     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">0.0/255.2 kB</span> <span class=" -Color -Color-Red">?</span> eta <span class=" -Color -Color-Cyan">-:--:--</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸━━━━━━━━━ <span class=" -Color -Color-Green">194.6/255.2 kB</span> <span class=" -Color -Color-Red">5.8 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:01</span>
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">255.2/255.2 kB</span> <span class=" -Color -Color-Red">6.0 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25hCollecting linear-operator&gt;=0.4.0
+  Downloading linear_operator-0.4.0-py3-none-any.whl (156 kB)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>?25l     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">0.0/156.7 kB</span> <span class=" -Color -Color-Red">?</span> eta <span class=" -Color -Color-Cyan">-:--:--</span>
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">156.7/156.7 kB</span> <span class=" -Color -Color-Red">39.8 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25h
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting scikit-learn
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  Downloading scikit_learn-1.2.2-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (9.6 MB)
+?25l     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">0.0/9.6 MB</span> <span class=" -Color -Color-Red">?</span> eta <span class=" -Color -Color-Cyan">-:--:--</span>
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━╺━━━━━━━━━━━━ <span class=" -Color -Color-Green">6.6/9.6 MB</span> <span class=" -Color -Color-Red">198.0 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:01</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸ <span class=" -Color -Color-Green">9.6/9.6 MB</span> <span class=" -Color -Color-Red">187.7 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:01</span>
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">9.6/9.6 MB</span> <span class=" -Color -Color-Red">110.0 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25h
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: torch&gt;=1.11 in /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages (from linear-operator&gt;=0.4.0-&gt;gpytorch) (2.0.0)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting scipy
+  Downloading scipy-1.10.1-cp39-cp39-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (34.5 MB)
+?25l     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">0.0/34.5 MB</span> <span class=" -Color -Color-Red">?</span> eta <span class=" -Color -Color-Cyan">-:--:--</span>
+     ━━━━━╸━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">5.1/34.5 MB</span> <span class=" -Color -Color-Red">154.3 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:01</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     ━━━━━━━━━━━╸━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">10.6/34.5 MB</span> <span class=" -Color -Color-Red">153.6 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:01</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     ━━━━━━━━━━━━━━━━━╸━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">15.9/34.5 MB</span> <span class=" -Color -Color-Red">154.2 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:01</span>
+     ━━━━━━━━━━━━━━━━━━━━━━━━╺━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">21.2/34.5 MB</span> <span class=" -Color -Color-Red">153.0 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:01</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╺━━━━━━━━ <span class=" -Color -Color-Green">26.6/34.5 MB</span> <span class=" -Color -Color-Red">153.4 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:01</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸━━ <span class=" -Color -Color-Green">32.4/34.5 MB</span> <span class=" -Color -Color-Red">160.3 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:01</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸ <span class=" -Color -Color-Green">34.5/34.5 MB</span> <span class=" -Color -Color-Red">162.1 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:01</span>
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸ <span class=" -Color -Color-Green">34.5/34.5 MB</span> <span class=" -Color -Color-Red">162.1 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:01</span>
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━╸ <span class=" -Color -Color-Green">34.5/34.5 MB</span> <span class=" -Color -Color-Red">162.1 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:01</span>
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">34.5/34.5 MB</span> <span class=" -Color -Color-Red">56.6 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25h
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: numpy&gt;=1.17.3 in /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages (from scikit-learn-&gt;gpytorch) (1.24.2)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting joblib&gt;=1.1.1
+  Downloading joblib-1.2.0-py3-none-any.whl (297 kB)
+?25l     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">0.0/298.0 kB</span> <span class=" -Color -Color-Red">?</span> eta <span class=" -Color -Color-Cyan">-:--:--</span>
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ <span class=" -Color -Color-Green">298.0/298.0 kB</span> <span class=" -Color -Color-Red">60.5 MB/s</span> eta <span class=" -Color -Color-Cyan">0:00:00</span>
+?25h
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Collecting threadpoolctl&gt;=2.0.0
+  Downloading threadpoolctl-3.1.0-py3-none-any.whl (14 kB)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: nvidia-cuda-nvrtc-cu11==11.7.99 in /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages (from torch&gt;=1.11-&gt;linear-operator&gt;=0.4.0-&gt;gpytorch) (11.7.99)
+Requirement already satisfied: nvidia-cufft-cu11==10.9.0.58 in /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages (from torch&gt;=1.11-&gt;linear-operator&gt;=0.4.0-&gt;gpytorch) (10.9.0.58)
+Requirement already satisfied: jinja2 in /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages (from torch&gt;=1.11-&gt;linear-operator&gt;=0.4.0-&gt;gpytorch) (3.1.2)
+Requirement already satisfied: nvidia-cusolver-cu11==11.4.0.1 in /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages (from torch&gt;=1.11-&gt;linear-operator&gt;=0.4.0-&gt;gpytorch) (11.4.0.1)
+Requirement already satisfied: nvidia-cublas-cu11==11.10.3.66 in /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages (from torch&gt;=1.11-&gt;linear-operator&gt;=0.4.0-&gt;gpytorch) (11.10.3.66)
+Requirement already satisfied: nvidia-nvtx-cu11==11.7.91 in /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages (from torch&gt;=1.11-&gt;linear-operator&gt;=0.4.0-&gt;gpytorch) (11.7.91)
+Requirement already satisfied: filelock in /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages (from torch&gt;=1.11-&gt;linear-operator&gt;=0.4.0-&gt;gpytorch) (3.11.0)
+Requirement already satisfied: nvidia-cudnn-cu11==8.5.0.96 in /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages (from torch&gt;=1.11-&gt;linear-operator&gt;=0.4.0-&gt;gpytorch) (8.5.0.96)
+Requirement already satisfied: nvidia-nccl-cu11==2.14.3 in /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages (from torch&gt;=1.11-&gt;linear-operator&gt;=0.4.0-&gt;gpytorch) (2.14.3)
+Requirement already satisfied: triton==2.0.0 in /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages (from torch&gt;=1.11-&gt;linear-operator&gt;=0.4.0-&gt;gpytorch) (2.0.0)
+Requirement already satisfied: nvidia-cusparse-cu11==11.7.4.91 in /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages (from torch&gt;=1.11-&gt;linear-operator&gt;=0.4.0-&gt;gpytorch) (11.7.4.91)
+Requirement already satisfied: nvidia-curand-cu11==10.2.10.91 in /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages (from torch&gt;=1.11-&gt;linear-operator&gt;=0.4.0-&gt;gpytorch) (10.2.10.91)
+Requirement already satisfied: nvidia-cuda-runtime-cu11==11.7.99 in /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages (from torch&gt;=1.11-&gt;linear-operator&gt;=0.4.0-&gt;gpytorch) (11.7.99)
+Requirement already satisfied: sympy in /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages (from torch&gt;=1.11-&gt;linear-operator&gt;=0.4.0-&gt;gpytorch) (1.11.1)
+Requirement already satisfied: networkx in /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages (from torch&gt;=1.11-&gt;linear-operator&gt;=0.4.0-&gt;gpytorch) (3.1)
+Requirement already satisfied: typing-extensions in /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages (from torch&gt;=1.11-&gt;linear-operator&gt;=0.4.0-&gt;gpytorch) (4.5.0)
+Requirement already satisfied: nvidia-cuda-cupti-cu11==11.7.101 in /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages (from torch&gt;=1.11-&gt;linear-operator&gt;=0.4.0-&gt;gpytorch) (11.7.101)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: setuptools in /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages (from nvidia-cublas-cu11==11.10.3.66-&gt;torch&gt;=1.11-&gt;linear-operator&gt;=0.4.0-&gt;gpytorch) (58.1.0)
+Requirement already satisfied: wheel in /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages (from nvidia-cublas-cu11==11.10.3.66-&gt;torch&gt;=1.11-&gt;linear-operator&gt;=0.4.0-&gt;gpytorch) (0.40.0)
+Requirement already satisfied: cmake in /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages (from triton==2.0.0-&gt;torch&gt;=1.11-&gt;linear-operator&gt;=0.4.0-&gt;gpytorch) (3.26.3)
+Requirement already satisfied: lit in /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages (from triton==2.0.0-&gt;torch&gt;=1.11-&gt;linear-operator&gt;=0.4.0-&gt;gpytorch) (16.0.1)
+Requirement already satisfied: MarkupSafe&gt;=2.0 in /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages (from jinja2-&gt;torch&gt;=1.11-&gt;linear-operator&gt;=0.4.0-&gt;gpytorch) (2.1.2)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: mpmath&gt;=0.19 in /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages (from sympy-&gt;torch&gt;=1.11-&gt;linear-operator&gt;=0.4.0-&gt;gpytorch) (1.3.0)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Installing collected packages: threadpoolctl, scipy, joblib, scikit-learn, linear-operator, gpytorch
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Successfully installed gpytorch-1.10 joblib-1.2.0 linear-operator-0.4.0 scikit-learn-1.2.2 scipy-1.10.1 threadpoolctl-3.1.0
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span><span class=" -Color -Color-Bold">[</span><span class=" -Color -Color-Blue">notice</span><span class=" -Color -Color-Bold">]</span> A new release of pip is available: <span class=" -Color -Color-Red">23.0.1</span> -&gt; <span class=" -Color -Color-Green">23.1</span>
+<span class=" -Color -Color-Bold">[</span><span class=" -Color -Color-Blue">notice</span><span class=" -Color -Color-Bold">]</span> To update, run: <span class=" -Color -Color-Green">pip install --upgrade pip</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let us define the variables in our function as a vector of input features <span class="math notranslate nohighlight">\(\textbf{x}=[x,y]\)</span></p>
+<p>A set of <span class="math notranslate nohighlight">\(n\)</span> configurations can be assembled in to a training set <span class="math notranslate nohighlight">\(\textbf{X}=[\textbf{x}_1, ...,\textbf{x}_n]\)</span> with a set of observations <span class="math notranslate nohighlight">\(\textbf{y}=[y_1,...,y_n]\)</span>. For noisy samples, we can assume that an observations is seperate from the underlying function according to <span class="math notranslate nohighlight">\(y=f(\textbf{x})+\mathit{ε}\)</span>, where the noise, <span class="math notranslate nohighlight">\(\mathit{ε}\)</span>, follows a gaussian distribution <span class="math notranslate nohighlight">\(\mathit{ε}\sim\mathcal{N}(0,σ^2_n)\)</span>. The prior distribution of underlying functions follows a Gaussian distribution <span class="math notranslate nohighlight">\(\textbf{f}(\textbf{X})\sim\mathcal{N}(\textbf{0}, \textbf{K}(\textbf{X},\textbf{X}))\)</span>, where <span class="math notranslate nohighlight">\(\textbf{0}\)</span> is the mean function and <span class="math notranslate nohighlight">\(\textbf{K}\)</span> is the covaraince kernel matrix. The covariance kernel matrix is assembled based on a kernel function, <span class="math notranslate nohighlight">\(k\)</span>, that is used to compare the simularities between input vectors:</p>
+<p><span class="math notranslate nohighlight">\(\textbf{K(X,X)}=
+\begin{bmatrix}
+k(\textbf{x}_1,\textbf{x}_1) &amp; \ldots &amp; k(\textbf{x}_1,\textbf{x}_n)\\
+\vdots &amp; \ddots &amp; \vdots\\
+k(\textbf{x}_n,\textbf{x}_1) &amp; \ldots &amp; k(\textbf{x}_n,\textbf{x}_n)\\
+\end{bmatrix}\)</span></p>
+<p>Here we used the radial basis function:</p>
+<p><span class="math notranslate nohighlight">\(\mathrm{k}(\textbf{x}_a,\textbf{x}_b)=\sigma^2_f\mathrm{exp}(-\frac{||\textbf{x}_a-\textbf{x}_b||^2}{2l^2})\)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Setup GPR Model: Taken directly From gpytorch tutorial with minor changes </span>
+<span class="k">class</span> <span class="nc">ExactGPModel</span><span class="p">(</span><span class="n">gpytorch</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">ExactGP</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">likelihood</span><span class="p">):</span>
+        <span class="c1">#super(ExactGPModel, self).__init__(train_x, train_y, likelihood)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">likelihood</span><span class="p">)</span>
+        <span class="c1">#self.mean_module = gpytorch.means.ConstantMean()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean_module</span> <span class="o">=</span> <span class="n">gpytorch</span><span class="o">.</span><span class="n">means</span><span class="o">.</span><span class="n">ZeroMean</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">covar_module</span> <span class="o">=</span> <span class="n">gpytorch</span><span class="o">.</span><span class="n">kernels</span><span class="o">.</span><span class="n">ScaleKernel</span><span class="p">(</span><span class="n">gpytorch</span><span class="o">.</span><span class="n">kernels</span><span class="o">.</span><span class="n">RBFKernel</span><span class="p">())</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">mean_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean_module</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">covar_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">covar_module</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">gpytorch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">MultivariateNormal</span><span class="p">(</span><span class="n">mean_x</span><span class="p">,</span> <span class="n">covar_x</span><span class="p">)</span>
+
+<span class="n">X_gpr</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">xy_truncated</span><span class="p">)</span>
+<span class="n">Y_gpr</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">z_truncated</span><span class="p">)</span>
+
+<span class="c1"># Initialize Likelihood and Model</span>
+<span class="n">likelihood</span> <span class="o">=</span> <span class="n">gpytorch</span><span class="o">.</span><span class="n">likelihoods</span><span class="o">.</span><span class="n">GaussianLikelihood</span><span class="p">()</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">ExactGPModel</span><span class="p">(</span><span class="n">X_gpr</span><span class="p">,</span> <span class="n">Y_gpr</span><span class="p">,</span> <span class="n">likelihood</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let <span class="math notranslate nohighlight">\(\textbf{K}=\textbf{K}(\textbf{X},\textbf{X})+σ^2_n\textbf{I}\)</span></p>
+<p>Hyperparameters <span class="math notranslate nohighlight">\(\Theta = \{σ^2_f, l, \sigma^2_n\}\)</span> are optimized by maximizing the marginal likelihood log:</p>
+<p><span class="math notranslate nohighlight">\(\mathrm{log}\:p(\textbf{y}|\textbf{X},\textbf{Θ})=-\frac{1}{2}\textbf{y}^\mathrm{T}\textbf{K}^{-1}\textbf{y}-\frac{1}{2}\mathrm{log}\:|\textbf{K}|-\frac{n}{2}\mathrm{log}\:2\pi\)</span></p>
+<p>To demonstrate that the negative marginal likelihood log function is smooth, the noise hyperparameter, <span class="math notranslate nohighlight">\(\sigma^2_n\)</span> is fixed, while a grid search is performed over the lengthscale, <span class="math notranslate nohighlight">\(l\)</span>, and output/scale variance, <span class="math notranslate nohighlight">\(σ^2_f\)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">noise_value</span> <span class="o">=</span> <span class="mf">1.0</span>
+<span class="n">scale_and_length</span> <span class="o">=</span> <span class="p">[[</span><span class="n">i</span><span class="o">*</span><span class="mf">.1</span><span class="p">,</span><span class="n">j</span><span class="o">*</span><span class="mf">.1</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">50</span><span class="p">)</span> <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">50</span><span class="p">)]</span>
+
+<span class="n">x_plt</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">y_plt</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">z_plt</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">pair</span> <span class="ow">in</span> <span class="n">scale_and_length</span><span class="p">:</span>
+    <span class="n">hypers</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s1">&#39;likelihood.noise_covar.noise&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">noise_value</span><span class="p">),</span>
+        <span class="s1">&#39;covar_module.base_kernel.lengthscale&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+        <span class="s1">&#39;covar_module.outputscale&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span>
+    <span class="p">}</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="o">**</span><span class="n">hypers</span><span class="p">)</span>
+    <span class="n">mll</span> <span class="o">=</span> <span class="n">gpytorch</span><span class="o">.</span><span class="n">mlls</span><span class="o">.</span><span class="n">ExactMarginalLogLikelihood</span><span class="p">(</span><span class="n">likelihood</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X_gpr</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="o">-</span><span class="n">mll</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">Y_gpr</span><span class="p">)</span>
+    <span class="n">x_plt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pair</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">y_plt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pair</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">z_plt</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">())</span>
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">ct</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">tricontour</span><span class="p">(</span><span class="n">x_plt</span><span class="p">,</span> <span class="n">y_plt</span><span class="p">,</span> <span class="n">z_plt</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">clabel</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%3.0f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+<span class="n">ct</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">tricontourf</span><span class="p">(</span><span class="n">x_plt</span><span class="p">,</span> <span class="n">y_plt</span><span class="p">,</span> <span class="n">z_plt</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">rainbow</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;- Marginal Likelihood Log&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;lengthscale&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;outputscale&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/b31060344f44e0128c97b5335ca82cd0d59c06b29142e588ea6abc680afdd567.png" src="_images/b31060344f44e0128c97b5335ca82cd0d59c06b29142e588ea6abc680afdd567.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+<span class="n">likelihood</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+
+<span class="k">def</span> <span class="nf">train_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">likelihood</span><span class="p">,</span> <span class="n">print_hp</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+  <span class="n">hypers</span> <span class="o">=</span> <span class="p">{</span>
+      <span class="s1">&#39;likelihood.noise_covar.noise&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">1.0</span><span class="p">),</span>
+      <span class="s1">&#39;covar_module.base_kernel.lengthscale&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">1.0</span><span class="p">),</span>
+      <span class="s1">&#39;covar_module.outputscale&#39;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="mf">1.0</span><span class="p">),</span>
+  <span class="p">}</span>
+  <span class="n">model</span><span class="o">.</span><span class="n">initialize</span><span class="p">(</span><span class="o">**</span><span class="n">hypers</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">print_hp</span><span class="p">:</span>
+      <span class="c1"># Print untrained hyperparameters</span>
+      <span class="k">for</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">named_parameters</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Parameter name: </span><span class="si">{</span><span class="n">param_name</span><span class="si">:</span><span class="s1">42</span><span class="si">}</span><span class="s1"> value = </span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+  <span class="n">training_iter</span> <span class="o">=</span> <span class="mi">100</span>
+  <span class="c1"># Find optimal model hyperparameters</span>
+  <span class="c1"># Use the adam optimizer</span>
+  <span class="c1">#optimizer = torch.optim.Adam(model.parameters(), lr=0.1)  # Includes GaussianLikelihood parameters</span>
+
+  <span class="c1"># Use the SGD optimizer </span>
+  <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+
+  <span class="c1"># &quot;Loss&quot; for GPs - the marginal log likelihood</span>
+  <span class="n">mll</span> <span class="o">=</span> <span class="n">gpytorch</span><span class="o">.</span><span class="n">mlls</span><span class="o">.</span><span class="n">ExactMarginalLogLikelihood</span><span class="p">(</span><span class="n">likelihood</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">training_iter</span><span class="p">):</span>
+    <span class="c1"># Zero gradients from previous iteration</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="c1"># Output from model</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X_gpr</span><span class="p">)</span>
+    <span class="c1"># Calc loss and backprop gradients</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="o">-</span><span class="n">mll</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">Y_gpr</span><span class="p">)</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">print_hp</span><span class="p">:</span>
+      <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Iter </span><span class="si">%d</span><span class="s1">/</span><span class="si">%d</span><span class="s1"> - Loss: </span><span class="si">%.3f</span><span class="s1"> scale: </span><span class="si">%.3f</span><span class="s1">   lengthscale: </span><span class="si">%.3f</span><span class="s1">   noise: </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span>
+        <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">training_iter</span><span class="p">,</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">covar_module</span><span class="o">.</span><span class="n">outputscale</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">covar_module</span><span class="o">.</span><span class="n">base_kernel</span><span class="o">.</span><span class="n">lengthscale</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">likelihood</span><span class="o">.</span><span class="n">noise</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+      <span class="p">))</span>
+      <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+  <span class="k">if</span> <span class="n">print_hp</span><span class="p">:</span>
+    <span class="c1"># Print Trained hyperparameters</span>
+    <span class="k">for</span> <span class="n">param_name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">named_parameters</span><span class="p">():</span>
+      <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;Parameter name: </span><span class="si">{</span><span class="n">param_name</span><span class="si">:</span><span class="s1">42</span><span class="si">}</span><span class="s1"> value = </span><span class="si">{</span><span class="n">param</span><span class="o">.</span><span class="n">item</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
+
+<span class="n">train_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">likelihood</span><span class="p">,</span> <span class="n">print_hp</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Parameter name: likelihood.noise_covar.raw_noise           value = 0.5411666631698608
+Parameter name: covar_module.raw_outputscale               value = 0.5413248538970947
+Parameter name: covar_module.base_kernel.raw_lengthscale   value = 0.5413248538970947
+Iter 1/100 - Loss: 5.879 scale: 1.000   lengthscale: 1.000   noise: 1.000
+Iter 2/100 - Loss: 4.263 scale: 1.046   lengthscale: 0.787   noise: 1.136
+Iter 3/100 - Loss: 3.360 scale: 1.087   lengthscale: 0.633   noise: 1.209
+Iter 4/100 - Loss: 2.854 scale: 1.119   lengthscale: 0.536   noise: 1.250
+Iter 5/100 - Loss: 2.479 scale: 1.149   lengthscale: 0.459   noise: 1.272
+Iter 6/100 - Loss: 2.255 scale: 1.178   lengthscale: 0.405   noise: 1.279
+Iter 7/100 - Loss: 2.135 scale: 1.204   lengthscale: 0.369   noise: 1.279
+Iter 8/100 - Loss: 2.063 scale: 1.230   lengthscale: 0.345   noise: 1.275
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 9/100 - Loss: 2.014 scale: 1.254   lengthscale: 0.327   noise: 1.268
+Iter 10/100 - Loss: 1.980 scale: 1.279   lengthscale: 0.313   noise: 1.260
+Iter 11/100 - Loss: 1.954 scale: 1.302   lengthscale: 0.303   noise: 1.251
+Iter 12/100 - Loss: 1.934 scale: 1.326   lengthscale: 0.295   noise: 1.241
+Iter 13/100 - Loss: 1.916 scale: 1.349   lengthscale: 0.289   noise: 1.231
+Iter 14/100 - Loss: 1.901 scale: 1.371   lengthscale: 0.284   noise: 1.220
+Iter 15/100 - Loss: 1.888 scale: 1.394   lengthscale: 0.280   noise: 1.209
+Iter 16/100 - Loss: 1.875 scale: 1.416   lengthscale: 0.277   noise: 1.197
+Iter 17/100 - Loss: 1.863 scale: 1.438   lengthscale: 0.275   noise: 1.186
+Iter 18/100 - Loss: 1.852 scale: 1.460   lengthscale: 0.273   noise: 1.174
+Iter 19/100 - Loss: 1.841 scale: 1.481   lengthscale: 0.271   noise: 1.162
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 20/100 - Loss: 1.830 scale: 1.502   lengthscale: 0.270   noise: 1.150
+Iter 21/100 - Loss: 1.819 scale: 1.523   lengthscale: 0.269   noise: 1.138
+Iter 22/100 - Loss: 1.809 scale: 1.544   lengthscale: 0.268   noise: 1.126
+Iter 23/100 - Loss: 1.799 scale: 1.565   lengthscale: 0.267   noise: 1.114
+Iter 24/100 - Loss: 1.789 scale: 1.585   lengthscale: 0.266   noise: 1.101
+Iter 25/100 - Loss: 1.779 scale: 1.605   lengthscale: 0.266   noise: 1.089
+Iter 26/100 - Loss: 1.769 scale: 1.625   lengthscale: 0.265   noise: 1.076
+Iter 27/100 - Loss: 1.759 scale: 1.645   lengthscale: 0.265   noise: 1.064
+Iter 28/100 - Loss: 1.750 scale: 1.664   lengthscale: 0.265   noise: 1.051
+Iter 29/100 - Loss: 1.740 scale: 1.684   lengthscale: 0.264   noise: 1.038
+Iter 30/100 - Loss: 1.731 scale: 1.703   lengthscale: 0.264   noise: 1.026
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 31/100 - Loss: 1.722 scale: 1.722   lengthscale: 0.264   noise: 1.013
+Iter 32/100 - Loss: 1.712 scale: 1.741   lengthscale: 0.264   noise: 1.000
+Iter 33/100 - Loss: 1.703 scale: 1.759   lengthscale: 0.263   noise: 0.987
+Iter 34/100 - Loss: 1.694 scale: 1.778   lengthscale: 0.263   noise: 0.975
+Iter 35/100 - Loss: 1.685 scale: 1.796   lengthscale: 0.263   noise: 0.962
+Iter 36/100 - Loss: 1.676 scale: 1.814   lengthscale: 0.263   noise: 0.949
+Iter 37/100 - Loss: 1.667 scale: 1.832   lengthscale: 0.263   noise: 0.936
+Iter 38/100 - Loss: 1.658 scale: 1.850   lengthscale: 0.263   noise: 0.923
+Iter 39/100 - Loss: 1.649 scale: 1.867   lengthscale: 0.263   noise: 0.910
+Iter 40/100 - Loss: 1.640 scale: 1.885   lengthscale: 0.263   noise: 0.898
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 41/100 - Loss: 1.631 scale: 1.902   lengthscale: 0.262   noise: 0.885
+Iter 42/100 - Loss: 1.622 scale: 1.920   lengthscale: 0.262   noise: 0.872
+Iter 43/100 - Loss: 1.613 scale: 1.937   lengthscale: 0.262   noise: 0.859
+Iter 44/100 - Loss: 1.604 scale: 1.954   lengthscale: 0.262   noise: 0.846
+Iter 45/100 - Loss: 1.596 scale: 1.971   lengthscale: 0.262   noise: 0.834
+Iter 46/100 - Loss: 1.587 scale: 1.987   lengthscale: 0.262   noise: 0.821
+Iter 47/100 - Loss: 1.578 scale: 2.004   lengthscale: 0.262   noise: 0.808
+Iter 48/100 - Loss: 1.569 scale: 2.020   lengthscale: 0.262   noise: 0.795
+Iter 49/100 - Loss: 1.560 scale: 2.037   lengthscale: 0.262   noise: 0.783
+Iter 50/100 - Loss: 1.551 scale: 2.053   lengthscale: 0.262   noise: 0.770
+Iter 51/100 - Loss: 1.542 scale: 2.069   lengthscale: 0.262   noise: 0.758
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 52/100 - Loss: 1.533 scale: 2.085   lengthscale: 0.262   noise: 0.745
+Iter 53/100 - Loss: 1.524 scale: 2.101   lengthscale: 0.262   noise: 0.733
+Iter 54/100 - Loss: 1.515 scale: 2.117   lengthscale: 0.262   noise: 0.720
+Iter 55/100 - Loss: 1.506 scale: 2.132   lengthscale: 0.261   noise: 0.708
+Iter 56/100 - Loss: 1.497 scale: 2.148   lengthscale: 0.261   noise: 0.696
+Iter 57/100 - Loss: 1.488 scale: 2.163   lengthscale: 0.261   noise: 0.683
+Iter 58/100 - Loss: 1.479 scale: 2.179   lengthscale: 0.261   noise: 0.671
+Iter 59/100 - Loss: 1.470 scale: 2.194   lengthscale: 0.261   noise: 0.659
+Iter 60/100 - Loss: 1.460 scale: 2.209   lengthscale: 0.261   noise: 0.647
+Iter 61/100 - Loss: 1.451 scale: 2.224   lengthscale: 0.261   noise: 0.635
+Iter 62/100 - Loss: 1.442 scale: 2.239   lengthscale: 0.261   noise: 0.623
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 63/100 - Loss: 1.433 scale: 2.254   lengthscale: 0.261   noise: 0.612
+Iter 64/100 - Loss: 1.423 scale: 2.269   lengthscale: 0.261   noise: 0.600
+Iter 65/100 - Loss: 1.414 scale: 2.284   lengthscale: 0.261   noise: 0.588
+Iter 66/100 - Loss: 1.404 scale: 2.298   lengthscale: 0.261   noise: 0.577
+Iter 67/100 - Loss: 1.395 scale: 2.313   lengthscale: 0.261   noise: 0.565
+Iter 68/100 - Loss: 1.386 scale: 2.327   lengthscale: 0.261   noise: 0.554
+Iter 69/100 - Loss: 1.376 scale: 2.342   lengthscale: 0.261   noise: 0.543
+Iter 70/100 - Loss: 1.366 scale: 2.356   lengthscale: 0.261   noise: 0.532
+Iter 71/100 - Loss: 1.357 scale: 2.370   lengthscale: 0.261   noise: 0.521
+Iter 72/100 - Loss: 1.347 scale: 2.384   lengthscale: 0.261   noise: 0.510
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 73/100 - Loss: 1.337 scale: 2.398   lengthscale: 0.261   noise: 0.499
+Iter 74/100 - Loss: 1.327 scale: 2.412   lengthscale: 0.261   noise: 0.489
+Iter 75/100 - Loss: 1.318 scale: 2.426   lengthscale: 0.261   noise: 0.478
+Iter 76/100 - Loss: 1.308 scale: 2.440   lengthscale: 0.261   noise: 0.468
+Iter 77/100 - Loss: 1.298 scale: 2.454   lengthscale: 0.261   noise: 0.458
+Iter 78/100 - Loss: 1.288 scale: 2.468   lengthscale: 0.261   noise: 0.448
+Iter 79/100 - Loss: 1.278 scale: 2.481   lengthscale: 0.261   noise: 0.438
+Iter 80/100 - Loss: 1.268 scale: 2.495   lengthscale: 0.261   noise: 0.428
+Iter 81/100 - Loss: 1.257 scale: 2.508   lengthscale: 0.261   noise: 0.418
+Iter 82/100 - Loss: 1.247 scale: 2.522   lengthscale: 0.261   noise: 0.408
+Iter 83/100 - Loss: 1.237 scale: 2.535   lengthscale: 0.261   noise: 0.399
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 84/100 - Loss: 1.227 scale: 2.549   lengthscale: 0.261   noise: 0.390
+Iter 85/100 - Loss: 1.216 scale: 2.562   lengthscale: 0.261   noise: 0.380
+Iter 86/100 - Loss: 1.206 scale: 2.575   lengthscale: 0.261   noise: 0.371
+Iter 87/100 - Loss: 1.195 scale: 2.588   lengthscale: 0.262   noise: 0.362
+Iter 88/100 - Loss: 1.185 scale: 2.601   lengthscale: 0.262   noise: 0.354
+Iter 89/100 - Loss: 1.174 scale: 2.614   lengthscale: 0.262   noise: 0.345
+Iter 90/100 - Loss: 1.164 scale: 2.627   lengthscale: 0.262   noise: 0.337
+Iter 91/100 - Loss: 1.153 scale: 2.640   lengthscale: 0.262   noise: 0.328
+Iter 92/100 - Loss: 1.142 scale: 2.653   lengthscale: 0.262   noise: 0.320
+Iter 93/100 - Loss: 1.132 scale: 2.666   lengthscale: 0.262   noise: 0.312
+Iter 94/100 - Loss: 1.121 scale: 2.679   lengthscale: 0.262   noise: 0.304
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 95/100 - Loss: 1.110 scale: 2.692   lengthscale: 0.262   noise: 0.296
+Iter 96/100 - Loss: 1.099 scale: 2.704   lengthscale: 0.262   noise: 0.289
+Iter 97/100 - Loss: 1.088 scale: 2.717   lengthscale: 0.262   noise: 0.281
+Iter 98/100 - Loss: 1.077 scale: 2.730   lengthscale: 0.262   noise: 0.274
+Iter 99/100 - Loss: 1.066 scale: 2.742   lengthscale: 0.262   noise: 0.267
+Iter 100/100 - Loss: 1.055 scale: 2.755   lengthscale: 0.262   noise: 0.260
+Parameter name: likelihood.noise_covar.raw_noise           value = -1.2467914819717407
+Parameter name: covar_module.raw_outputscale               value = 2.702159881591797
+Parameter name: covar_module.base_kernel.raw_lengthscale   value = -1.2039498090744019
+</pre></div>
+</div>
+</div>
+</div>
+<p>The optimized model can be used to make predictions on new input space, <span class="math notranslate nohighlight">\(\textbf{x}_*\)</span>. Predictions will follow a gaussian distribution <span class="math notranslate nohighlight">\(\mathcal{N}\sim(μ_*,\textbf{Σ}_*)\)</span>, where <span class="math notranslate nohighlight">\(μ^*=\textbf{K}^\mathrm{T}_\ast\textbf{K}^{-1}\textbf{y}\)</span> and <span class="math notranslate nohighlight">\(\textbf{Σ}_*=\textbf{K}_{**}-\textbf{K}^\mathrm{T}_*\textbf{K}^{-1}\textbf{K}_*\)</span>. In the above equaiton, <span class="math notranslate nohighlight">\(\textbf{K}_*=\textbf{K}(\textbf{X},\textbf{x}_*)\)</span> and <span class="math notranslate nohighlight">\(\textbf{K}_{**}=\textbf{K}(\textbf{x}_*,\textbf{x}_*)\)</span></p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Show the predicted surface, and compare to the reference one</span>
+<span class="k">def</span> <span class="nf">show_surface</span><span class="p">(</span><span class="n">model</span><span class="p">):</span>
+  <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+  <span class="n">z_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">Tensor</span><span class="p">(</span><span class="n">xy</span><span class="p">))</span><span class="o">.</span><span class="n">mean</span>
+  <span class="n">z_var</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">Tensor</span><span class="p">(</span><span class="n">xy</span><span class="p">))</span><span class="o">.</span><span class="n">variance</span>
+  <span class="n">Z_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">z_pred</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),(</span><span class="nb">len</span><span class="p">(</span><span class="n">yy</span><span class="p">),</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+  <span class="n">Z_var</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">z_var</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">(),(</span><span class="nb">len</span><span class="p">(</span><span class="n">yy</span><span class="p">),</span><span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+  <span class="n">Zdiff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">Z_pred</span><span class="p">,</span> <span class="n">Z</span><span class="p">)</span>
+  <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">6</span><span class="p">),</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">200</span><span class="p">)</span>
+
+  <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+  <span class="n">levels</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+  <span class="n">ct</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z_pred</span><span class="p">,</span> <span class="n">levels</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">clabel</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%3.0f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+  <span class="n">ct</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z_pred</span><span class="p">,</span> <span class="n">levels</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">rainbow</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mi">15</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Predicted&quot;</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+
+  <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+  <span class="n">levels</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">12</span><span class="p">,</span> <span class="o">-</span><span class="mi">10</span><span class="p">,</span> <span class="o">-</span><span class="mi">8</span><span class="p">,</span> <span class="o">-</span><span class="mi">6</span><span class="p">,</span> <span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">8</span><span class="p">]</span>
+  <span class="n">ct</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">levels</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">clabel</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%3.0f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+  <span class="n">ct</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">levels</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">rainbow</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mi">15</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Reference&quot;</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+
+  <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+  <span class="n">levels</span> <span class="o">=</span> <span class="p">[</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+  <span class="n">ct</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Zdiff</span><span class="p">,</span> <span class="n">levels</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">clabel</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%3.0f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+  <span class="n">ct</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Zdiff</span><span class="p">,</span> <span class="n">levels</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">rainbow</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=-</span><span class="mi">4</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Difference&quot;</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;diff, min, max:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="n">Zdiff</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">Zdiff</span><span class="p">))</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+
+  <span class="n">plt</span><span class="o">.</span><span class="n">subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+  <span class="n">levels</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">]</span>
+  <span class="n">ct</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contour</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Zdiff</span><span class="p">,</span> <span class="n">levels</span><span class="p">,</span> <span class="n">colors</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">clabel</span><span class="p">(</span><span class="n">ct</span><span class="p">,</span> <span class="n">inline</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="s1">&#39;</span><span class="si">%3.0f</span><span class="s1">&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">8</span><span class="p">)</span>
+  <span class="n">ct</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">contourf</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z_var</span><span class="p">,</span> <span class="n">levels</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">cm</span><span class="o">.</span><span class="n">rainbow</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="s1">&#39;both&#39;</span><span class="p">,</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Variance&quot;</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">)</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;var, min, max:&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">amin</span><span class="p">(</span><span class="n">Z_var</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">Z_var</span><span class="p">))</span>
+  <span class="n">plt</span><span class="o">.</span><span class="n">colorbar</span><span class="p">()</span>
+
+  <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+
+  <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+
+<span class="n">show_surface</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>diff, min, max: -1194.4762916802104 1.0934081629251118
+var, min, max: 0.03601408 2.7670677
+</pre></div>
+</div>
+<img alt="_images/bb2327dba237df9d09b6098e5f5ce3289a57775a1f6ff902ab27e01f2b81ec08.png" src="_images/bb2327dba237df9d09b6098e5f5ce3289a57775a1f6ff902ab27e01f2b81ec08.png" />
+</div>
+</div>
+<p>Model Performance and Training Set Size</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Size of (current) training set:&quot;</span><span class="p">,</span> <span class="n">Y_gpr</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">X_test</span> <span class="o">=</span> <span class="n">X_gpr</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+<span class="n">Y_test</span> <span class="o">=</span> <span class="n">Y_gpr</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span>
+<span class="k">def</span> <span class="nf">evaluate_model</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">test_x</span><span class="p">,</span> <span class="n">test_y</span><span class="p">,</span> <span class="n">model</span><span class="p">):</span>
+  <span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+  <span class="n">preds_train</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">train_x</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span>
+  <span class="n">preds_test</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">test_x</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">train_y</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">preds_train</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+  <span class="n">rmse_train</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">train_y</span> <span class="o">-</span> <span class="n">preds_train</span><span class="p">))</span>
+  <span class="n">rmse_test</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">test_y</span> <span class="o">-</span> <span class="n">preds_test</span><span class="p">))</span>
+  <span class="n">r2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">train_y</span><span class="o">-</span><span class="n">preds_train</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">train_y</span><span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">train_y</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+  <span class="n">q2</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">train_y</span><span class="o">-</span><span class="n">preds_train</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">((</span><span class="n">train_y</span><span class="o">-</span><span class="n">torch</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">train_y</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Training Data - RMSE: </span><span class="si">%.3f</span><span class="s2"> R^2: </span><span class="si">%3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">rmse_train</span><span class="p">,</span> <span class="n">r2</span><span class="p">))</span>
+  <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Teseting Data - RMSE: </span><span class="si">%.3f</span><span class="s2"> R^2: </span><span class="si">%3f</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">rmse_test</span><span class="p">,</span> <span class="n">q2</span><span class="p">))</span>
+  <span class="k">return</span> <span class="n">rmse_train</span><span class="p">,</span> <span class="n">r2</span><span class="p">,</span> <span class="n">rmse_test</span><span class="p">,</span> <span class="n">q2</span>
+
+<span class="k">def</span> <span class="nf">reduce_training_set</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">new_size</span><span class="p">):</span>
+  <span class="n">arr_index</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">train_y</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+  <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="n">arr_index</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">train_x</span><span class="p">[</span><span class="n">arr_index</span><span class="p">[:</span><span class="n">new_size</span><span class="p">],:],</span> <span class="n">train_y</span><span class="p">[</span><span class="n">arr_index</span><span class="p">[:</span><span class="n">new_size</span><span class="p">]]</span>
+
+<span class="k">def</span> <span class="nf">new_model</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">):</span>
+  <span class="n">likelihood</span> <span class="o">=</span> <span class="n">gpytorch</span><span class="o">.</span><span class="n">likelihoods</span><span class="o">.</span><span class="n">GaussianLikelihood</span><span class="p">()</span>
+  <span class="n">model</span> <span class="o">=</span> <span class="n">ExactGPModel</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">likelihood</span><span class="p">)</span>
+  <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+  <span class="n">likelihood</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+  <span class="n">train_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">likelihood</span><span class="p">,</span> <span class="n">print_hp</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">model</span>
+
+<span class="n">size_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">rmse_train_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">r2_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">rmse_test_list</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">q2_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">training_set_sizes</span> <span class="o">=</span> <span class="p">[</span><span class="mi">696</span><span class="p">,</span> <span class="mi">600</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span> <span class="mi">400</span><span class="p">,</span> <span class="mi">300</span><span class="p">,</span> <span class="mi">200</span><span class="p">,</span> <span class="mi">100</span><span class="p">]</span>
+<span class="k">for</span> <span class="n">set_size</span> <span class="ow">in</span> <span class="n">training_set_sizes</span><span class="p">:</span>
+  <span class="n">X_gpr</span><span class="p">,</span> <span class="n">Y_gpr</span> <span class="o">=</span> <span class="n">reduce_training_set</span><span class="p">(</span><span class="n">X_gpr</span><span class="p">,</span> <span class="n">Y_gpr</span><span class="p">,</span> <span class="n">set_size</span><span class="p">)</span>
+  <span class="n">model</span> <span class="o">=</span> <span class="n">new_model</span><span class="p">(</span><span class="n">X_gpr</span><span class="p">,</span> <span class="n">Y_gpr</span><span class="p">)</span>
+  <span class="n">rmse_train</span><span class="p">,</span> <span class="n">r2</span><span class="p">,</span> <span class="n">rmse_test</span><span class="p">,</span> <span class="n">q2</span> <span class="o">=</span> <span class="n">evaluate_model</span><span class="p">(</span><span class="n">X_gpr</span><span class="p">,</span> <span class="n">Y_gpr</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">Y_test</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+  <span class="n">size_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">set_size</span><span class="p">)</span>
+  <span class="n">rmse_train_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rmse_train</span><span class="p">)</span>
+  <span class="n">r2_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">r2</span><span class="p">)</span>
+  <span class="n">rmse_test_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rmse_test</span><span class="p">)</span>
+  <span class="n">q2_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">q2</span><span class="p">)</span>
+
+<span class="n">training_set_dict</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">&#39;Training Set Size&#39;</span><span class="p">:</span> <span class="n">size_list</span><span class="p">,</span>
+    <span class="s1">&#39;Training Set RMSE&#39;</span><span class="p">:</span> <span class="n">rmse_train_list</span><span class="p">,</span>
+    <span class="s1">&#39;R^2&#39;</span><span class="p">:</span> <span class="n">r2_list</span><span class="p">,</span>
+    <span class="s1">&#39;Testing Set RMSE&#39;</span><span class="p">:</span> <span class="n">rmse_test_list</span><span class="p">,</span>
+    <span class="s1">&#39;Q^2&#39;</span><span class="p">:</span> <span class="n">q2_list</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Size of (current) training set: 696
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/gpytorch/models/exact_gp.py:283: GPInputWarning: The input matches the stored training data. Did you forget to call model.train()?
+  warnings.warn(
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([696]) torch.Size([696])
+Training Data - RMSE: 0.214 R^2: 0.711877
+Teseting Data - RMSE: 0.214 R^2: 0.711877
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([600]) torch.Size([600])
+Training Data - RMSE: 0.225 R^2: 0.701413
+Teseting Data - RMSE: 0.243 R^2: 0.701413
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([500]) torch.Size([500])
+Training Data - RMSE: 0.237 R^2: 0.692646
+Teseting Data - RMSE: 0.185 R^2: 0.692646
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([400]) torch.Size([400])
+Training Data - RMSE: 0.252 R^2: 0.676519
+Teseting Data - RMSE: 0.188 R^2: 0.676519
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([300]) torch.Size([300])
+Training Data - RMSE: 0.277 R^2: 0.655171
+Teseting Data - RMSE: nan R^2: 0.655171
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([200]) torch.Size([200])
+Training Data - RMSE: 0.324 R^2: 0.615253
+Teseting Data - RMSE: 0.195 R^2: 0.615253
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([100]) torch.Size([100])
+Training Data - RMSE: 0.430 R^2: 0.605422
+Teseting Data - RMSE: nan R^2: 0.605422
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">tabulate</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">tabulate</span><span class="o">.</span><span class="n">tabulate</span><span class="p">(</span><span class="n">training_set_dict</span><span class="p">,</span> <span class="n">headers</span> <span class="o">=</span> <span class="s1">&#39;keys&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  Training Set Size    Training Set RMSE       R^2    Testing Set RMSE       Q^2
+-------------------  -------------------  --------  ------------------  --------
+                696             0.214446  0.711877            0.214446  0.711877
+                600             0.225036  0.701413            0.243003  0.701413
+                500             0.236815  0.692646            0.18454   0.692646
+                400             0.251504  0.676519            0.187567  0.676519
+                300             0.277056  0.655171          nan         0.655171
+                200             0.324116  0.615253            0.194792  0.615253
+                100             0.429986  0.605422          nan         0.605422
+</pre></div>
+</div>
+</div>
+</div>
+<p>Comaparing Kernels</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Setup GPR Model: Taken directly From gpytorch tutorial with minor changes </span>
+<span class="k">class</span> <span class="nc">GPModel_kernel</span><span class="p">(</span><span class="n">gpytorch</span><span class="o">.</span><span class="n">models</span><span class="o">.</span><span class="n">ExactGP</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">likelihood</span><span class="p">,</span> <span class="n">kernel</span><span class="p">):</span>
+        <span class="c1">#super(ExactGPModel, self).__init__(train_x, train_y, likelihood)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">train_x</span><span class="p">,</span> <span class="n">train_y</span><span class="p">,</span> <span class="n">likelihood</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mean_module</span> <span class="o">=</span> <span class="n">gpytorch</span><span class="o">.</span><span class="n">means</span><span class="o">.</span><span class="n">ConstantMean</span><span class="p">()</span>
+        <span class="c1">#self.mean_module = gpytorch.means.ZeroMean()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">covar_module</span> <span class="o">=</span> <span class="n">kernel</span>
+
+    <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+        <span class="n">mean_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mean_module</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">covar_x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">covar_module</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">gpytorch</span><span class="o">.</span><span class="n">distributions</span><span class="o">.</span><span class="n">MultivariateNormal</span><span class="p">(</span><span class="n">mean_x</span><span class="p">,</span> <span class="n">covar_x</span><span class="p">)</span>
+
+<span class="n">X_gpr</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">xy_truncated</span><span class="p">)</span> 
+<span class="n">Y_gpr</span> <span class="o">=</span> <span class="n">Tensor</span><span class="p">(</span><span class="n">z_truncated</span><span class="p">)</span>
+
+<span class="n">kernels</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="n">gpytorch</span><span class="o">.</span><span class="n">kernels</span><span class="o">.</span><span class="n">ScaleKernel</span><span class="p">(</span><span class="n">gpytorch</span><span class="o">.</span><span class="n">kernels</span><span class="o">.</span><span class="n">RBFKernel</span><span class="p">()),</span>
+    <span class="n">gpytorch</span><span class="o">.</span><span class="n">kernels</span><span class="o">.</span><span class="n">ScaleKernel</span><span class="p">(</span><span class="n">gpytorch</span><span class="o">.</span><span class="n">kernels</span><span class="o">.</span><span class="n">MaternKernel</span><span class="p">()),</span>
+    <span class="n">gpytorch</span><span class="o">.</span><span class="n">kernels</span><span class="o">.</span><span class="n">ScaleKernel</span><span class="p">(</span><span class="n">gpytorch</span><span class="o">.</span><span class="n">kernels</span><span class="o">.</span><span class="n">RQKernel</span><span class="p">())</span>    
+<span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">train_model_k</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">likelihood</span><span class="p">):</span>
+  <span class="n">training_iter</span> <span class="o">=</span> <span class="mi">50</span>
+  <span class="c1"># Use the SGD optimizer </span>
+  <span class="n">optimizer</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">SGD</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="n">lr</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+  <span class="c1"># &quot;Loss&quot; for GPs - the marginal log likelihood</span>
+  <span class="n">mll</span> <span class="o">=</span> <span class="n">gpytorch</span><span class="o">.</span><span class="n">mlls</span><span class="o">.</span><span class="n">ExactMarginalLogLikelihood</span><span class="p">(</span><span class="n">likelihood</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">training_iter</span><span class="p">):</span>
+    <span class="c1"># Zero gradients from previous iteration</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">()</span>
+    <span class="c1"># Output from model</span>
+    <span class="n">output</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">X_gpr</span><span class="p">)</span>
+    <span class="c1"># Calc loss and backprop gradients</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="o">-</span><span class="n">mll</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="n">Y_gpr</span><span class="p">)</span>
+    <span class="n">loss</span><span class="o">.</span><span class="n">backward</span><span class="p">()</span>
+    <span class="n">optimizer</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">kernel</span> <span class="ow">in</span> <span class="n">kernels</span><span class="p">:</span>
+  <span class="c1"># Initialize Likelihood and Model</span>
+  <span class="n">likelihood</span> <span class="o">=</span> <span class="n">gpytorch</span><span class="o">.</span><span class="n">likelihoods</span><span class="o">.</span><span class="n">GaussianLikelihood</span><span class="p">()</span>
+  <span class="n">model</span> <span class="o">=</span> <span class="n">GPModel_kernel</span><span class="p">(</span><span class="n">X_gpr</span><span class="p">,</span> <span class="n">Y_gpr</span><span class="p">,</span> <span class="n">likelihood</span><span class="p">,</span> <span class="n">kernel</span><span class="p">)</span>
+  <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+  <span class="n">likelihood</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
+  <span class="n">train_model_k</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">likelihood</span><span class="p">)</span>
+  <span class="n">rmse_train</span><span class="p">,</span> <span class="n">r2</span><span class="p">,</span> <span class="n">rmse_test</span><span class="p">,</span> <span class="n">q2</span> <span class="o">=</span> <span class="n">evaluate_model</span><span class="p">(</span><span class="n">X_gpr</span><span class="p">,</span> <span class="n">Y_gpr</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">Y_test</span><span class="p">,</span> <span class="n">model</span><span class="p">)</span>
+  <span class="nb">print</span><span class="p">(</span><span class="n">rmse_train</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([696]) torch.Size([696])
+Training Data - RMSE: 0.114 R^2: 0.997244
+Teseting Data - RMSE: 0.114 R^2: 0.997244
+tensor(0.1140, grad_fn=&lt;SqrtBackward0&gt;)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([696]) torch.Size([696])
+Training Data - RMSE: 0.104 R^2: 0.998045
+Teseting Data - RMSE: 0.104 R^2: 0.998045
+tensor(0.1042, grad_fn=&lt;SqrtBackward0&gt;)
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([696]) torch.Size([696])
+Training Data - RMSE: 0.092 R^2: 0.997955
+Teseting Data - RMSE: 0.092 R^2: 0.997955
+tensor(0.0918, grad_fn=&lt;SqrtBackward0&gt;)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+                <footer class="bd-footer-article">
+                  
+<div class="footer-article-items footer-article__inner">
+  
+    <div class="footer-article-item"><!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="Lesson1_FNN.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">1. </span>Fitting Neural Network Models</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="Lesson3_BP.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Behler-Parrinello Symmetry Functions</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div></div>
+  
+</div>
+
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Xiaoliang Pan
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  <p class="copyright">
+    
+      © Copyright 2022.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=e353d410970836974a52"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=e353d410970836974a52"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
