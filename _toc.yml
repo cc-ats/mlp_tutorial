@@ -1,0 +1,22 @@
+# Table of contents
+# Learn more at https://jupyterbook.org/customize/toc.html
+
+format: jb-book
+root: index
+parts:
+  - caption: A. Machine Learning Models
+    numbered: true
+    chapters:
+    - file: Lesson1_FNN
+    - file: Lesson2_GPR
+  - caption: B. Molecular Representations
+    numbered: true
+    chapters:
+    - file: Lesson3_BP
+    - file: Lesson4_DeepPot
+  - caption: C. Machine Learning Potentials
+    numbered: true
+    chapters:
+    - file: Lesson5_BP-FNN_MLP
+    - file: Lesson6_DeepPot-FNN_MLP
+    - file: Lesson7_BP-GPR_MLP
