@@ -25,11 +25,19 @@ grad = torch.from_numpy(np.array(np.load("/content/drive/MyDrive/Colab Notebooks
 
 dataset = TensorDataset(coord, atom_types, grad)
 train_loader = DataLoader(dataset, batch_size=32)
+
+descriptor = Feature(4, neuron=[25, 50], axis_neuron=4)
+fitting_net = Fitting(4, descriptor.output_length, neuron=[120, 120])
+model = DeepPot(descriptor, fitting_net, learning_rate=5e-4)
+csv_logger = pl_loggers.CSVLogger('logs_csv/')
+trainer = pl.Trainer(max_epochs=10, logger=csv_logger)
+trainer.fit(model, train_loader)
+_, grad_pred = model(coord, atom_types[0])
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mFileNotFoundError[0m                         Traceback (most recent call last)
-Cell [0;32mIn[9], line 2[0m
+Cell [0;32mIn[7], line 2[0m
 [1;32m      1[0m [38;5;28;01mimport[39;00m [38;5;21;01mnumpy[39;00m [38;5;28;01mas[39;00m [38;5;21;01mnp[39;00m
 [0;32m----> 2[0m coord [38;5;241m=[39m torch[38;5;241m.[39mfrom_numpy(np[38;5;241m.[39marray([43mnp[49m[38;5;241;43m.[39;49m[43mload[49m[43m([49m[38;5;124;43m"[39;49m[38;5;124;43m/content/drive/MyDrive/Colab Notebooks/deeppot_pytorch/input_coord.npy[39;49m[38;5;124;43m"[39;49m[43m)[49m, dtype[38;5;241m=[39m[38;5;124m"[39m[38;5;124mfloat32[39m[38;5;124m"[39m))
 [1;32m      3[0m atom_types [38;5;241m=[39m torch[38;5;241m.[39mfrom_numpy(np[38;5;241m.[39mloadtxt([38;5;124m"[39m[38;5;124m/content/drive/MyDrive/Colab Notebooks/deeppot_pytorch/type.raw[39m[38;5;124m"[39m, dtype[38;5;241m=[39m[38;5;124m"[39m[38;5;124mint64[39m[38;5;124m"[39m))
