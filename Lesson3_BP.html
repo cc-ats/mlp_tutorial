@@ -63,10 +63,12 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'Lesson3_BP';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="4. A PyTorch implementation of Deep Potential-Smooth Edition (DeepPot-SE)" href="Lesson4_DeepPot.html" />
+    <link rel="next" title="10. A PyTorch implementation of Deep Potential-Smooth Edition (DeepPot-SE)" href="Lesson4_DeepPot.html" />
     <link rel="prev" title="2. Gaussian Process Regression Models" href="Lesson2_GPR.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -159,24 +161,20 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">B. Molecular Representations</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">3. Behler-Parrinello Symmetry Functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Lesson4_DeepPot.html">4. A PyTorch implementation of Deep Potential-Smooth Edition (DeepPot-SE)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">3. Behler-Parrinello  Symmetry Functions</a></li>
 
 
 
 
 
 
-
-
-
-
+<li class="toctree-l1"><a class="reference internal" href="Lesson4_DeepPot.html">10. A PyTorch implementation of Deep Potential-Smooth Edition (DeepPot-SE)</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">C. Machine Learning Potentials</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="Lesson5_BP-FNN_MLP.html">15. Neural Netwotk with Behler-Parrinello Symmetry Functions</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Lesson6_DeepPot-FNN_MLP.html">16. Neural Netwotk with Deep Potential</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Lesson7_BP-GPR_MLP.html">17. Gaussian Process Regression with Behler-Parrinello Symmetry Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lesson5_BP-FNN_MLP.html">11. Neural Netwotk with Behler-Parrinello Symmetry Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lesson6_DeepPot-FNN_MLP.html">12. Neural Netwotk with Deep Potential</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lesson7_BP-GPR_MLP.html">13. Gaussian Process Regression with Behler-Parrinello Symmetry Functions</a></li>
 </ul>
 
     </div>
@@ -378,7 +376,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<label class="sidebar-toggle secondary-toggle btn btn-sm" for="__secondary"title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</label>
 </div></div>
       
     </div>
@@ -389,11 +389,39 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Behler-Parrinello Symmetry Functions</h1>
+    <h1>Behler-Parrinello  Symmetry Functions</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">3. Behler-Parrinello  Symmetry Functions</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-and-libraries">4. Importing Data and Libraries</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-from-github-mlp-class-and-installing-pytorch-lightning">4.1. Importing Data From GitHub (mlp_class) and Installing PyTorch Lightning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-libraries">4.2. Importing Libraries</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#symmetry-functions">5. Symmetry Functions</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-symmetry-functions">5.1. Defining Symmetry Functions</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-neural-network-and-feature-extraction-classes">6. Defining Neural Network and Feature Extraction Classes</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-feature-class">6.1. Creating the Feature Class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-feature-class-for-ani">6.2. Creating the Feature Class for ANI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-fitting-class">6.3. Creating the Fitting Class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-behler-parrinello-neural-network-bpnn-class">6.4. Create the Behler-Parrinello Neural Network (BPNN) Class</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-data">7. Loading Data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#using-ani-for-feature-extraction">8. Using ANI for Feature Extraction</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-model-to-pytorch-file">9. Saving model to PyTorch File</a></li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -403,57 +431,49 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="behler-parrinello-symmetry-functions">
-<h1><span class="section-number">3. </span>Behler-Parrinello Symmetry Functions<a class="headerlink" href="#behler-parrinello-symmetry-functions" title="Permalink to this heading">#</a></h1>
-<p><a href="https://colab.research.google.com/github/cc-ats/mlp_class/blob/main/Butane_BP_PyTorch.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a></p>
+  <p><a href="https://colab.research.google.com/github/cc-ats/mlp_class/blob/main/Lesson3_BP.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a></p>
+<section id="behler-parrinello-symmetry-functions">
+<h1><span class="section-number">3. </span>Behler-Parrinello  Symmetry Functions<a class="headerlink" href="#behler-parrinello-symmetry-functions" title="Permalink to this heading">#</a></h1>
+<p>In this tutorial, we will create Behler-Parrinello and ANI neural networks using atom-centered symmetry functions. The symmetry functions will allow us to ensure that our observables (such as energy) are invariant to translations and rotations.</p>
+</section>
+<section id="importing-data-and-libraries">
+<h1><span class="section-number">4. </span>Importing Data and Libraries<a class="headerlink" href="#importing-data-and-libraries" title="Permalink to this heading">#</a></h1>
+<p>We will first import data and libraries needed to train our machine learning models.</p>
+<section id="importing-data-from-github-mlp-class-and-installing-pytorch-lightning">
+<h2><span class="section-number">4.1. </span>Importing Data From GitHub (mlp_class) and Installing PyTorch Lightning<a class="headerlink" href="#importing-data-from-github-mlp-class-and-installing-pytorch-lightning" title="Permalink to this heading">#</a></h2>
+<p>Files from GitHub:</p>
+<ul class="simple">
+<li><p>Coordinates and atom types:</p></li>
+<li><p><strong>qm_coord.npy</strong> (1800, 14, 3)</p></li>
+<li><p><strong>qm_elem.txt</strong> ([6, 6, 6, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])</p></li>
+<li><p>PM3 energies and gradients:</p></li>
+<li><p><strong>energy_sqm.npy</strong> (1800,)</p></li>
+<li><p><strong>qm_grad_sqm.npy</strong> (1800, 14, 3)</p></li>
+<li><p>B3LYP/6-31+G* energies and gradients:</p></li>
+<li><p><strong>energy.npy</strong>  (1800,)</p></li>
+<li><p><strong>qm_grad.npy</strong> (1800, 14, 3)</p></li>
+</ul>
+<p>These files will provide us with semi-empirical (PM3) and QM (B3LYP/6-31+G*) data to train our machine learning model.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>#@title Import data from GitHub (mlp_class) { display-mode: &quot;form&quot; }
-#@markdown Install PyTorch Lightning.
-
-#@markdown Files from GitHub:
-#@markdown - **qm_coord.npy** (1800, 14, 3)
-#@markdown - **qm_elem.txt** ([6, 6, 6, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])
-#@markdown - PM3
-#@markdown  - **energy_sqm.npy** (1800,)
-#@markdown  - **qm_grad_sqm.npy** (1800, 14, 3)
-
-#@markdown - B3LYP/6-31+G*
-#@markdown  - **energy.npy**  (1800,)
-#@markdown  - **qm_grad.npy** (1800, 14, 3)
-
-%%capture
-!rm *py*
-!rm qm_elem.txt
-!rm -r sample_data
-!wget https://github.com/cc-ats/mlp_class/raw/main/Butane/energy.npy
-!wget https://github.com/cc-ats/mlp_class/raw/main/Butane/energy_sqm.npy
-!wget https://github.com/cc-ats/mlp_class/raw/main/Butane/qm_grad.npy
-!wget https://github.com/cc-ats/mlp_class/raw/main/Butane/qm_grad_sqm.npy
-!wget https://github.com/cc-ats/mlp_class/raw/main/Butane/qm_coord.npy
-!wget https://github.com/cc-ats/mlp_class/raw/main/Butane/qm_elem.txt
-
-!pip install pytorch-lightning &gt; /dev/null
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>UsageError: Line magic function `%%capture` not found.
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%%capture
+!pip install pytorch-lightning &gt; /dev/null   #installing PyTorch lightning
 </pre></div>
 </div>
 </div>
 </div>
+</section>
+<section id="importing-libraries">
+<h2><span class="section-number">4.2. </span>Importing Libraries<a class="headerlink" href="#importing-libraries" title="Permalink to this heading">#</a></h2>
+<p>We will import the following libraries:</p>
+<ul class="simple">
+<li><p>math, typing (Sequence, Tuple)</p></li>
+<li><p>Torch (nn, nn.functional, Tensor. TensorDataset, DataLoader, random_split)</p></li>
+<li><p>PyTorch Lightning (loggers)</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#@title Import libraries </span>
-
-<span class="c1">#@markdown - math, typing (Sequence, Tuple)</span>
-
-<span class="c1">#@markdown - Torch (nn, nn.functional, Tensor. TensorDataset, DataLoader, random_split)</span>
-
-<span class="c1">#@markdown - PyTorch Lightning (loggers)</span>
-
-<span class="kn">import</span> <span class="nn">math</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">import</span> <span class="nn">torch</span>
@@ -468,14 +488,131 @@ document.write(`
 </div>
 </div>
 </div>
+</section>
+</section>
+<section id="symmetry-functions">
+<h1><span class="section-number">5. </span>Symmetry Functions<a class="headerlink" href="#symmetry-functions" title="Permalink to this heading">#</a></h1>
+<p>So far, we have used cartesian coordinates and energies as inputs for our machine learning models. However, cartesian coordinates are not ideal for use with neural networks because translating or rotating the molecule can change the neural network output. In the case of chemistry this would imply that translating a molecule in space changes the molecule’s energy, which is incorrect.</p>
+<p>Instead, we can describe our cartesian coordinates with symmetry functions and use our newly transformed coordinates as inputs, which will produce outputs that are invariant to translations and rotations.</p>
+<p>From Behler and Parrinello’s 2007 paper (***cite), several symmetry functions and a cutoff function were introduced:<br />
+<br />
+The cutoff function is defined as:<br />
+<br /><br />
+\begin{align}
+f_c(R_{ij}) = \left{
+\begin{array}{cl}
+0.5\times\left[\cos\left(\frac{\pi R_{ij}}{R_c}\right)\right] &amp; \textrm{for } R_{ij} \le R_c \
+0 &amp; \textrm{for } R_{ij} \gt R_c
+\end{array}
+\right.
+\end{align}</p>
+<p>Where <span class="math notranslate nohighlight">\(R_{ij}\)</span> is the distance between atoms and <span class="math notranslate nohighlight">\(R_c\)</span> is the cutoff distance.<br />
+<br /></p>
+<p>The radial symmetry function can be defined as: <br /><br />
+\begin{align}
+\begin{array}{c}
+G_i^1 = \sum_{j \neq i}^{all} e^{-\eta(R_{ij}-R_s)^2}f_c(R_{ij})
+\end{array}
+\end{align}</p>
+<br />
+Where $\eta$ changes the width of the Gaussian distribution and $R_s$ shifts the center of the gaussian peak.  
+<br /> 
+<p>The angular symmetry function can be defined as:
+<br /><br />
+\begin{align}
+\begin{array}{c}
+G_i^2 = 2^{1-\zeta}\sum_{j,k\neq i}^{all} (1+\lambda \cos\theta_{ijk})^\zeta \times e^{-\eta(R_{ij}^2+R_{ik}^2+R_{jk}^2)}f_c(R_{ij}) f_c(R_{ik}) f_c(R_{jk})
+\end{array}
+\end{align}
+<br /></p>
+<p>The angular terms are created for each set of 3 atoms as <span class="math notranslate nohighlight">\(\theta_{ijk} = \frac{\mathbf{R_{ij}}\cdot\mathbf{R_{ik}}}{R_{ij}R_{ik}}\)</span>, where <span class="math notranslate nohighlight">\(\mathbf{R_{ij}} = \mathbf{R_{i}} - \mathbf{R_{j}}\)</span> and gives the distance vector between atoms i and j. The <span class="math notranslate nohighlight">\(\lambda\)</span> parameter is set to +1,-1 to allow exploration of the angular environment at the +1 and -1 positions. The parameter <span class="math notranslate nohighlight">\(\eta\)</span> changes the width of the gaussian distribution and <span class="math notranslate nohighlight">\(\zeta\)</span> changes the width of the gaussians in the angular environment.<br />
+<br /></p>
+<p>In 2017, Isayev and Roitberg developed the ANAKIN-ME (Accurate NeurAl networK engINe for Molecular Energies), also referred to as ANI (***cite). ANI uses a modified angular symmetry function defined as:  <br /><br />
+\begin{align}
+\begin{array}{c}
+G_i^2 = 2^{1-\zeta}\sum_{j,k\neq i}^{all} (1+\cos(\theta_{ijk}-\theta_s))^\zeta \times e^{-\eta\left(\frac{R_{ij}+R_{ik}}{2}-R_{s}\right)^2}f_c(R_{ij}) f_c(R_{ik})
+\end{array}
+\end{align}<br />
+<br /></p>
+<p>Here, <span class="math notranslate nohighlight">\(\theta_s\)</span> is a parameter that allows for shifts in the angular environment and <span class="math notranslate nohighlight">\(R_s\)</span> allows for calculating the angular environment in radial shells by shifting the center of the gaussians. The result is probing the angular environment at different radial lengths and angles instead of only at <span class="math notranslate nohighlight">\(\lambda\)</span> values of +1,-1.</p>
+<section id="defining-symmetry-functions">
+<h2><span class="section-number">5.1. </span>Defining Symmetry Functions<a class="headerlink" href="#defining-symmetry-functions" title="Permalink to this heading">#</a></h2>
+<p>Now we will define the radial symmetry functions:</p>
+<ul class="simple">
+<li><p><strong>pairwise_vector:</strong> Distance function for calculating distances between each atom.</p></li>
+<li><p><strong>symmetry_function_g2:</strong> BP radial symmetry function.</p></li>
+<li><p><strong>symmetry_function_g3:</strong> BP angular symmetry function.</p></li>
+<li><p><strong>symmetry_function_g3ani:</strong> ANI angular symmetry function.</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Sequential</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">pairwise_vector</span><span class="p">(</span><span class="n">coords</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+    <span class="n">num_batches</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">coords</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+    <span class="n">rij</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[:,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">coords</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="o">~</span><span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">num_channels</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">coords</span><span class="o">.</span><span class="n">device</span><span class="p">)</span> <span class="c1"># remove self-interaction</span>
+    <span class="n">rij</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">masked_select</span><span class="p">(</span><span class="n">rij</span><span class="p">,</span> <span class="n">mask</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">num_batches</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">,</span> <span class="n">num_channels</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rij</span>
+
+
+<span class="k">def</span> <span class="nf">symmetry_function_g2</span><span class="p">(</span><span class="n">rij</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Rcr</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">EtaR</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">ShfR</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+    <span class="n">dij</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">rij</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">fij</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">dij</span> <span class="o">/</span> <span class="n">Rcr</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+    <span class="n">g2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">EtaR</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">dij</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">ShfR</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">fij</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">g2</span>
+
+
+<span class="k">def</span> <span class="nf">symmetry_function_g3</span><span class="p">(</span><span class="n">rij</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Rca</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">Zeta</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">EtaA</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">rij</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">rij</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">c</span><span class="p">]</span>
+    <span class="n">r12</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">r13</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">r23</span> <span class="o">=</span> <span class="n">r12</span> <span class="o">-</span> <span class="n">r13</span>
+    <span class="n">d12</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r12</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">d13</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r13</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">d23</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r23</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">f12</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d12</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+    <span class="n">f13</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d13</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+    <span class="n">f23</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d23</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+    <span class="n">cosine</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ijkl,ijkl-&gt;ijk&#39;</span><span class="p">,</span> <span class="n">r12</span><span class="p">,</span> <span class="n">r13</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">d12</span> <span class="o">*</span> <span class="n">d13</span><span class="p">)</span>
+
+    <span class="n">g3</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">Zeta</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">cosine</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="n">Zeta</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">EtaA</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">d12</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">d13</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">d23</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">f12</span> <span class="o">*</span> <span class="n">f13</span> <span class="o">*</span> <span class="n">f23</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">g3</span>
+
+
+<span class="k">def</span> <span class="nf">symmetry_function_g3ani</span><span class="p">(</span><span class="n">rij</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Rca</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">Zeta</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">ShfZ</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">EtaA</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">ShfA</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">rij</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">rij</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">c</span><span class="p">]</span>
+    <span class="n">r12</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">r13</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">r23</span> <span class="o">=</span> <span class="n">r12</span> <span class="o">-</span> <span class="n">r13</span>
+    <span class="n">d12</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r12</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">d13</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r13</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">f12</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d12</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+    <span class="n">f13</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d13</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+    <span class="n">cosine</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ijkl,ijkl-&gt;ijk&#39;</span><span class="p">,</span> <span class="n">r12</span><span class="p">,</span> <span class="n">r13</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">d12</span> <span class="o">*</span> <span class="n">d13</span><span class="p">)</span>
+    <span class="n">cosine</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">acos</span><span class="p">(</span><span class="n">cosine</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">ShfA</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="n">g3</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">Zeta</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">cosine</span><span class="p">)</span><span class="o">**</span><span class="n">Zeta</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">EtaA</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">d12</span> <span class="o">+</span> <span class="n">d13</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">ShfZ</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">f12</span> <span class="o">*</span> <span class="n">f13</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">g3</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="defining-neural-network-and-feature-extraction-classes">
+<h1><span class="section-number">6. </span>Defining Neural Network and Feature Extraction Classes<a class="headerlink" href="#defining-neural-network-and-feature-extraction-classes" title="Permalink to this heading">#</a></h1>
+<p>We will now define feature extraction classes which will be used in our Behler-Parrinello and ANI neural networks.</p>
+<p>###Defining Sequential and Dense Classes</p>
+<p>The Sequential class contains the function for the feed-forward aspect of our neural network.
+The Dense class contains functions to describe a densely connected neural network.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span> <span class="k">class</span> <span class="nc">Sequential</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">Tensor</span><span class="p">]:</span>
         <span class="k">for</span> <span class="n">module</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
             <span class="nb">input</span> <span class="o">=</span> <span class="n">module</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
         <span class="k">return</span> <span class="nb">input</span>
-
 
 <span class="k">class</span> <span class="nc">Dense</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">out_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">bias</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">activation</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">residual</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -531,60 +668,9 @@ document.write(`
 </div>
 </div>
 </div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">pairwise_vector</span><span class="p">(</span><span class="n">coords</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-    <span class="n">num_batches</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">coords</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
-    <span class="n">rij</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[:,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">coords</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
-    <span class="n">mask</span> <span class="o">=</span> <span class="o">~</span><span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">num_channels</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">coords</span><span class="o">.</span><span class="n">device</span><span class="p">)</span> <span class="c1"># remove self-interaction</span>
-    <span class="n">rij</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">masked_select</span><span class="p">(</span><span class="n">rij</span><span class="p">,</span> <span class="n">mask</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">num_batches</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">,</span> <span class="n">num_channels</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">rij</span>
-
-
-<span class="k">def</span> <span class="nf">symmetry_function_g2</span><span class="p">(</span><span class="n">rij</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Rcr</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">EtaR</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">ShfR</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-    <span class="n">dij</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">rij</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">fij</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">dij</span> <span class="o">/</span> <span class="n">Rcr</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
-    <span class="n">g2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">EtaR</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">dij</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">ShfR</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">fij</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">g2</span>
-
-
-<span class="k">def</span> <span class="nf">symmetry_function_g3</span><span class="p">(</span><span class="n">rij</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Rca</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">Zeta</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">EtaA</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">rij</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">rij</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">c</span><span class="p">]</span>
-    <span class="n">r12</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
-    <span class="n">r13</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
-    <span class="n">r23</span> <span class="o">=</span> <span class="n">r12</span> <span class="o">-</span> <span class="n">r13</span>
-    <span class="n">d12</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r12</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">d13</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r13</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">d23</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r23</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">f12</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d12</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
-    <span class="n">f13</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d13</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
-    <span class="n">f23</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d23</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
-    <span class="n">cosine</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ijkl,ijkl-&gt;ijk&#39;</span><span class="p">,</span> <span class="n">r12</span><span class="p">,</span> <span class="n">r13</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">d12</span> <span class="o">*</span> <span class="n">d13</span><span class="p">)</span>
-
-    <span class="n">g3</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">Zeta</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">cosine</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="n">Zeta</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">EtaA</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">d12</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">d13</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">d23</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">f12</span> <span class="o">*</span> <span class="n">f13</span> <span class="o">*</span> <span class="n">f23</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">g3</span>
-
-
-<span class="k">def</span> <span class="nf">symmetry_function_g3ani</span><span class="p">(</span><span class="n">rij</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Rca</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">Zeta</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">ShfZ</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">EtaA</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">ShfA</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">rij</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">rij</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">c</span><span class="p">]</span>
-    <span class="n">r12</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
-    <span class="n">r13</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
-    <span class="n">r23</span> <span class="o">=</span> <span class="n">r12</span> <span class="o">-</span> <span class="n">r13</span>
-    <span class="n">d12</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r12</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">d13</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r13</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">f12</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d12</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
-    <span class="n">f13</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d13</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
-    <span class="n">cosine</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ijkl,ijkl-&gt;ijk&#39;</span><span class="p">,</span> <span class="n">r12</span><span class="p">,</span> <span class="n">r13</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">d12</span> <span class="o">*</span> <span class="n">d13</span><span class="p">)</span>
-    <span class="n">cosine</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">acos</span><span class="p">(</span><span class="n">cosine</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">ShfA</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-
-    <span class="n">g3</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">Zeta</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">cosine</span><span class="p">)</span><span class="o">**</span><span class="n">Zeta</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">EtaA</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">d12</span> <span class="o">+</span> <span class="n">d13</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">ShfZ</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">f12</span> <span class="o">*</span> <span class="n">f13</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">g3</span>
-</pre></div>
-</div>
-</div>
-</div>
+<section id="creating-the-feature-class">
+<h2><span class="section-number">6.1. </span>Creating the Feature Class<a class="headerlink" href="#creating-the-feature-class" title="Permalink to this heading">#</a></h2>
+<p>Now we will create the feature class, which takes input information and uses functions to extract characteristics unique to the called input features. Here we will be using the previously defined symmetry functions for feature extraction.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Feature</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
@@ -594,10 +680,10 @@ document.write(`
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">Zeta</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">EtaA</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Rcr</span> <span class="o">=</span> <span class="n">Rcr</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Rca</span> <span class="o">=</span> <span class="n">Rca</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">EtaR</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">EtaR</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ShfR</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">ShfR</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">Zeta</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">Zeta</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">EtaA</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">EtaA</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">EtaR</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">EtaR</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ShfR</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">ShfR</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Zeta</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">Zeta</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">EtaA</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">EtaA</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coords</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">atom_types</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
         <span class="n">num_batches</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">coords</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
@@ -618,6 +704,10 @@ document.write(`
 </div>
 </div>
 </div>
+</section>
+<section id="creating-the-feature-class-for-ani">
+<h2><span class="section-number">6.2. </span>Creating the Feature Class for ANI<a class="headerlink" href="#creating-the-feature-class-for-ani" title="Permalink to this heading">#</a></h2>
+<p>We will create a similar feature class for ANI that uses the ANI angle symmetry function.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">FeatureANI</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
@@ -627,12 +717,12 @@ document.write(`
         <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">Zeta</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">ShfZ</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">EtaA</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">ShfA</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Rcr</span> <span class="o">=</span> <span class="n">Rcr</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">Rca</span> <span class="o">=</span> <span class="n">Rca</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">EtaR</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">EtaR</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ShfR</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">ShfR</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">Zeta</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">Zeta</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ShfZ</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">ShfZ</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">EtaA</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">EtaA</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ShfA</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">ShfA</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">EtaR</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">EtaR</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ShfR</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">ShfR</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Zeta</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">Zeta</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ShfZ</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">ShfZ</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">EtaA</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">EtaA</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ShfA</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">ShfA</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coords</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">atom_types</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
         <span class="n">num_batches</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">coords</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
@@ -655,14 +745,18 @@ document.write(`
 </div>
 </div>
 </div>
+</section>
+<section id="creating-the-fitting-class">
+<h2><span class="section-number">6.3. </span>Creating the Fitting Class<a class="headerlink" href="#creating-the-fitting-class" title="Permalink to this heading">#</a></h2>
+<p>Now we create the fitting class, which will use the dense neural network for fitting.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Fitting</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_types</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">neuron</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">240</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">240</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="n">Dense</span><span class="p">(</span><span class="n">n_types</span><span class="p">,</span> <span class="n">in_features</span><span class="p">,</span> <span class="n">neuron</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">activation</span><span class="o">=</span><span class="kc">True</span><span class="p">)]</span>
+        <span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="n">Dense</span><span class="p">(</span><span class="n">n_types</span><span class="p">,</span> <span class="n">in_features</span><span class="p">,</span> <span class="n">neuron</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">activation</span><span class="o">=</span><span class="kc">True</span><span class="p">)]</span> <span class="c1"># using the Dense class defined in 3.3 </span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">neuron</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
-            <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">n_types</span><span class="p">,</span> <span class="n">neuron</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">neuron</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">activation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">residual</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+            <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">n_types</span><span class="p">,</span> <span class="n">neuron</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">neuron</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">activation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">residual</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>  <span class="c1"># iterating through the neurons</span>
         <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">n_types</span><span class="p">,</span> <span class="n">neuron</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fitting_net</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">(</span><span class="o">*</span><span class="n">layers</span><span class="p">)</span>
 
@@ -673,6 +767,10 @@ document.write(`
 </div>
 </div>
 </div>
+</section>
+<section id="create-the-behler-parrinello-neural-network-bpnn-class">
+<h2><span class="section-number">6.4. </span>Create the Behler-Parrinello Neural Network (BPNN) Class<a class="headerlink" href="#create-the-behler-parrinello-neural-network-bpnn-class" title="Permalink to this heading">#</a></h2>
+<p>Finally, we will now create the BPNN class that can be used for training with the symmetry functions.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">BPNN</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">LightningModule</span><span class="p">):</span>
@@ -692,14 +790,14 @@ document.write(`
 
     <span class="k">def</span> <span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
         <span class="n">qm_coord</span><span class="p">,</span> <span class="n">atom_types</span><span class="p">,</span> <span class="n">energy</span><span class="p">,</span> <span class="n">gradient</span> <span class="o">=</span> <span class="n">batch</span>
-        <span class="n">ene_pred</span><span class="p">,</span> <span class="n">grad_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">qm_coord</span><span class="p">,</span> <span class="n">atom_types</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
-        <span class="n">ene_loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">mse_loss</span><span class="p">(</span><span class="n">ene_pred</span><span class="p">,</span> <span class="n">energy</span><span class="p">)</span>
+        <span class="n">ene_pred</span><span class="p">,</span> <span class="n">grad_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">qm_coord</span><span class="p">,</span> <span class="n">atom_types</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="c1"># training the energy and gradient predictions </span>
+        <span class="n">ene_loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">mse_loss</span><span class="p">(</span><span class="n">ene_pred</span><span class="p">,</span> <span class="n">energy</span><span class="p">)</span>   <span class="c1"># defining loss functions for energy and gradient predictions</span>
         <span class="n">grad_loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">mse_loss</span><span class="p">(</span><span class="n">grad_pred</span><span class="p">,</span> <span class="n">gradient</span><span class="p">)</span>
 
         <span class="n">lr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimizers</span><span class="p">()</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">param_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;lr&#39;</span><span class="p">]</span>
         <span class="n">start_lr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimizers</span><span class="p">()</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">param_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;initial_lr&#39;</span><span class="p">]</span>
         <span class="n">w_ene</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="n">w_grad</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">99</span> <span class="o">*</span> <span class="p">(</span><span class="n">lr</span> <span class="o">/</span> <span class="n">start_lr</span><span class="p">)</span>
+        <span class="n">w_grad</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">99</span> <span class="o">*</span> <span class="p">(</span><span class="n">lr</span> <span class="o">/</span> <span class="n">start_lr</span><span class="p">)</span>  
 
         <span class="n">loss</span> <span class="o">=</span> <span class="n">w_ene</span> <span class="o">/</span> <span class="p">(</span><span class="n">w_ene</span> <span class="o">+</span> <span class="n">w_grad</span><span class="p">)</span> <span class="o">*</span> <span class="n">ene_loss</span> <span class="o">+</span> <span class="n">w_grad</span> <span class="o">/</span> <span class="p">(</span><span class="n">w_ene</span> <span class="o">+</span> <span class="n">w_grad</span><span class="p">)</span> <span class="o">*</span> <span class="n">grad_loss</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s1">&#39;train_loss&#39;</span><span class="p">,</span> <span class="n">loss</span><span class="p">)</span>
@@ -739,37 +837,56 @@ document.write(`
 </div>
 </div>
 </div>
+</section>
+</section>
+<section id="loading-data">
+<h1><span class="section-number">7. </span>Loading Data<a class="headerlink" href="#loading-data" title="Permalink to this heading">#</a></h1>
+<p>We will now load the files previously imported from GitHub and use the data in our machine learning model.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="n">qm_coord</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;qm_coord.npy&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
-<span class="n">atom_types</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;qm_elem.txt&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<span class="n">ds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">DataSource</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span> 
+<span class="n">qm_coord</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_class/raw/main/Butane/qm_coord.npy&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span>
+<span class="n">atom_types</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_class/raw/main/Butane/qm_elem.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
 <span class="n">elems</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">atom_types</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-<span class="n">atom_types</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">elems</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">atom_types</span><span class="p">]))</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
-<span class="n">atom_types</span> <span class="o">=</span> <span class="n">atom_types</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qm_coord</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">atom_types</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">elems</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">atom_types</span><span class="p">]])</span>
+<span class="n">atom_types</span> <span class="o">=</span> <span class="n">atom_types</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qm_coord</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-<span class="n">energy</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;energy.npy&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;energy_sqm.npy&quot;</span><span class="p">))</span> <span class="o">*</span> <span class="mf">27.2114</span> <span class="o">*</span> <span class="mf">23.061</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+<span class="n">energy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_class/raw/main/Butane/energy.npy&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_class/raw/main/Butane/energy_sqm.npy&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)))</span> <span class="o">*</span> <span class="mf">27.2114</span> <span class="o">*</span> <span class="mf">23.061</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
 <span class="n">energy</span> <span class="o">=</span> <span class="n">energy</span> <span class="o">-</span> <span class="n">energy</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-<span class="n">qm_gradient</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;qm_grad.npy&quot;</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;qm_grad_sqm.npy&quot;</span><span class="p">))</span> <span class="o">*</span> <span class="mf">27.2114</span> <span class="o">*</span> <span class="mf">23.061</span> <span class="o">/</span> <span class="mf">0.529177249</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span><span class="o">.</span><span class="n">seed_everything</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">qm_gradient</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_class/raw/main/Butane/qm_grad.npy&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_class/raw/main/Butane/qm_grad_sqm.npy&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)))</span> <span class="o">*</span> <span class="mf">27.2114</span> <span class="o">*</span> <span class="mf">23.061</span> <span class="o">/</span> <span class="mf">0.529177249</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+
+<span class="c1"># Convert NumPy Arrays to Torch Tensors</span>
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+
+<span class="n">qm_coord</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">qm_coord</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">atom_types</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">atom_types</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">energy</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">energy</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">qm_gradient</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">qm_gradient</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="n">pl</span><span class="o">.</span><span class="n">seed_everything</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">qm_coord</span><span class="p">,</span> <span class="n">atom_types</span><span class="p">,</span> <span class="n">energy</span><span class="p">,</span> <span class="n">qm_gradient</span><span class="p">)</span>
-<span class="n">train</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">random_split</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="p">[</span><span class="mi">1728</span><span class="p">,</span> <span class="mi">72</span><span class="p">])</span>
+<span class="n">train</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">random_split</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="p">[</span><span class="mi">1728</span><span class="p">,</span> <span class="mi">72</span><span class="p">])</span>  
 <span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
 <span class="n">val_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Global seed set to 2
+</pre></div>
 </div>
+</div>
+</div>
+</section>
+<section id="using-ani-for-feature-extraction">
+<h1><span class="section-number">8. </span>Using ANI for Feature Extraction<a class="headerlink" href="#using-ani-for-feature-extraction" title="Permalink to this heading">#</a></h1>
+<p>Here is an example where we use our ANI model for feature extraction. We will use values for our symmetry function parameters from ***cite.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%time</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span>
+<span class="o">%%</span><span class="n">time</span>
 <span class="n">pl</span><span class="o">.</span><span class="n">seed_everything</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 
 <span class="n">ani</span> <span class="o">=</span> <span class="kc">True</span>
@@ -806,32 +923,72 @@ document.write(`
 <span class="n">model</span> <span class="o">=</span> <span class="n">BPNN</span><span class="p">(</span><span class="n">descriptor</span><span class="p">,</span> <span class="n">fitting_net</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">5e-4</span><span class="p">)</span>
 <span class="n">csv_logger</span> <span class="o">=</span> <span class="n">pl_loggers</span><span class="o">.</span><span class="n">CSVLogger</span><span class="p">(</span><span class="s1">&#39;logs_csv/&#39;</span><span class="p">)</span>
 <span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">csv_logger</span><span class="p">,</span> <span class="n">log_every_n_steps</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">accelerator</span><span class="o">=</span><span class="s1">&#39;gpu&#39;</span><span class="p">)</span>
+
 <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">val_loader</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Global seed set to 2
+</pre></div>
 </div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">RuntimeError</span><span class="g g-Whitespace">                              </span>Traceback (most recent call last)
+<span class="n">File</span> <span class="o">&lt;</span><span class="n">timed</span> <span class="n">exec</span><span class="o">&gt;</span><span class="p">:</span><span class="mi">23</span>
+
+<span class="nn">Cell In[6], line 8,</span> in <span class="ni">FeatureANI.__init__</span><span class="nt">(self, Rcr, EtaR, ShfR, Rca, Zeta, ShfZ, EtaA, ShfA)</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="bp">self</span><span class="o">.</span><span class="n">Rcr</span> <span class="o">=</span> <span class="n">Rcr</span>
+<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="bp">self</span><span class="o">.</span><span class="n">Rca</span> <span class="o">=</span> <span class="n">Rca</span>
+<span class="ne">----&gt; </span><span class="mi">8</span> <span class="bp">self</span><span class="o">.</span><span class="n">EtaR</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">EtaR</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="bp">self</span><span class="o">.</span><span class="n">ShfR</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">ShfR</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="bp">self</span><span class="o">.</span><span class="n">Zeta</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">(</span><span class="n">Zeta</span><span class="p">)</span><span class="o">.</span><span class="n">cuda</span><span class="p">()</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/torch/cuda/__init__.py:247,</span> in <span class="ni">_lazy_init</span><span class="nt">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">245</span> <span class="k">if</span> <span class="s1">&#39;CUDA_MODULE_LOADING&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">246</span>     <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;CUDA_MODULE_LOADING&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;LAZY&#39;</span>
+<span class="ne">--&gt; </span><span class="mi">247</span> <span class="n">torch</span><span class="o">.</span><span class="n">_C</span><span class="o">.</span><span class="n">_cuda_init</span><span class="p">()</span>
+<span class="g g-Whitespace">    </span><span class="mi">248</span> <span class="c1"># Some of the queued calls may reentrantly call _lazy_init();</span>
+<span class="g g-Whitespace">    </span><span class="mi">249</span> <span class="c1"># we need to just return without initializing in that case.</span>
+<span class="g g-Whitespace">    </span><span class="mi">250</span> <span class="c1"># However, we must not let any *other* threads in!</span>
+<span class="g g-Whitespace">    </span><span class="mi">251</span> <span class="n">_tls</span><span class="o">.</span><span class="n">is_initializing</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="ne">RuntimeError</span>: Found no NVIDIA driver on your system. Please check that you have an NVIDIA GPU and installed a driver from http://www.nvidia.com/Download/index.aspx
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="saving-model-to-pytorch-file">
+<h1><span class="section-number">9. </span>Saving model to PyTorch File<a class="headerlink" href="#saving-model-to-pytorch-file" title="Permalink to this heading">#</a></h1>
+<p>The following files will be saved:</p>
+<p><strong>1) <a class="reference external" href="http://model.pt">model.pt</a></strong></p>
+<ul class="simple">
+<li><p>torch.save saves tensors to <a class="reference external" href="http://model.pt">model.pt</a></p></li>
+</ul>
+<p><strong>2) model_script.pt</strong></p>
+<ul class="simple">
+<li><p>torch.jit.save attempts to preserve the behavior of some operators across PyTorch versions.</p></li>
+</ul>
+<p>Previously saved models can be loaded with:</p>
+<ul class="simple">
+<li><p>model.load_state_dict(torch.load(’ 1) ‘))</p></li>
+<li><p>torch.jit.load(’ 2) ‘)</p></li>
+</ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">#@title Saving model to PyTorch file</span>
-<span class="c1">#@markdown The following files are saved:</span>
-
-<span class="c1">#@markdown **1) model.pt**</span>
-<span class="c1">#@markdown - torch.save saves tensors to model.pt</span>
-
-<span class="c1">#@markdown **2) model_script.pt**</span>
-<span class="c1">#@markdown - torch.jit.save attempts to preserve the behavior of some operators across PyTorch versions.</span>
-
-<span class="c1">#@markdown Previously saved models can be loaded with:</span>
-<span class="c1">#@markdown - model.load_state_dict(torch.load(&#39; **1)** &#39;))</span>
-<span class="c1">#@markdown - torch.jit.load(&#39; **2)** &#39;)</span>
-
-<span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="s1">&#39;model.pt&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="s1">&#39;model.pt&#39;</span><span class="p">)</span>
 <span class="n">torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">to_torchscript</span><span class="p">(),</span> <span class="s2">&quot;model_script.pt&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">NameError</span><span class="g g-Whitespace">                                 </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">11</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="s1">&#39;model.pt&#39;</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">torch</span><span class="o">.</span><span class="n">jit</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">to_torchscript</span><span class="p">(),</span> <span class="s2">&quot;model_script.pt&quot;</span><span class="p">)</span>
 
-<span class="c1"># To load models:</span>
-<span class="c1"># model.load_state_dict(torch.load(&#39;model.pt&#39;))</span>
-<span class="c1"># model = torch.jit.load(&#39;model_script.pt&#39;)</span>
+<span class="ne">NameError</span>: name &#39;model&#39; is not defined
 </pre></div>
 </div>
 </div>
@@ -871,6 +1028,9 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="_images/fcd1622ce50b98cbdd4cff75bc4ec3c61a11eaf3ad30dced261529fa487f045a.png" src="_images/fcd1622ce50b98cbdd4cff75bc4ec3c61a11eaf3ad30dced261529fa487f045a.png" />
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -880,13 +1040,25 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model&#39;s state_dict:
+fitting_net.fitting_net.0.weight 	 torch.Size([3, 240, 48])
+fitting_net.fitting_net.0.bias 	 torch.Size([3, 240])
+fitting_net.fitting_net.1.weight 	 torch.Size([3, 240, 240])
+fitting_net.fitting_net.1.bias 	 torch.Size([3, 240])
+fitting_net.fitting_net.2.weight 	 torch.Size([3, 240, 240])
+fitting_net.fitting_net.2.bias 	 torch.Size([3, 240])
+fitting_net.fitting_net.3.weight 	 torch.Size([3, 1, 240])
+fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
+</pre></div>
+</div>
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 
-<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;logs_csv/lightning_logs/version_3/metrics.csv&#39;</span><span class="p">)</span>
-<span class="c1"># data = pd.read_csv(&#39;/content/drive/MyDrive/f10_e500/logs_csv/lightning_logs/version_2/metrics.csv&#39;)</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;logs_csv/lightning_logs/version_0/metrics.csv&#39;</span><span class="p">)</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">10</span><span class="p">))</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;epoch&#39;</span><span class="p">][</span><span class="o">~</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;l2_e_tst&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;l2_e_tst&#39;</span><span class="p">][</span><span class="o">~</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;l2_e_tst&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span>
@@ -900,11 +1072,13 @@ document.write(`
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<img alt="_images/029839f5552fc56a8d7b3ae134b61ed9bbb9bd7193b3f616852bf0e99d981562.png" src="_images/029839f5552fc56a8d7b3ae134b61ed9bbb9bd7193b3f616852bf0e99d981562.png" />
+</div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;logs_csv/lightning_logs/version_3/metrics.csv&#39;</span><span class="p">)</span>
-<span class="c1"># data = pd.read_csv(&#39;/content/drive/MyDrive/f10_e500/logs_csv/lightning_logs/version_2/metrics.csv&#39;)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;logs_csv/lightning_logs/version_0/metrics.csv&#39;</span><span class="p">)</span>
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;epoch&#39;</span><span class="p">][</span><span class="o">~</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;epoch&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;train_loss&#39;</span><span class="p">][</span><span class="o">~</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;train_loss&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span>
@@ -918,6 +1092,16 @@ document.write(`
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1350
+500
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend&gt;
+</pre></div>
+</div>
+<img alt="_images/b7bb2365e348f066108d0ce9a02cada07a03a3c5eb4aaa40c96192f8aaf67d67.png" src="_images/b7bb2365e348f066108d0ce9a02cada07a03a3c5eb4aaa40c96192f8aaf67d67.png" />
 </div>
 </div>
 </section>
@@ -967,7 +1151,7 @@ document.write(`
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">4. </span>A PyTorch implementation of Deep Potential-Smooth Edition (DeepPot-SE)</p>
+        <p class="prev-next-title"><span class="section-number">10. </span>A PyTorch implementation of Deep Potential-Smooth Edition (DeepPot-SE)</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -980,6 +1164,40 @@ document.write(`
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">3. Behler-Parrinello  Symmetry Functions</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-and-libraries">4. Importing Data and Libraries</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-from-github-mlp-class-and-installing-pytorch-lightning">4.1. Importing Data From GitHub (mlp_class) and Installing PyTorch Lightning</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-libraries">4.2. Importing Libraries</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#symmetry-functions">5. Symmetry Functions</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-symmetry-functions">5.1. Defining Symmetry Functions</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-neural-network-and-feature-extraction-classes">6. Defining Neural Network and Feature Extraction Classes</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-feature-class">6.1. Creating the Feature Class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-feature-class-for-ani">6.2. Creating the Feature Class for ANI</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-fitting-class">6.3. Creating the Fitting Class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-behler-parrinello-neural-network-bpnn-class">6.4. Create the Behler-Parrinello Neural Network (BPNN) Class</a></li>
+</ul>
+</li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-data">7. Loading Data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#using-ani-for-feature-extraction">8. Using ANI for Feature Extraction</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-model-to-pytorch-file">9. Saving model to PyTorch File</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
               
             
           </div>
