@@ -30,8 +30,8 @@ nbclient.exceptions.CellTimeoutError: A cell timed out while it was being execut
 The message was: Cell execution timed out.
 Here is a preview of the cell contents:
 -------------------
-['%%capture', 'class pl_model(pl.LightningModule):', '    def __init__(self, n1=20):', '        super().__init__()', '        self.model = nn.Sequential(']
+['model.train()', 'likelihood.train()', '', 'def train_model(model, likelihood, x_train, y_train, print_hp=True):', '  training_iter = 100  # using 100 iterations']
 ...
-["csv_logger = pl_loggers.CSVLogger('logs_csv/')", 'trainer = pl.Trainer(max_epochs=1000, logger=csv_logger)', 'n1 = 20', 'model = pl_model(n1)', 'trainer.fit(model, train_loader)']
+['', '        optimizer.step()', '', '#Y_gpr is an array of output values and gradients from the Mueller-Brown potential energy function', 'train_model(model, likelihood, X_gpr, Y_gpr)']
 -------------------
 
