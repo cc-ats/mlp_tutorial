@@ -30,8 +30,8 @@ nbclient.exceptions.CellTimeoutError: A cell timed out while it was being execut
 The message was: Cell execution timed out.
 Here is a preview of the cell contents:
 -------------------
-['import numpy as np', '', 'ds = np.DataSource(None) ', 'coord = np.array(np.load(ds.open("https://github.com/cc-ats/mlp_class/raw/main/DeepPot_PyTorch/input_coord.npy", "rb")), dtype="float32")', 'atom_types = np.loadtxt(ds.open("https://github.com/cc-ats/mlp_class/raw/main/DeepPot_PyTorch/type.raw", "r"), dtype=int)']
+['model.train()', 'likelihood.train()', '', 'def train_model(model, likelihood, x_train, y_train, print_hp=True):', '  training_iter = 100  # using 100 iterations']
 ...
-['model = DeepPot(descriptor, fitting_net, learning_rate=5e-4)', "csv_logger = pl_loggers.CSVLogger('logs_csv/')", 'trainer = pl.Trainer(max_epochs=10, logger=csv_logger)', 'trainer.fit(model, train_loader)', '_, grad_pred = model(coord, atom_types[0])']
+['', '        optimizer.step()', '', '#Y_gpr is an array of output values and gradients from the Mueller-Brown potential energy function', 'train_model(model, likelihood, X_gpr, Y_gpr)']
 -------------------
 

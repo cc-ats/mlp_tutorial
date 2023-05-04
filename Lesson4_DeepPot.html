@@ -441,7 +441,6 @@ from torch import Tensor
 from torch.utils.data import TensorDataset, DataLoader, random_split
 import pytorch_lightning as pl
 from pytorch_lightning import loggers as pl_loggers
-
 </pre></div>
 </div>
 </div>
@@ -695,10 +694,24 @@ The local feature matrix is then mapped to the atomic energy using the fitting n
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="n">coord</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;/content/drive/MyDrive/Colab Notebooks/deeppot_pytorch/input_coord.npy&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">))</span>
-<span class="n">atom_types</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;/content/drive/MyDrive/Colab Notebooks/deeppot_pytorch/type.raw&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;int64&quot;</span><span class="p">))</span>
-<span class="n">atom_types</span> <span class="o">=</span> <span class="n">atom_types</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">coord</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">grad</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;/content/drive/MyDrive/Colab Notebooks/deeppot_pytorch/input_grad.npy&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">))</span>
+
+<span class="n">ds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">DataSource</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span> 
+<span class="n">coord</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_class/raw/main/DeepPot_PyTorch/input_coord.npy&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+<span class="n">atom_types</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_class/raw/main/DeepPot_PyTorch/type.raw&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+
+<span class="n">elems</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">atom_types</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+<span class="n">atom_types</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">elems</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">atom_types</span><span class="p">]])</span>
+<span class="n">atom_types</span> <span class="o">=</span> <span class="n">atom_types</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">coord</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+<span class="n">grad</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_class/raw/main/DeepPot_PyTorch/input_grad.npy&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+
+<span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
+
+<span class="n">coord</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">coord</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">atom_types</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">atom_types</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+<span class="n">grad</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">grad</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">coord</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">atom_types</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span><span class="n">grad</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
 
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">coord</span><span class="p">,</span> <span class="n">atom_types</span><span class="p">,</span> <span class="n">grad</span><span class="p">)</span>
 <span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
@@ -714,22 +727,2607 @@ The local feature matrix is then mapped to the atomic energy using the fitting n
 </div>
 </div>
 <div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>torch.Size([1296, 22, 3]) torch.Size([1296, 22]) torch.Size([1296, 22, 3])
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/pytorch_lightning/callbacks/model_checkpoint.py:612: UserWarning: Checkpoint directory logs_csv/lightning_logs/version_0/checkpoints exists and is not empty.
+  rank_zero_warn(f&quot;Checkpoint directory {dirpath} exists and is not empty.&quot;)
+/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/lightning_fabric/loggers/csv_logs.py:188: UserWarning: Experiment logs directory logs_csv/lightning_logs/version_0 exists and is not empty. Previous log files in this directory will be deleted when the new ones are saved!
+  rank_zero_warn(
+/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/pytorch_lightning/loops/fit_loop.py:280: PossibleUserWarning: The number of training batches (41) is smaller than the logging interval Trainer(log_every_n_steps=50). Set a lower value for log_every_n_steps if you want to see logs for the training epoch.
+  rank_zero_warn(
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training: 0it [00:00, ?it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Training:   0%|          | 0/41 [00:00&lt;?, ?it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:   0%|          | 0/41 [00:00&lt;?, ?it/s] 
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:   2%|▏         | 1/41 [00:00&lt;00:03, 11.89it/s]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:   2%|▏         | 1/41 [00:00&lt;00:03, 11.69it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:   5%|▍         | 2/41 [00:00&lt;00:02, 13.50it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:   5%|▍         | 2/41 [00:00&lt;00:02, 13.36it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:   7%|▋         | 3/41 [00:00&lt;00:02, 13.88it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:   7%|▋         | 3/41 [00:00&lt;00:02, 13.79it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  10%|▉         | 4/41 [00:00&lt;00:02, 14.20it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  10%|▉         | 4/41 [00:00&lt;00:02, 14.11it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  12%|█▏        | 5/41 [00:00&lt;00:02, 14.34it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  12%|█▏        | 5/41 [00:00&lt;00:02, 13.93it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  15%|█▍        | 6/41 [00:00&lt;00:02, 13.75it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  15%|█▍        | 6/41 [00:00&lt;00:02, 13.65it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  17%|█▋        | 7/41 [00:00&lt;00:02, 13.89it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  17%|█▋        | 7/41 [00:00&lt;00:02, 13.81it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  20%|█▉        | 8/41 [00:00&lt;00:02, 14.01it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  20%|█▉        | 8/41 [00:00&lt;00:02, 13.96it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  22%|██▏       | 9/41 [00:00&lt;00:02, 14.14it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  22%|██▏       | 9/41 [00:00&lt;00:02, 14.10it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  24%|██▍       | 10/41 [00:00&lt;00:02, 14.30it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  24%|██▍       | 10/41 [00:00&lt;00:02, 14.24it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  27%|██▋       | 11/41 [00:00&lt;00:02, 14.30it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  27%|██▋       | 11/41 [00:00&lt;00:02, 14.27it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  29%|██▉       | 12/41 [00:00&lt;00:02, 14.24it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  29%|██▉       | 12/41 [00:00&lt;00:02, 14.21it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  32%|███▏      | 13/41 [00:00&lt;00:01, 14.31it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  32%|███▏      | 13/41 [00:00&lt;00:01, 14.29it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  34%|███▍      | 14/41 [00:00&lt;00:01, 14.34it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  34%|███▍      | 14/41 [00:00&lt;00:01, 14.32it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  37%|███▋      | 15/41 [00:01&lt;00:01, 14.43it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  37%|███▋      | 15/41 [00:01&lt;00:01, 14.41it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  39%|███▉      | 16/41 [00:01&lt;00:01, 14.50it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  39%|███▉      | 16/41 [00:01&lt;00:01, 14.48it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  41%|████▏     | 17/41 [00:01&lt;00:01, 14.53it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  41%|████▏     | 17/41 [00:01&lt;00:01, 14.51it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  44%|████▍     | 18/41 [00:01&lt;00:01, 14.61it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  44%|████▍     | 18/41 [00:01&lt;00:01, 14.59it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  46%|████▋     | 19/41 [00:01&lt;00:01, 14.64it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  46%|████▋     | 19/41 [00:01&lt;00:01, 14.63it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  49%|████▉     | 20/41 [00:01&lt;00:01, 14.67it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  49%|████▉     | 20/41 [00:01&lt;00:01, 14.65it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  51%|█████     | 21/41 [00:01&lt;00:01, 14.72it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  51%|█████     | 21/41 [00:01&lt;00:01, 14.70it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  54%|█████▎    | 22/41 [00:01&lt;00:01, 14.71it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  54%|█████▎    | 22/41 [00:01&lt;00:01, 14.69it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  56%|█████▌    | 23/41 [00:01&lt;00:01, 14.65it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  56%|█████▌    | 23/41 [00:01&lt;00:01, 14.64it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  59%|█████▊    | 24/41 [00:01&lt;00:01, 14.69it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  59%|█████▊    | 24/41 [00:01&lt;00:01, 14.66it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  61%|██████    | 25/41 [00:01&lt;00:01, 14.73it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  61%|██████    | 25/41 [00:01&lt;00:01, 14.72it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  63%|██████▎   | 26/41 [00:01&lt;00:01, 14.73it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  63%|██████▎   | 26/41 [00:01&lt;00:01, 14.72it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  66%|██████▌   | 27/41 [00:01&lt;00:00, 14.74it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  66%|██████▌   | 27/41 [00:01&lt;00:00, 14.73it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  68%|██████▊   | 28/41 [00:01&lt;00:00, 14.75it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  68%|██████▊   | 28/41 [00:01&lt;00:00, 14.73it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  71%|███████   | 29/41 [00:01&lt;00:00, 14.73it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  71%|███████   | 29/41 [00:01&lt;00:00, 14.72it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  73%|███████▎  | 30/41 [00:02&lt;00:00, 14.73it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  73%|███████▎  | 30/41 [00:02&lt;00:00, 14.72it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  76%|███████▌  | 31/41 [00:02&lt;00:00, 14.73it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  76%|███████▌  | 31/41 [00:02&lt;00:00, 14.72it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  78%|███████▊  | 32/41 [00:02&lt;00:00, 14.75it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  78%|███████▊  | 32/41 [00:02&lt;00:00, 14.74it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  80%|████████  | 33/41 [00:02&lt;00:00, 14.74it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  80%|████████  | 33/41 [00:02&lt;00:00, 14.73it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  83%|████████▎ | 34/41 [00:02&lt;00:00, 14.77it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  83%|████████▎ | 34/41 [00:02&lt;00:00, 14.76it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  85%|████████▌ | 35/41 [00:02&lt;00:00, 14.76it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  85%|████████▌ | 35/41 [00:02&lt;00:00, 14.76it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  88%|████████▊ | 36/41 [00:02&lt;00:00, 14.78it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  88%|████████▊ | 36/41 [00:02&lt;00:00, 14.77it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  90%|█████████ | 37/41 [00:02&lt;00:00, 14.78it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  90%|█████████ | 37/41 [00:02&lt;00:00, 14.77it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  93%|█████████▎| 38/41 [00:02&lt;00:00, 14.77it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  93%|█████████▎| 38/41 [00:02&lt;00:00, 14.76it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  95%|█████████▌| 39/41 [00:02&lt;00:00, 14.78it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  95%|█████████▌| 39/41 [00:02&lt;00:00, 14.77it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  98%|█████████▊| 40/41 [00:02&lt;00:00, 14.79it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:  98%|█████████▊| 40/41 [00:02&lt;00:00, 14.78it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0: 100%|██████████| 41/41 [00:02&lt;00:00, 14.90it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0: 100%|██████████| 41/41 [00:02&lt;00:00, 14.89it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0: 100%|██████████| 41/41 [00:02&lt;00:00, 14.88it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 0:   0%|          | 0/41 [00:00&lt;?, ?it/s, v_num=0]         
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:   0%|          | 0/41 [00:00&lt;?, ?it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:   2%|▏         | 1/41 [00:00&lt;00:02, 16.24it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:   2%|▏         | 1/41 [00:00&lt;00:02, 15.87it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:   5%|▍         | 2/41 [00:00&lt;00:02, 16.24it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:   5%|▍         | 2/41 [00:00&lt;00:02, 16.05it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:   7%|▋         | 3/41 [00:00&lt;00:02, 14.64it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:   7%|▋         | 3/41 [00:00&lt;00:02, 14.54it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  10%|▉         | 4/41 [00:00&lt;00:02, 14.88it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  10%|▉         | 4/41 [00:00&lt;00:02, 14.72it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  12%|█▏        | 5/41 [00:00&lt;00:02, 14.93it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  12%|█▏        | 5/41 [00:00&lt;00:02, 14.87it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  15%|█▍        | 6/41 [00:00&lt;00:02, 15.06it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  15%|█▍        | 6/41 [00:00&lt;00:02, 15.00it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  17%|█▋        | 7/41 [00:00&lt;00:02, 15.00it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  17%|█▋        | 7/41 [00:00&lt;00:02, 14.90it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  20%|█▉        | 8/41 [00:00&lt;00:02, 15.00it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  20%|█▉        | 8/41 [00:00&lt;00:02, 14.91it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  22%|██▏       | 9/41 [00:00&lt;00:02, 15.06it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  22%|██▏       | 9/41 [00:00&lt;00:02, 15.01it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  24%|██▍       | 10/41 [00:00&lt;00:02, 15.12it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  24%|██▍       | 10/41 [00:00&lt;00:02, 15.08it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  27%|██▋       | 11/41 [00:00&lt;00:01, 15.12it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  27%|██▋       | 11/41 [00:00&lt;00:01, 15.08it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  29%|██▉       | 12/41 [00:00&lt;00:01, 14.98it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  29%|██▉       | 12/41 [00:00&lt;00:01, 14.95it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  32%|███▏      | 13/41 [00:00&lt;00:01, 14.97it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  32%|███▏      | 13/41 [00:00&lt;00:01, 14.92it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  34%|███▍      | 14/41 [00:00&lt;00:01, 14.96it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  34%|███▍      | 14/41 [00:00&lt;00:01, 14.94it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  37%|███▋      | 15/41 [00:00&lt;00:01, 15.00it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  37%|███▋      | 15/41 [00:01&lt;00:01, 14.99it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  39%|███▉      | 16/41 [00:01&lt;00:01, 15.03it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  39%|███▉      | 16/41 [00:01&lt;00:01, 15.01it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  41%|████▏     | 17/41 [00:01&lt;00:01, 15.04it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  41%|████▏     | 17/41 [00:01&lt;00:01, 15.02it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  44%|████▍     | 18/41 [00:01&lt;00:01, 15.05it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  44%|████▍     | 18/41 [00:01&lt;00:01, 15.03it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  46%|████▋     | 19/41 [00:01&lt;00:01, 15.08it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  46%|████▋     | 19/41 [00:01&lt;00:01, 15.06it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  49%|████▉     | 20/41 [00:01&lt;00:01, 15.06it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  49%|████▉     | 20/41 [00:01&lt;00:01, 15.04it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  51%|█████     | 21/41 [00:01&lt;00:01, 15.07it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  51%|█████     | 21/41 [00:01&lt;00:01, 15.05it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  54%|█████▎    | 22/41 [00:01&lt;00:01, 15.18it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  54%|█████▎    | 22/41 [00:01&lt;00:01, 15.16it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  56%|█████▌    | 23/41 [00:01&lt;00:01, 15.14it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  56%|█████▌    | 23/41 [00:01&lt;00:01, 15.11it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  59%|█████▊    | 24/41 [00:01&lt;00:01, 15.15it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  59%|█████▊    | 24/41 [00:01&lt;00:01, 15.14it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  61%|██████    | 25/41 [00:01&lt;00:01, 15.19it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  61%|██████    | 25/41 [00:01&lt;00:01, 15.18it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  63%|██████▎   | 26/41 [00:01&lt;00:00, 15.24it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  63%|██████▎   | 26/41 [00:01&lt;00:00, 15.22it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  66%|██████▌   | 27/41 [00:01&lt;00:00, 15.27it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  66%|██████▌   | 27/41 [00:01&lt;00:00, 15.25it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  68%|██████▊   | 28/41 [00:01&lt;00:00, 15.27it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  68%|██████▊   | 28/41 [00:01&lt;00:00, 15.26it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  71%|███████   | 29/41 [00:01&lt;00:00, 15.30it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  71%|███████   | 29/41 [00:01&lt;00:00, 15.29it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  73%|███████▎  | 30/41 [00:01&lt;00:00, 15.32it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  73%|███████▎  | 30/41 [00:01&lt;00:00, 15.31it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  76%|███████▌  | 31/41 [00:02&lt;00:00, 15.36it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  76%|███████▌  | 31/41 [00:02&lt;00:00, 15.35it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  78%|███████▊  | 32/41 [00:02&lt;00:00, 15.36it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  78%|███████▊  | 32/41 [00:02&lt;00:00, 15.34it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  80%|████████  | 33/41 [00:02&lt;00:00, 15.24it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  80%|████████  | 33/41 [00:02&lt;00:00, 15.21it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  83%|████████▎ | 34/41 [00:02&lt;00:00, 15.19it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  83%|████████▎ | 34/41 [00:02&lt;00:00, 15.18it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  85%|████████▌ | 35/41 [00:02&lt;00:00, 15.14it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  85%|████████▌ | 35/41 [00:02&lt;00:00, 15.12it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  88%|████████▊ | 36/41 [00:02&lt;00:00, 15.09it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  88%|████████▊ | 36/41 [00:02&lt;00:00, 15.07it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  90%|█████████ | 37/41 [00:02&lt;00:00, 15.09it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  90%|█████████ | 37/41 [00:02&lt;00:00, 15.08it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  93%|█████████▎| 38/41 [00:02&lt;00:00, 15.09it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  93%|█████████▎| 38/41 [00:02&lt;00:00, 15.08it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  95%|█████████▌| 39/41 [00:02&lt;00:00, 15.11it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  95%|█████████▌| 39/41 [00:02&lt;00:00, 15.10it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  98%|█████████▊| 40/41 [00:02&lt;00:00, 15.15it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:  98%|█████████▊| 40/41 [00:02&lt;00:00, 15.14it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1: 100%|██████████| 41/41 [00:02&lt;00:00, 15.25it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1: 100%|██████████| 41/41 [00:02&lt;00:00, 15.23it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1: 100%|██████████| 41/41 [00:02&lt;00:00, 15.22it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 1:   0%|          | 0/41 [00:00&lt;?, ?it/s, v_num=0]         
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:   0%|          | 0/41 [00:00&lt;?, ?it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:   2%|▏         | 1/41 [00:00&lt;00:02, 13.86it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:   2%|▏         | 1/41 [00:00&lt;00:02, 13.56it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:   5%|▍         | 2/41 [00:00&lt;00:02, 14.48it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:   5%|▍         | 2/41 [00:00&lt;00:02, 14.34it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:   7%|▋         | 3/41 [00:00&lt;00:02, 14.71it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:   7%|▋         | 3/41 [00:00&lt;00:02, 14.61it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  10%|▉         | 4/41 [00:00&lt;00:02, 15.13it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  10%|▉         | 4/41 [00:00&lt;00:02, 14.97it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  12%|█▏        | 5/41 [00:00&lt;00:02, 15.27it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  12%|█▏        | 5/41 [00:00&lt;00:02, 15.22it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  15%|█▍        | 6/41 [00:00&lt;00:02, 15.09it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  15%|█▍        | 6/41 [00:00&lt;00:02, 15.04it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  17%|█▋        | 7/41 [00:00&lt;00:02, 15.22it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  17%|█▋        | 7/41 [00:00&lt;00:02, 15.17it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  20%|█▉        | 8/41 [00:00&lt;00:02, 15.42it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  20%|█▉        | 8/41 [00:00&lt;00:02, 15.38it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  22%|██▏       | 9/41 [00:00&lt;00:02, 15.51it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  22%|██▏       | 9/41 [00:00&lt;00:02, 15.48it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  24%|██▍       | 10/41 [00:00&lt;00:02, 15.49it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  24%|██▍       | 10/41 [00:00&lt;00:02, 15.46it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  27%|██▋       | 11/41 [00:00&lt;00:01, 15.49it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  27%|██▋       | 11/41 [00:00&lt;00:01, 15.46it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  29%|██▉       | 12/41 [00:00&lt;00:01, 15.59it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  29%|██▉       | 12/41 [00:00&lt;00:01, 15.56it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  32%|███▏      | 13/41 [00:00&lt;00:01, 15.58it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  32%|███▏      | 13/41 [00:00&lt;00:01, 15.55it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  34%|███▍      | 14/41 [00:00&lt;00:01, 15.61it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  34%|███▍      | 14/41 [00:00&lt;00:01, 15.58it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  37%|███▋      | 15/41 [00:00&lt;00:01, 15.59it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  37%|███▋      | 15/41 [00:00&lt;00:01, 15.57it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  39%|███▉      | 16/41 [00:01&lt;00:01, 15.58it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  39%|███▉      | 16/41 [00:01&lt;00:01, 15.56it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  41%|████▏     | 17/41 [00:01&lt;00:01, 15.53it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  41%|████▏     | 17/41 [00:01&lt;00:01, 15.50it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  44%|████▍     | 18/41 [00:01&lt;00:01, 15.56it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  44%|████▍     | 18/41 [00:01&lt;00:01, 15.53it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  46%|████▋     | 19/41 [00:01&lt;00:01, 15.56it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  46%|████▋     | 19/41 [00:01&lt;00:01, 15.54it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  49%|████▉     | 20/41 [00:01&lt;00:01, 15.57it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  49%|████▉     | 20/41 [00:01&lt;00:01, 15.56it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  51%|█████     | 21/41 [00:01&lt;00:01, 15.57it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  51%|█████     | 21/41 [00:01&lt;00:01, 15.55it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  54%|█████▎    | 22/41 [00:01&lt;00:01, 15.55it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  54%|█████▎    | 22/41 [00:01&lt;00:01, 15.54it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  56%|█████▌    | 23/41 [00:01&lt;00:01, 15.56it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  56%|█████▌    | 23/41 [00:01&lt;00:01, 15.55it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  59%|█████▊    | 24/41 [00:01&lt;00:01, 15.56it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  59%|█████▊    | 24/41 [00:01&lt;00:01, 15.55it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  61%|██████    | 25/41 [00:01&lt;00:01, 15.53it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  61%|██████    | 25/41 [00:01&lt;00:01, 15.52it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  63%|██████▎   | 26/41 [00:01&lt;00:00, 15.55it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  63%|██████▎   | 26/41 [00:01&lt;00:00, 15.54it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  66%|██████▌   | 27/41 [00:01&lt;00:00, 15.56it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  66%|██████▌   | 27/41 [00:01&lt;00:00, 15.54it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  68%|██████▊   | 28/41 [00:01&lt;00:00, 15.57it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  68%|██████▊   | 28/41 [00:01&lt;00:00, 15.56it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  71%|███████   | 29/41 [00:01&lt;00:00, 15.58it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  71%|███████   | 29/41 [00:01&lt;00:00, 15.57it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  73%|███████▎  | 30/41 [00:01&lt;00:00, 15.58it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  73%|███████▎  | 30/41 [00:01&lt;00:00, 15.56it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  76%|███████▌  | 31/41 [00:01&lt;00:00, 15.57it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  76%|███████▌  | 31/41 [00:01&lt;00:00, 15.56it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  78%|███████▊  | 32/41 [00:02&lt;00:00, 15.54it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  78%|███████▊  | 32/41 [00:02&lt;00:00, 15.53it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  80%|████████  | 33/41 [00:02&lt;00:00, 15.54it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  80%|████████  | 33/41 [00:02&lt;00:00, 15.53it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  83%|████████▎ | 34/41 [00:02&lt;00:00, 15.54it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  83%|████████▎ | 34/41 [00:02&lt;00:00, 15.53it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  85%|████████▌ | 35/41 [00:02&lt;00:00, 15.54it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  85%|████████▌ | 35/41 [00:02&lt;00:00, 15.53it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  88%|████████▊ | 36/41 [00:02&lt;00:00, 15.50it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  88%|████████▊ | 36/41 [00:02&lt;00:00, 15.49it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  90%|█████████ | 37/41 [00:02&lt;00:00, 15.48it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  90%|█████████ | 37/41 [00:02&lt;00:00, 15.47it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  93%|█████████▎| 38/41 [00:02&lt;00:00, 15.50it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  93%|█████████▎| 38/41 [00:02&lt;00:00, 15.49it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  95%|█████████▌| 39/41 [00:02&lt;00:00, 15.50it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  95%|█████████▌| 39/41 [00:02&lt;00:00, 15.49it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  98%|█████████▊| 40/41 [00:02&lt;00:00, 15.52it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:  98%|█████████▊| 40/41 [00:02&lt;00:00, 15.51it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2: 100%|██████████| 41/41 [00:02&lt;00:00, 15.63it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2: 100%|██████████| 41/41 [00:02&lt;00:00, 15.62it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2: 100%|██████████| 41/41 [00:02&lt;00:00, 15.61it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 2:   0%|          | 0/41 [00:00&lt;?, ?it/s, v_num=0]         
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:   0%|          | 0/41 [00:00&lt;?, ?it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:   2%|▏         | 1/41 [00:00&lt;00:02, 15.20it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:   2%|▏         | 1/41 [00:00&lt;00:02, 14.87it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:   5%|▍         | 2/41 [00:00&lt;00:02, 15.22it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:   5%|▍         | 2/41 [00:00&lt;00:02, 15.04it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:   7%|▋         | 3/41 [00:00&lt;00:02, 15.44it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:   7%|▋         | 3/41 [00:00&lt;00:02, 15.32it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  10%|▉         | 4/41 [00:00&lt;00:02, 15.35it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  10%|▉         | 4/41 [00:00&lt;00:02, 15.25it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  12%|█▏        | 5/41 [00:00&lt;00:02, 14.94it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  12%|█▏        | 5/41 [00:00&lt;00:02, 14.80it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  15%|█▍        | 6/41 [00:00&lt;00:02, 14.74it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  15%|█▍        | 6/41 [00:00&lt;00:02, 14.69it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  17%|█▋        | 7/41 [00:00&lt;00:02, 14.80it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  17%|█▋        | 7/41 [00:00&lt;00:02, 14.74it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  20%|█▉        | 8/41 [00:00&lt;00:02, 14.96it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  20%|█▉        | 8/41 [00:00&lt;00:02, 14.91it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  22%|██▏       | 9/41 [00:00&lt;00:02, 15.05it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  22%|██▏       | 9/41 [00:00&lt;00:02, 15.01it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  24%|██▍       | 10/41 [00:00&lt;00:02, 15.15it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  24%|██▍       | 10/41 [00:00&lt;00:02, 15.11it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  27%|██▋       | 11/41 [00:00&lt;00:01, 15.20it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  27%|██▋       | 11/41 [00:00&lt;00:01, 15.17it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  29%|██▉       | 12/41 [00:00&lt;00:01, 15.21it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  29%|██▉       | 12/41 [00:00&lt;00:01, 15.18it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  32%|███▏      | 13/41 [00:00&lt;00:01, 15.05it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  32%|███▏      | 13/41 [00:00&lt;00:01, 15.03it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  34%|███▍      | 14/41 [00:00&lt;00:01, 15.15it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  34%|███▍      | 14/41 [00:00&lt;00:01, 15.13it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  37%|███▋      | 15/41 [00:00&lt;00:01, 15.23it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  37%|███▋      | 15/41 [00:00&lt;00:01, 15.21it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  39%|███▉      | 16/41 [00:01&lt;00:01, 15.26it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  39%|███▉      | 16/41 [00:01&lt;00:01, 15.24it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  41%|████▏     | 17/41 [00:01&lt;00:01, 15.31it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  41%|████▏     | 17/41 [00:01&lt;00:01, 15.25it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  44%|████▍     | 18/41 [00:01&lt;00:01, 15.28it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  44%|████▍     | 18/41 [00:01&lt;00:01, 15.25it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  46%|████▋     | 19/41 [00:01&lt;00:01, 15.30it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  46%|████▋     | 19/41 [00:01&lt;00:01, 15.28it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  49%|████▉     | 20/41 [00:01&lt;00:01, 15.34it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  49%|████▉     | 20/41 [00:01&lt;00:01, 15.32it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  51%|█████     | 21/41 [00:01&lt;00:01, 15.35it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  51%|█████     | 21/41 [00:01&lt;00:01, 15.31it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  54%|█████▎    | 22/41 [00:01&lt;00:01, 15.36it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  54%|█████▎    | 22/41 [00:01&lt;00:01, 15.34it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  56%|█████▌    | 23/41 [00:01&lt;00:01, 15.37it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  56%|█████▌    | 23/41 [00:01&lt;00:01, 15.36it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  59%|█████▊    | 24/41 [00:01&lt;00:01, 15.39it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  59%|█████▊    | 24/41 [00:01&lt;00:01, 15.38it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  61%|██████    | 25/41 [00:01&lt;00:01, 15.41it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  61%|██████    | 25/41 [00:01&lt;00:01, 15.39it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  63%|██████▎   | 26/41 [00:01&lt;00:00, 15.44it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  63%|██████▎   | 26/41 [00:01&lt;00:00, 15.43it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  66%|██████▌   | 27/41 [00:01&lt;00:00, 15.40it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  66%|██████▌   | 27/41 [00:01&lt;00:00, 15.39it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  68%|██████▊   | 28/41 [00:01&lt;00:00, 15.38it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  68%|██████▊   | 28/41 [00:01&lt;00:00, 15.37it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  71%|███████   | 29/41 [00:01&lt;00:00, 15.28it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  71%|███████   | 29/41 [00:01&lt;00:00, 15.27it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  73%|███████▎  | 30/41 [00:01&lt;00:00, 15.31it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  73%|███████▎  | 30/41 [00:01&lt;00:00, 15.30it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  76%|███████▌  | 31/41 [00:02&lt;00:00, 15.33it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  76%|███████▌  | 31/41 [00:02&lt;00:00, 15.32it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  78%|███████▊  | 32/41 [00:02&lt;00:00, 15.34it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  78%|███████▊  | 32/41 [00:02&lt;00:00, 15.31it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  80%|████████  | 33/41 [00:02&lt;00:00, 15.29it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  80%|████████  | 33/41 [00:02&lt;00:00, 15.27it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  83%|████████▎ | 34/41 [00:02&lt;00:00, 15.21it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  83%|████████▎ | 34/41 [00:02&lt;00:00, 15.20it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  85%|████████▌ | 35/41 [00:02&lt;00:00, 15.20it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  85%|████████▌ | 35/41 [00:02&lt;00:00, 15.18it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  88%|████████▊ | 36/41 [00:02&lt;00:00, 15.20it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  88%|████████▊ | 36/41 [00:02&lt;00:00, 15.19it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  90%|█████████ | 37/41 [00:02&lt;00:00, 15.22it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  90%|█████████ | 37/41 [00:02&lt;00:00, 15.21it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  93%|█████████▎| 38/41 [00:02&lt;00:00, 15.16it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  93%|█████████▎| 38/41 [00:02&lt;00:00, 15.15it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  95%|█████████▌| 39/41 [00:02&lt;00:00, 15.17it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  95%|█████████▌| 39/41 [00:02&lt;00:00, 15.17it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  98%|█████████▊| 40/41 [00:02&lt;00:00, 15.20it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:  98%|█████████▊| 40/41 [00:02&lt;00:00, 15.19it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3: 100%|██████████| 41/41 [00:02&lt;00:00, 15.34it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3: 100%|██████████| 41/41 [00:02&lt;00:00, 15.33it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3: 100%|██████████| 41/41 [00:02&lt;00:00, 15.32it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 3:   0%|          | 0/41 [00:00&lt;?, ?it/s, v_num=0]         
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:   0%|          | 0/41 [00:00&lt;?, ?it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:   2%|▏         | 1/41 [00:00&lt;00:02, 16.05it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:   2%|▏         | 1/41 [00:00&lt;00:02, 15.68it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:   5%|▍         | 2/41 [00:00&lt;00:02, 15.83it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:   5%|▍         | 2/41 [00:00&lt;00:02, 15.65it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:   7%|▋         | 3/41 [00:00&lt;00:02, 15.55it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:   7%|▋         | 3/41 [00:00&lt;00:02, 15.44it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  10%|▉         | 4/41 [00:00&lt;00:02, 15.65it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  10%|▉         | 4/41 [00:00&lt;00:02, 15.57it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  12%|█▏        | 5/41 [00:00&lt;00:02, 15.56it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  12%|█▏        | 5/41 [00:00&lt;00:02, 15.49it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  15%|█▍        | 6/41 [00:00&lt;00:02, 15.45it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  15%|█▍        | 6/41 [00:00&lt;00:02, 15.39it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  17%|█▋        | 7/41 [00:00&lt;00:02, 15.51it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  17%|█▋        | 7/41 [00:00&lt;00:02, 15.45it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  20%|█▉        | 8/41 [00:00&lt;00:02, 15.56it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  20%|█▉        | 8/41 [00:00&lt;00:02, 15.52it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  22%|██▏       | 9/41 [00:00&lt;00:02, 15.49it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  22%|██▏       | 9/41 [00:00&lt;00:02, 15.43it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  24%|██▍       | 10/41 [00:00&lt;00:01, 15.56it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  24%|██▍       | 10/41 [00:00&lt;00:02, 15.49it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  27%|██▋       | 11/41 [00:00&lt;00:01, 15.58it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  27%|██▋       | 11/41 [00:00&lt;00:01, 15.55it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  29%|██▉       | 12/41 [00:00&lt;00:01, 15.41it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  29%|██▉       | 12/41 [00:00&lt;00:01, 15.38it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  32%|███▏      | 13/41 [00:00&lt;00:01, 15.25it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  32%|███▏      | 13/41 [00:00&lt;00:01, 15.20it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  34%|███▍      | 14/41 [00:00&lt;00:01, 15.23it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  34%|███▍      | 14/41 [00:00&lt;00:01, 15.20it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  37%|███▋      | 15/41 [00:00&lt;00:01, 15.30it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  37%|███▋      | 15/41 [00:00&lt;00:01, 15.27it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  39%|███▉      | 16/41 [00:01&lt;00:01, 15.32it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  39%|███▉      | 16/41 [00:01&lt;00:01, 15.30it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  41%|████▏     | 17/41 [00:01&lt;00:01, 15.24it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  41%|████▏     | 17/41 [00:01&lt;00:01, 15.22it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  44%|████▍     | 18/41 [00:01&lt;00:01, 15.26it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  44%|████▍     | 18/41 [00:01&lt;00:01, 15.24it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  46%|████▋     | 19/41 [00:01&lt;00:01, 15.31it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  46%|████▋     | 19/41 [00:01&lt;00:01, 15.29it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  49%|████▉     | 20/41 [00:01&lt;00:01, 15.36it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  49%|████▉     | 20/41 [00:01&lt;00:01, 15.35it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  51%|█████     | 21/41 [00:01&lt;00:01, 15.39it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  51%|█████     | 21/41 [00:01&lt;00:01, 15.37it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  54%|█████▎    | 22/41 [00:01&lt;00:01, 15.33it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  54%|█████▎    | 22/41 [00:01&lt;00:01, 15.31it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  56%|█████▌    | 23/41 [00:01&lt;00:01, 15.36it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  56%|█████▌    | 23/41 [00:01&lt;00:01, 15.35it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  59%|█████▊    | 24/41 [00:01&lt;00:01, 15.41it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  59%|█████▊    | 24/41 [00:01&lt;00:01, 15.39it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  61%|██████    | 25/41 [00:01&lt;00:01, 15.40it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  61%|██████    | 25/41 [00:01&lt;00:01, 15.39it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  63%|██████▎   | 26/41 [00:01&lt;00:00, 15.42it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  63%|██████▎   | 26/41 [00:01&lt;00:00, 15.40it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  66%|██████▌   | 27/41 [00:01&lt;00:00, 15.43it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  66%|██████▌   | 27/41 [00:01&lt;00:00, 15.42it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  68%|██████▊   | 28/41 [00:01&lt;00:00, 15.45it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  68%|██████▊   | 28/41 [00:01&lt;00:00, 15.43it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  71%|███████   | 29/41 [00:01&lt;00:00, 15.46it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  71%|███████   | 29/41 [00:01&lt;00:00, 15.45it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  73%|███████▎  | 30/41 [00:01&lt;00:00, 15.48it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  73%|███████▎  | 30/41 [00:01&lt;00:00, 15.47it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  76%|███████▌  | 31/41 [00:02&lt;00:00, 15.49it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  76%|███████▌  | 31/41 [00:02&lt;00:00, 15.48it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  78%|███████▊  | 32/41 [00:02&lt;00:00, 15.49it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  78%|███████▊  | 32/41 [00:02&lt;00:00, 15.48it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  80%|████████  | 33/41 [00:02&lt;00:00, 15.54it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  80%|████████  | 33/41 [00:02&lt;00:00, 15.52it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  83%|████████▎ | 34/41 [00:02&lt;00:00, 15.56it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  83%|████████▎ | 34/41 [00:02&lt;00:00, 15.55it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  85%|████████▌ | 35/41 [00:02&lt;00:00, 15.58it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  85%|████████▌ | 35/41 [00:02&lt;00:00, 15.57it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  88%|████████▊ | 36/41 [00:02&lt;00:00, 15.63it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  88%|████████▊ | 36/41 [00:02&lt;00:00, 15.62it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  90%|█████████ | 37/41 [00:02&lt;00:00, 15.67it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  90%|█████████ | 37/41 [00:02&lt;00:00, 15.66it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  93%|█████████▎| 38/41 [00:02&lt;00:00, 15.71it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  93%|█████████▎| 38/41 [00:02&lt;00:00, 15.69it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  95%|█████████▌| 39/41 [00:02&lt;00:00, 15.71it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  95%|█████████▌| 39/41 [00:02&lt;00:00, 15.70it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  98%|█████████▊| 40/41 [00:02&lt;00:00, 15.72it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:  98%|█████████▊| 40/41 [00:02&lt;00:00, 15.71it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4: 100%|██████████| 41/41 [00:02&lt;00:00, 15.83it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4: 100%|██████████| 41/41 [00:02&lt;00:00, 15.81it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4: 100%|██████████| 41/41 [00:02&lt;00:00, 15.80it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 4:   0%|          | 0/41 [00:00&lt;?, ?it/s, v_num=0]         
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:   0%|          | 0/41 [00:00&lt;?, ?it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:   2%|▏         | 1/41 [00:00&lt;00:02, 15.28it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:   2%|▏         | 1/41 [00:00&lt;00:02, 15.00it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:   5%|▍         | 2/41 [00:00&lt;00:02, 15.65it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:   5%|▍         | 2/41 [00:00&lt;00:02, 15.47it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:   7%|▋         | 3/41 [00:00&lt;00:02, 15.42it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:   7%|▋         | 3/41 [00:00&lt;00:02, 15.29it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  10%|▉         | 4/41 [00:00&lt;00:02, 15.03it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  10%|▉         | 4/41 [00:00&lt;00:02, 14.86it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  12%|█▏        | 5/41 [00:00&lt;00:02, 14.93it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  12%|█▏        | 5/41 [00:00&lt;00:02, 14.87it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  15%|█▍        | 6/41 [00:00&lt;00:02, 15.07it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  15%|█▍        | 6/41 [00:00&lt;00:02, 14.96it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  17%|█▋        | 7/41 [00:00&lt;00:02, 15.08it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  17%|█▋        | 7/41 [00:00&lt;00:02, 14.97it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  20%|█▉        | 8/41 [00:00&lt;00:02, 15.07it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  20%|█▉        | 8/41 [00:00&lt;00:02, 15.02it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  22%|██▏       | 9/41 [00:00&lt;00:02, 14.91it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  22%|██▏       | 9/41 [00:00&lt;00:02, 14.83it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  24%|██▍       | 10/41 [00:00&lt;00:02, 14.71it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  24%|██▍       | 10/41 [00:00&lt;00:02, 14.68it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  27%|██▋       | 11/41 [00:00&lt;00:02, 14.69it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  27%|██▋       | 11/41 [00:00&lt;00:02, 14.67it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  29%|██▉       | 12/41 [00:00&lt;00:01, 14.78it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  29%|██▉       | 12/41 [00:00&lt;00:01, 14.76it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  32%|███▏      | 13/41 [00:00&lt;00:01, 14.81it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  32%|███▏      | 13/41 [00:00&lt;00:01, 14.79it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  34%|███▍      | 14/41 [00:00&lt;00:01, 14.86it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  34%|███▍      | 14/41 [00:00&lt;00:01, 14.84it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  37%|███▋      | 15/41 [00:01&lt;00:01, 14.93it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  37%|███▋      | 15/41 [00:01&lt;00:01, 14.89it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  39%|███▉      | 16/41 [00:01&lt;00:01, 14.88it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  39%|███▉      | 16/41 [00:01&lt;00:01, 14.86it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  41%|████▏     | 17/41 [00:01&lt;00:01, 14.91it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  41%|████▏     | 17/41 [00:01&lt;00:01, 14.89it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  44%|████▍     | 18/41 [00:01&lt;00:01, 14.93it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  44%|████▍     | 18/41 [00:01&lt;00:01, 14.92it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  46%|████▋     | 19/41 [00:01&lt;00:01, 15.04it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  46%|████▋     | 19/41 [00:01&lt;00:01, 15.00it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  49%|████▉     | 20/41 [00:01&lt;00:01, 15.06it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  49%|████▉     | 20/41 [00:01&lt;00:01, 15.05it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  51%|█████     | 21/41 [00:01&lt;00:01, 15.08it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  51%|█████     | 21/41 [00:01&lt;00:01, 15.06it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  54%|█████▎    | 22/41 [00:01&lt;00:01, 15.07it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  54%|█████▎    | 22/41 [00:01&lt;00:01, 15.06it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  56%|█████▌    | 23/41 [00:01&lt;00:01, 15.09it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  56%|█████▌    | 23/41 [00:01&lt;00:01, 15.08it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  59%|█████▊    | 24/41 [00:01&lt;00:01, 15.10it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  59%|█████▊    | 24/41 [00:01&lt;00:01, 15.09it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  61%|██████    | 25/41 [00:01&lt;00:01, 15.10it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  61%|██████    | 25/41 [00:01&lt;00:01, 15.09it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  63%|██████▎   | 26/41 [00:01&lt;00:00, 15.14it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  63%|██████▎   | 26/41 [00:01&lt;00:00, 15.12it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  66%|██████▌   | 27/41 [00:01&lt;00:00, 15.16it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  66%|██████▌   | 27/41 [00:01&lt;00:00, 15.13it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  68%|██████▊   | 28/41 [00:01&lt;00:00, 15.11it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  68%|██████▊   | 28/41 [00:01&lt;00:00, 15.09it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  71%|███████   | 29/41 [00:01&lt;00:00, 15.10it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  71%|███████   | 29/41 [00:01&lt;00:00, 15.08it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  73%|███████▎  | 30/41 [00:02&lt;00:00, 14.98it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  73%|███████▎  | 30/41 [00:02&lt;00:00, 14.97it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  76%|███████▌  | 31/41 [00:02&lt;00:00, 14.99it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  76%|███████▌  | 31/41 [00:02&lt;00:00, 14.98it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  78%|███████▊  | 32/41 [00:02&lt;00:00, 14.99it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  78%|███████▊  | 32/41 [00:02&lt;00:00, 14.98it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  80%|████████  | 33/41 [00:02&lt;00:00, 14.98it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  80%|████████  | 33/41 [00:02&lt;00:00, 14.97it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  83%|████████▎ | 34/41 [00:02&lt;00:00, 14.83it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  83%|████████▎ | 34/41 [00:02&lt;00:00, 14.82it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  85%|████████▌ | 35/41 [00:02&lt;00:00, 14.84it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  85%|████████▌ | 35/41 [00:02&lt;00:00, 14.82it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  88%|████████▊ | 36/41 [00:02&lt;00:00, 14.87it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  88%|████████▊ | 36/41 [00:02&lt;00:00, 14.86it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  90%|█████████ | 37/41 [00:02&lt;00:00, 14.89it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  90%|█████████ | 37/41 [00:02&lt;00:00, 14.88it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  93%|█████████▎| 38/41 [00:02&lt;00:00, 14.93it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  93%|█████████▎| 38/41 [00:02&lt;00:00, 14.92it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  95%|█████████▌| 39/41 [00:02&lt;00:00, 14.94it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  95%|█████████▌| 39/41 [00:02&lt;00:00, 14.93it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  98%|█████████▊| 40/41 [00:02&lt;00:00, 14.97it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:  98%|█████████▊| 40/41 [00:02&lt;00:00, 14.96it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5: 100%|██████████| 41/41 [00:02&lt;00:00, 15.08it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5: 100%|██████████| 41/41 [00:02&lt;00:00, 15.06it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5: 100%|██████████| 41/41 [00:02&lt;00:00, 15.05it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 5:   0%|          | 0/41 [00:00&lt;?, ?it/s, v_num=0]         
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:   0%|          | 0/41 [00:00&lt;?, ?it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:   2%|▏         | 1/41 [00:00&lt;00:02, 15.75it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:   2%|▏         | 1/41 [00:00&lt;00:02, 14.94it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:   5%|▍         | 2/41 [00:00&lt;00:02, 15.61it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:   5%|▍         | 2/41 [00:00&lt;00:02, 15.24it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:   7%|▋         | 3/41 [00:00&lt;00:02, 15.09it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:   7%|▋         | 3/41 [00:00&lt;00:02, 14.99it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  10%|▉         | 4/41 [00:00&lt;00:02, 15.42it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  10%|▉         | 4/41 [00:00&lt;00:02, 15.32it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  12%|█▏        | 5/41 [00:00&lt;00:02, 15.43it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  12%|█▏        | 5/41 [00:00&lt;00:02, 15.35it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  15%|█▍        | 6/41 [00:00&lt;00:02, 15.38it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  15%|█▍        | 6/41 [00:00&lt;00:02, 15.33it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  17%|█▋        | 7/41 [00:00&lt;00:02, 15.43it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  17%|█▋        | 7/41 [00:00&lt;00:02, 15.38it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  20%|█▉        | 8/41 [00:00&lt;00:02, 15.51it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  20%|█▉        | 8/41 [00:00&lt;00:02, 15.47it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  22%|██▏       | 9/41 [00:00&lt;00:02, 15.57it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  22%|██▏       | 9/41 [00:00&lt;00:02, 15.53it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  24%|██▍       | 10/41 [00:00&lt;00:01, 15.59it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  24%|██▍       | 10/41 [00:00&lt;00:01, 15.55it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  27%|██▋       | 11/41 [00:00&lt;00:01, 15.59it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  27%|██▋       | 11/41 [00:00&lt;00:01, 15.56it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  29%|██▉       | 12/41 [00:00&lt;00:01, 15.55it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  29%|██▉       | 12/41 [00:00&lt;00:01, 15.52it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  32%|███▏      | 13/41 [00:00&lt;00:01, 15.58it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  32%|███▏      | 13/41 [00:00&lt;00:01, 15.55it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  34%|███▍      | 14/41 [00:00&lt;00:01, 15.63it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  34%|███▍      | 14/41 [00:00&lt;00:01, 15.60it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  37%|███▋      | 15/41 [00:00&lt;00:01, 15.62it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  37%|███▋      | 15/41 [00:00&lt;00:01, 15.59it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  39%|███▉      | 16/41 [00:01&lt;00:01, 15.58it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  39%|███▉      | 16/41 [00:01&lt;00:01, 15.56it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  41%|████▏     | 17/41 [00:01&lt;00:01, 15.62it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  41%|████▏     | 17/41 [00:01&lt;00:01, 15.59it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  44%|████▍     | 18/41 [00:01&lt;00:01, 15.62it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  44%|████▍     | 18/41 [00:01&lt;00:01, 15.60it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  46%|████▋     | 19/41 [00:01&lt;00:01, 15.61it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  46%|████▋     | 19/41 [00:01&lt;00:01, 15.59it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  49%|████▉     | 20/41 [00:01&lt;00:01, 15.67it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  49%|████▉     | 20/41 [00:01&lt;00:01, 15.65it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  51%|█████     | 21/41 [00:01&lt;00:01, 15.71it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  51%|█████     | 21/41 [00:01&lt;00:01, 15.69it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  54%|█████▎    | 22/41 [00:01&lt;00:01, 15.76it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  54%|█████▎    | 22/41 [00:01&lt;00:01, 15.74it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  56%|█████▌    | 23/41 [00:01&lt;00:01, 15.71it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  56%|█████▌    | 23/41 [00:01&lt;00:01, 15.70it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  59%|█████▊    | 24/41 [00:01&lt;00:01, 15.68it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  59%|█████▊    | 24/41 [00:01&lt;00:01, 15.67it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  61%|██████    | 25/41 [00:01&lt;00:01, 15.67it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  61%|██████    | 25/41 [00:01&lt;00:01, 15.66it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  63%|██████▎   | 26/41 [00:01&lt;00:00, 15.66it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  63%|██████▎   | 26/41 [00:01&lt;00:00, 15.64it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  66%|██████▌   | 27/41 [00:01&lt;00:00, 15.66it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  66%|██████▌   | 27/41 [00:01&lt;00:00, 15.64it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  68%|██████▊   | 28/41 [00:01&lt;00:00, 15.62it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  68%|██████▊   | 28/41 [00:01&lt;00:00, 15.61it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  71%|███████   | 29/41 [00:01&lt;00:00, 15.64it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  71%|███████   | 29/41 [00:01&lt;00:00, 15.63it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  73%|███████▎  | 30/41 [00:01&lt;00:00, 15.67it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  73%|███████▎  | 30/41 [00:01&lt;00:00, 15.66it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  76%|███████▌  | 31/41 [00:01&lt;00:00, 15.71it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  76%|███████▌  | 31/41 [00:01&lt;00:00, 15.69it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  78%|███████▊  | 32/41 [00:02&lt;00:00, 15.74it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  78%|███████▊  | 32/41 [00:02&lt;00:00, 15.73it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  80%|████████  | 33/41 [00:02&lt;00:00, 15.74it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  80%|████████  | 33/41 [00:02&lt;00:00, 15.73it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  83%|████████▎ | 34/41 [00:02&lt;00:00, 15.80it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  83%|████████▎ | 34/41 [00:02&lt;00:00, 15.79it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  85%|████████▌ | 35/41 [00:02&lt;00:00, 15.82it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  85%|████████▌ | 35/41 [00:02&lt;00:00, 15.81it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  88%|████████▊ | 36/41 [00:02&lt;00:00, 15.85it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  88%|████████▊ | 36/41 [00:02&lt;00:00, 15.84it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  90%|█████████ | 37/41 [00:02&lt;00:00, 15.88it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  90%|█████████ | 37/41 [00:02&lt;00:00, 15.87it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  93%|█████████▎| 38/41 [00:02&lt;00:00, 15.90it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  93%|█████████▎| 38/41 [00:02&lt;00:00, 15.89it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  95%|█████████▌| 39/41 [00:02&lt;00:00, 15.92it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  95%|█████████▌| 39/41 [00:02&lt;00:00, 15.91it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  98%|█████████▊| 40/41 [00:02&lt;00:00, 15.89it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:  98%|█████████▊| 40/41 [00:02&lt;00:00, 15.88it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6: 100%|██████████| 41/41 [00:02&lt;00:00, 16.01it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6: 100%|██████████| 41/41 [00:02&lt;00:00, 16.00it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6: 100%|██████████| 41/41 [00:02&lt;00:00, 16.00it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 6:   0%|          | 0/41 [00:00&lt;?, ?it/s, v_num=0]         
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:   0%|          | 0/41 [00:00&lt;?, ?it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:   2%|▏         | 1/41 [00:00&lt;00:02, 16.33it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:   2%|▏         | 1/41 [00:00&lt;00:02, 15.87it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:   5%|▍         | 2/41 [00:00&lt;00:02, 16.39it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:   5%|▍         | 2/41 [00:00&lt;00:02, 16.19it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:   7%|▋         | 3/41 [00:00&lt;00:02, 16.06it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:   7%|▋         | 3/41 [00:00&lt;00:02, 15.90it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  10%|▉         | 4/41 [00:00&lt;00:02, 15.93it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  10%|▉         | 4/41 [00:00&lt;00:02, 15.84it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  12%|█▏        | 5/41 [00:00&lt;00:02, 16.12it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  12%|█▏        | 5/41 [00:00&lt;00:02, 16.05it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  15%|█▍        | 6/41 [00:00&lt;00:02, 16.15it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  15%|█▍        | 6/41 [00:00&lt;00:02, 16.09it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  17%|█▋        | 7/41 [00:00&lt;00:02, 16.23it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  17%|█▋        | 7/41 [00:00&lt;00:02, 16.18it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  20%|█▉        | 8/41 [00:00&lt;00:02, 16.10it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  20%|█▉        | 8/41 [00:00&lt;00:02, 16.05it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  22%|██▏       | 9/41 [00:00&lt;00:01, 16.10it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  22%|██▏       | 9/41 [00:00&lt;00:01, 16.05it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  24%|██▍       | 10/41 [00:00&lt;00:01, 16.10it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  24%|██▍       | 10/41 [00:00&lt;00:01, 16.06it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  27%|██▋       | 11/41 [00:00&lt;00:01, 16.09it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  27%|██▋       | 11/41 [00:00&lt;00:01, 16.04it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  29%|██▉       | 12/41 [00:00&lt;00:01, 16.13it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  29%|██▉       | 12/41 [00:00&lt;00:01, 16.09it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  32%|███▏      | 13/41 [00:00&lt;00:01, 16.09it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  32%|███▏      | 13/41 [00:00&lt;00:01, 16.04it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  34%|███▍      | 14/41 [00:00&lt;00:01, 16.04it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  34%|███▍      | 14/41 [00:00&lt;00:01, 16.01it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  37%|███▋      | 15/41 [00:00&lt;00:01, 16.04it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  37%|███▋      | 15/41 [00:00&lt;00:01, 16.02it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  39%|███▉      | 16/41 [00:00&lt;00:01, 16.03it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  39%|███▉      | 16/41 [00:00&lt;00:01, 16.01it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  41%|████▏     | 17/41 [00:01&lt;00:01, 15.99it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  41%|████▏     | 17/41 [00:01&lt;00:01, 15.97it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  44%|████▍     | 18/41 [00:01&lt;00:01, 15.94it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  44%|████▍     | 18/41 [00:01&lt;00:01, 15.92it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  46%|████▋     | 19/41 [00:01&lt;00:01, 15.93it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  46%|████▋     | 19/41 [00:01&lt;00:01, 15.91it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  49%|████▉     | 20/41 [00:01&lt;00:01, 15.88it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  49%|████▉     | 20/41 [00:01&lt;00:01, 15.86it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  51%|█████     | 21/41 [00:01&lt;00:01, 15.87it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  51%|█████     | 21/41 [00:01&lt;00:01, 15.85it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  54%|█████▎    | 22/41 [00:01&lt;00:01, 15.88it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  54%|█████▎    | 22/41 [00:01&lt;00:01, 15.87it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  56%|█████▌    | 23/41 [00:01&lt;00:01, 15.88it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  56%|█████▌    | 23/41 [00:01&lt;00:01, 15.87it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  59%|█████▊    | 24/41 [00:01&lt;00:01, 15.86it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  59%|█████▊    | 24/41 [00:01&lt;00:01, 15.82it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  61%|██████    | 25/41 [00:01&lt;00:01, 15.84it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  61%|██████    | 25/41 [00:01&lt;00:01, 15.82it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  63%|██████▎   | 26/41 [00:01&lt;00:00, 15.85it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  63%|██████▎   | 26/41 [00:01&lt;00:00, 15.83it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  66%|██████▌   | 27/41 [00:01&lt;00:00, 15.86it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  66%|██████▌   | 27/41 [00:01&lt;00:00, 15.85it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  68%|██████▊   | 28/41 [00:01&lt;00:00, 15.87it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  68%|██████▊   | 28/41 [00:01&lt;00:00, 15.86it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  71%|███████   | 29/41 [00:01&lt;00:00, 15.86it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  71%|███████   | 29/41 [00:01&lt;00:00, 15.85it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  73%|███████▎  | 30/41 [00:01&lt;00:00, 15.86it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  73%|███████▎  | 30/41 [00:01&lt;00:00, 15.85it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  76%|███████▌  | 31/41 [00:01&lt;00:00, 15.80it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  76%|███████▌  | 31/41 [00:01&lt;00:00, 15.79it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  78%|███████▊  | 32/41 [00:02&lt;00:00, 15.79it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  78%|███████▊  | 32/41 [00:02&lt;00:00, 15.78it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  80%|████████  | 33/41 [00:02&lt;00:00, 15.75it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  80%|████████  | 33/41 [00:02&lt;00:00, 15.74it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  83%|████████▎ | 34/41 [00:02&lt;00:00, 15.76it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  83%|████████▎ | 34/41 [00:02&lt;00:00, 15.75it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  85%|████████▌ | 35/41 [00:02&lt;00:00, 15.76it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  85%|████████▌ | 35/41 [00:02&lt;00:00, 15.75it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  88%|████████▊ | 36/41 [00:02&lt;00:00, 15.76it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  88%|████████▊ | 36/41 [00:02&lt;00:00, 15.75it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  90%|█████████ | 37/41 [00:02&lt;00:00, 15.75it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  90%|█████████ | 37/41 [00:02&lt;00:00, 15.74it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  93%|█████████▎| 38/41 [00:02&lt;00:00, 15.76it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  93%|█████████▎| 38/41 [00:02&lt;00:00, 15.75it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  95%|█████████▌| 39/41 [00:02&lt;00:00, 15.76it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  95%|█████████▌| 39/41 [00:02&lt;00:00, 15.75it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  98%|█████████▊| 40/41 [00:02&lt;00:00, 15.76it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:  98%|█████████▊| 40/41 [00:02&lt;00:00, 15.75it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7: 100%|██████████| 41/41 [00:02&lt;00:00, 15.89it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7: 100%|██████████| 41/41 [00:02&lt;00:00, 15.87it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7: 100%|██████████| 41/41 [00:02&lt;00:00, 15.86it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 7:   0%|          | 0/41 [00:00&lt;?, ?it/s, v_num=0]         
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:   0%|          | 0/41 [00:00&lt;?, ?it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:   2%|▏         | 1/41 [00:00&lt;00:02, 15.67it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:   2%|▏         | 1/41 [00:00&lt;00:02, 15.38it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:   5%|▍         | 2/41 [00:00&lt;00:02, 15.30it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:   5%|▍         | 2/41 [00:00&lt;00:02, 15.14it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:   7%|▋         | 3/41 [00:00&lt;00:02, 15.37it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:   7%|▋         | 3/41 [00:00&lt;00:02, 15.27it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  10%|▉         | 4/41 [00:00&lt;00:02, 15.05it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  10%|▉         | 4/41 [00:00&lt;00:02, 14.99it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  12%|█▏        | 5/41 [00:00&lt;00:02, 15.16it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  12%|█▏        | 5/41 [00:00&lt;00:02, 15.09it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  15%|█▍        | 6/41 [00:00&lt;00:02, 15.09it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  15%|█▍        | 6/41 [00:00&lt;00:02, 15.04it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  17%|█▋        | 7/41 [00:00&lt;00:02, 15.07it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  17%|█▋        | 7/41 [00:00&lt;00:02, 15.03it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  20%|█▉        | 8/41 [00:00&lt;00:02, 15.11it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  20%|█▉        | 8/41 [00:00&lt;00:02, 15.03it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  22%|██▏       | 9/41 [00:00&lt;00:02, 14.49it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  22%|██▏       | 9/41 [00:00&lt;00:02, 14.46it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  24%|██▍       | 10/41 [00:00&lt;00:02, 14.59it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  24%|██▍       | 10/41 [00:00&lt;00:02, 14.56it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  27%|██▋       | 11/41 [00:00&lt;00:02, 14.68it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  27%|██▋       | 11/41 [00:00&lt;00:02, 14.65it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  29%|██▉       | 12/41 [00:00&lt;00:01, 14.70it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  29%|██▉       | 12/41 [00:00&lt;00:01, 14.68it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  32%|███▏      | 13/41 [00:00&lt;00:01, 14.74it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  32%|███▏      | 13/41 [00:00&lt;00:01, 14.71it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  34%|███▍      | 14/41 [00:00&lt;00:01, 14.92it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  34%|███▍      | 14/41 [00:00&lt;00:01, 14.90it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  37%|███▋      | 15/41 [00:01&lt;00:01, 14.91it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  37%|███▋      | 15/41 [00:01&lt;00:01, 14.90it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  39%|███▉      | 16/41 [00:01&lt;00:01, 14.96it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  39%|███▉      | 16/41 [00:01&lt;00:01, 14.93it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  41%|████▏     | 17/41 [00:01&lt;00:01, 15.01it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  41%|████▏     | 17/41 [00:01&lt;00:01, 14.99it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  44%|████▍     | 18/41 [00:01&lt;00:01, 15.07it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  44%|████▍     | 18/41 [00:01&lt;00:01, 15.03it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  46%|████▋     | 19/41 [00:01&lt;00:01, 15.07it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  46%|████▋     | 19/41 [00:01&lt;00:01, 15.03it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  49%|████▉     | 20/41 [00:01&lt;00:01, 15.04it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  49%|████▉     | 20/41 [00:01&lt;00:01, 15.00it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  51%|█████     | 21/41 [00:01&lt;00:01, 14.94it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  51%|█████     | 21/41 [00:01&lt;00:01, 14.92it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  54%|█████▎    | 22/41 [00:01&lt;00:01, 14.97it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  54%|█████▎    | 22/41 [00:01&lt;00:01, 14.96it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  56%|█████▌    | 23/41 [00:01&lt;00:01, 15.01it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  56%|█████▌    | 23/41 [00:01&lt;00:01, 15.00it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  59%|█████▊    | 24/41 [00:01&lt;00:01, 15.08it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  59%|█████▊    | 24/41 [00:01&lt;00:01, 15.07it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  61%|██████    | 25/41 [00:01&lt;00:01, 15.12it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  61%|██████    | 25/41 [00:01&lt;00:01, 15.11it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  63%|██████▎   | 26/41 [00:01&lt;00:00, 15.15it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  63%|██████▎   | 26/41 [00:01&lt;00:00, 15.13it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  66%|██████▌   | 27/41 [00:01&lt;00:00, 15.16it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  66%|██████▌   | 27/41 [00:01&lt;00:00, 15.14it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  68%|██████▊   | 28/41 [00:01&lt;00:00, 15.20it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  68%|██████▊   | 28/41 [00:01&lt;00:00, 15.19it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  71%|███████   | 29/41 [00:01&lt;00:00, 15.23it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  71%|███████   | 29/41 [00:01&lt;00:00, 15.22it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  73%|███████▎  | 30/41 [00:01&lt;00:00, 15.24it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  73%|███████▎  | 30/41 [00:01&lt;00:00, 15.23it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  76%|███████▌  | 31/41 [00:02&lt;00:00, 15.24it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  76%|███████▌  | 31/41 [00:02&lt;00:00, 15.22it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  78%|███████▊  | 32/41 [00:02&lt;00:00, 15.26it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  78%|███████▊  | 32/41 [00:02&lt;00:00, 15.25it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  80%|████████  | 33/41 [00:02&lt;00:00, 15.28it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  80%|████████  | 33/41 [00:02&lt;00:00, 15.27it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  83%|████████▎ | 34/41 [00:02&lt;00:00, 15.30it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  83%|████████▎ | 34/41 [00:02&lt;00:00, 15.29it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  85%|████████▌ | 35/41 [00:02&lt;00:00, 15.33it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  85%|████████▌ | 35/41 [00:02&lt;00:00, 15.32it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  88%|████████▊ | 36/41 [00:02&lt;00:00, 15.35it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  88%|████████▊ | 36/41 [00:02&lt;00:00, 15.34it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  90%|█████████ | 37/41 [00:02&lt;00:00, 15.34it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  90%|█████████ | 37/41 [00:02&lt;00:00, 15.33it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  93%|█████████▎| 38/41 [00:02&lt;00:00, 15.37it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  93%|█████████▎| 38/41 [00:02&lt;00:00, 15.36it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  95%|█████████▌| 39/41 [00:02&lt;00:00, 15.37it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  95%|█████████▌| 39/41 [00:02&lt;00:00, 15.36it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  98%|█████████▊| 40/41 [00:02&lt;00:00, 15.39it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:  98%|█████████▊| 40/41 [00:02&lt;00:00, 15.38it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8: 100%|██████████| 41/41 [00:02&lt;00:00, 15.48it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8: 100%|██████████| 41/41 [00:02&lt;00:00, 15.48it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8: 100%|██████████| 41/41 [00:02&lt;00:00, 15.47it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 8:   0%|          | 0/41 [00:00&lt;?, ?it/s, v_num=0]         
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:   0%|          | 0/41 [00:00&lt;?, ?it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:   2%|▏         | 1/41 [00:00&lt;00:02, 14.07it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:   2%|▏         | 1/41 [00:00&lt;00:02, 13.78it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:   5%|▍         | 2/41 [00:00&lt;00:02, 15.07it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:   5%|▍         | 2/41 [00:00&lt;00:02, 14.80it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:   7%|▋         | 3/41 [00:00&lt;00:02, 15.13it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:   7%|▋         | 3/41 [00:00&lt;00:02, 15.02it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  10%|▉         | 4/41 [00:00&lt;00:02, 14.91it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  10%|▉         | 4/41 [00:00&lt;00:02, 14.83it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  12%|█▏        | 5/41 [00:00&lt;00:02, 14.66it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  12%|█▏        | 5/41 [00:00&lt;00:02, 14.54it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  15%|█▍        | 6/41 [00:00&lt;00:02, 14.69it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  15%|█▍        | 6/41 [00:00&lt;00:02, 14.62it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  17%|█▋        | 7/41 [00:00&lt;00:02, 14.76it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  17%|█▋        | 7/41 [00:00&lt;00:02, 14.72it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  20%|█▉        | 8/41 [00:00&lt;00:02, 14.88it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  20%|█▉        | 8/41 [00:00&lt;00:02, 14.84it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  22%|██▏       | 9/41 [00:00&lt;00:02, 15.04it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  22%|██▏       | 9/41 [00:00&lt;00:02, 15.01it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  24%|██▍       | 10/41 [00:00&lt;00:02, 14.92it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  24%|██▍       | 10/41 [00:00&lt;00:02, 14.86it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  27%|██▋       | 11/41 [00:00&lt;00:02, 14.89it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  27%|██▋       | 11/41 [00:00&lt;00:02, 14.83it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  29%|██▉       | 12/41 [00:00&lt;00:01, 15.02it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  29%|██▉       | 12/41 [00:00&lt;00:01, 15.00it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  32%|███▏      | 13/41 [00:00&lt;00:01, 15.07it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  32%|███▏      | 13/41 [00:00&lt;00:01, 15.05it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  34%|███▍      | 14/41 [00:00&lt;00:01, 15.14it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  34%|███▍      | 14/41 [00:00&lt;00:01, 15.12it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  37%|███▋      | 15/41 [00:00&lt;00:01, 15.13it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  37%|███▋      | 15/41 [00:00&lt;00:01, 15.09it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  39%|███▉      | 16/41 [00:01&lt;00:01, 15.14it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  39%|███▉      | 16/41 [00:01&lt;00:01, 15.12it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  41%|████▏     | 17/41 [00:01&lt;00:01, 15.16it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  41%|████▏     | 17/41 [00:01&lt;00:01, 15.14it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  44%|████▍     | 18/41 [00:01&lt;00:01, 15.16it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  44%|████▍     | 18/41 [00:01&lt;00:01, 15.14it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  46%|████▋     | 19/41 [00:01&lt;00:01, 15.19it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  46%|████▋     | 19/41 [00:01&lt;00:01, 15.17it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  49%|████▉     | 20/41 [00:01&lt;00:01, 15.15it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  49%|████▉     | 20/41 [00:01&lt;00:01, 15.13it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  51%|█████     | 21/41 [00:01&lt;00:01, 15.15it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  51%|█████     | 21/41 [00:01&lt;00:01, 15.13it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  54%|█████▎    | 22/41 [00:01&lt;00:01, 15.21it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  54%|█████▎    | 22/41 [00:01&lt;00:01, 15.19it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  56%|█████▌    | 23/41 [00:01&lt;00:01, 15.25it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  56%|█████▌    | 23/41 [00:01&lt;00:01, 15.23it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  59%|█████▊    | 24/41 [00:01&lt;00:01, 15.24it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  59%|█████▊    | 24/41 [00:01&lt;00:01, 15.23it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  61%|██████    | 25/41 [00:01&lt;00:01, 15.25it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  61%|██████    | 25/41 [00:01&lt;00:01, 15.24it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  63%|██████▎   | 26/41 [00:01&lt;00:00, 15.31it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  63%|██████▎   | 26/41 [00:01&lt;00:00, 15.30it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  66%|██████▌   | 27/41 [00:01&lt;00:00, 15.33it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  66%|██████▌   | 27/41 [00:01&lt;00:00, 15.30it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  68%|██████▊   | 28/41 [00:01&lt;00:00, 15.33it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  68%|██████▊   | 28/41 [00:01&lt;00:00, 15.31it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  71%|███████   | 29/41 [00:01&lt;00:00, 15.29it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  71%|███████   | 29/41 [00:01&lt;00:00, 15.28it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  73%|███████▎  | 30/41 [00:01&lt;00:00, 15.32it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  73%|███████▎  | 30/41 [00:01&lt;00:00, 15.31it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  76%|███████▌  | 31/41 [00:02&lt;00:00, 15.32it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  76%|███████▌  | 31/41 [00:02&lt;00:00, 15.30it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  78%|███████▊  | 32/41 [00:02&lt;00:00, 15.30it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  78%|███████▊  | 32/41 [00:02&lt;00:00, 15.28it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  80%|████████  | 33/41 [00:02&lt;00:00, 15.28it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  80%|████████  | 33/41 [00:02&lt;00:00, 15.27it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  83%|████████▎ | 34/41 [00:02&lt;00:00, 15.26it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  83%|████████▎ | 34/41 [00:02&lt;00:00, 15.25it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  85%|████████▌ | 35/41 [00:02&lt;00:00, 15.22it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  85%|████████▌ | 35/41 [00:02&lt;00:00, 15.21it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  88%|████████▊ | 36/41 [00:02&lt;00:00, 15.19it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  88%|████████▊ | 36/41 [00:02&lt;00:00, 15.19it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  90%|█████████ | 37/41 [00:02&lt;00:00, 15.17it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  90%|█████████ | 37/41 [00:02&lt;00:00, 15.16it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  93%|█████████▎| 38/41 [00:02&lt;00:00, 15.18it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  93%|█████████▎| 38/41 [00:02&lt;00:00, 15.17it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  95%|█████████▌| 39/41 [00:02&lt;00:00, 15.20it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  95%|█████████▌| 39/41 [00:02&lt;00:00, 15.19it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  98%|█████████▊| 40/41 [00:02&lt;00:00, 15.21it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9:  98%|█████████▊| 40/41 [00:02&lt;00:00, 15.20it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9: 100%|██████████| 41/41 [00:02&lt;00:00, 15.33it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9: 100%|██████████| 41/41 [00:02&lt;00:00, 15.32it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9: 100%|██████████| 41/41 [00:02&lt;00:00, 15.31it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Epoch 9: 100%|██████████| 41/41 [00:02&lt;00:00, 15.25it/s, v_num=0]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">line</span> <span class="mi">2</span>
-<span class="g g-Whitespace">      </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="ne">----&gt; </span><span class="mi">2</span> <span class="n">coord</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;/content/drive/MyDrive/Colab Notebooks/deeppot_pytorch/input_coord.npy&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">))</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">atom_types</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;/content/drive/MyDrive/Colab Notebooks/deeppot_pytorch/type.raw&quot;</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;int64&quot;</span><span class="p">))</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">atom_types</span> <span class="o">=</span> <span class="n">atom_types</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">coord</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">line</span> <span class="mi">30</span>
+<span class="g g-Whitespace">     </span><span class="mi">28</span> <span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">csv_logger</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">29</span> <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">30</span> <span class="n">_</span><span class="p">,</span> <span class="n">grad_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">coord</span><span class="p">,</span> <span class="n">atom_types</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/numpy/lib/npyio.py:405,</span> in <span class="ni">load</span><span class="nt">(file, mmap_mode, allow_pickle, fix_imports, encoding, max_header_size)</span>
-<span class="g g-Whitespace">    </span><span class="mi">403</span>     <span class="n">own_fid</span> <span class="o">=</span> <span class="kc">False</span>
-<span class="g g-Whitespace">    </span><span class="mi">404</span> <span class="k">else</span><span class="p">:</span>
-<span class="ne">--&gt; </span><span class="mi">405</span>     <span class="n">fid</span> <span class="o">=</span> <span class="n">stack</span><span class="o">.</span><span class="n">enter_context</span><span class="p">(</span><span class="nb">open</span><span class="p">(</span><span class="n">os_fspath</span><span class="p">(</span><span class="n">file</span><span class="p">),</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span>
-<span class="g g-Whitespace">    </span><span class="mi">406</span>     <span class="n">own_fid</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="g g-Whitespace">    </span><span class="mi">408</span> <span class="c1"># Code to distinguish from NumPy binary files and pickles.</span>
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/torch/nn/modules/module.py:1501,</span> in <span class="ni">Module._call_impl</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1496</span> <span class="c1"># If we don&#39;t have any hooks, we want to skip the rest of the logic in</span>
+<span class="g g-Whitespace">   </span><span class="mi">1497</span> <span class="c1"># this function, and just call forward.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1498</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_backward_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backward_pre_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_pre_hooks</span>
+<span class="g g-Whitespace">   </span><span class="mi">1499</span>         <span class="ow">or</span> <span class="n">_global_backward_pre_hooks</span> <span class="ow">or</span> <span class="n">_global_backward_hooks</span>
+<span class="g g-Whitespace">   </span><span class="mi">1500</span>         <span class="ow">or</span> <span class="n">_global_forward_hooks</span> <span class="ow">or</span> <span class="n">_global_forward_pre_hooks</span><span class="p">):</span>
+<span class="ne">-&gt; </span><span class="mi">1501</span>     <span class="k">return</span> <span class="n">forward_call</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1502</span> <span class="c1"># Do not call functions when jit is used</span>
+<span class="g g-Whitespace">   </span><span class="mi">1503</span> <span class="n">full_backward_hooks</span><span class="p">,</span> <span class="n">non_full_backward_hooks</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
 
-<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;/content/drive/MyDrive/Colab Notebooks/deeppot_pytorch/input_coord.npy&#39;
+<span class="nn">Cell In[6], line 13,</span> in <span class="ni">DeepPot.forward</span><span class="nt">(self, coords, atom_types)</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="n">atomic_energies</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitting_net</span><span class="p">((</span><span class="n">descriptors</span><span class="p">,</span> <span class="n">atom_types</span><span class="p">))</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="n">energy</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">unbind</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">atomic_energies</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="ne">---&gt; </span><span class="mi">13</span> <span class="n">gradient</span><span class="p">,</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">energy</span><span class="p">,</span> <span class="p">[</span><span class="n">coords</span><span class="p">],</span> <span class="n">create_graph</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span> <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span><span class="n">energy</span><span class="p">),</span> <span class="n">gradient</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/torch/autograd/__init__.py:303,</span> in <span class="ni">grad</span><span class="nt">(outputs, inputs, grad_outputs, retain_graph, create_graph, only_inputs, allow_unused, is_grads_batched)</span>
+<span class="g g-Whitespace">    </span><span class="mi">301</span>     <span class="k">return</span> <span class="n">_vmap_internals</span><span class="o">.</span><span class="n">_vmap</span><span class="p">(</span><span class="n">vjp</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">allow_none_pass_through</span><span class="o">=</span><span class="kc">True</span><span class="p">)(</span><span class="n">grad_outputs_</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">302</span> <span class="k">else</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">303</span>     <span class="k">return</span> <span class="n">Variable</span><span class="o">.</span><span class="n">_execution_engine</span><span class="o">.</span><span class="n">run_backward</span><span class="p">(</span>  <span class="c1"># Calls into the C++ engine to run the backward pass</span>
+<span class="g g-Whitespace">    </span><span class="mi">304</span>         <span class="n">t_outputs</span><span class="p">,</span> <span class="n">grad_outputs_</span><span class="p">,</span> <span class="n">retain_graph</span><span class="p">,</span> <span class="n">create_graph</span><span class="p">,</span> <span class="n">t_inputs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">305</span>         <span class="n">allow_unused</span><span class="p">,</span> <span class="n">accumulate_grad</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
 </pre></div>
 </div>
 </div>
@@ -753,10 +3351,13 @@ The local feature matrix is then mapped to the atomic energy using the fitting n
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Reference Force (kcal/mol/A)&quot;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Predicted Force (kcal/mol/A)&quot;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="s1">&#39;RMSD: </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">f1</span> <span class="o">-</span> <span class="n">f2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)),</span> <span class="n">size</span><span class="o">=</span><span class="mi">11</span><span class="p">)</span>
-<span class="n">loss</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;logs_csv/lightning_logs/version_5/metrics.csv&quot;</span><span class="p">)</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;logs_csv/lightning_logs/version_0/metrics.csv&quot;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/20d1542babe6ad63520626f5b058f20973159f998e8eededed1e5658dc78718b.png" src="_images/20d1542babe6ad63520626f5b058f20973159f998e8eededed1e5658dc78718b.png" />
 </div>
 </div>
 </section>
@@ -766,7 +3367,7 @@ The local feature matrix is then mapped to the atomic energy using the fitting n
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
-<span class="n">loss</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;logs_csv/lightning_logs/version_5/metrics.csv&quot;</span><span class="p">)</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;logs_csv/lightning_logs/version_0/metrics.csv&quot;</span><span class="p">)</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">loss</span><span class="p">[</span><span class="s2">&quot;epoch&quot;</span><span class="p">],</span> <span class="n">loss</span><span class="p">[</span><span class="s2">&quot;train_loss&quot;</span><span class="p">])</span>
@@ -775,6 +3376,9 @@ The local feature matrix is then mapped to the atomic energy using the fitting n
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/2c9862d6629705d8fbcbfdfcfc2731ab1a131d6ad55f07155b86ca780c34b73a.png" src="_images/2c9862d6629705d8fbcbfdfcfc2731ab1a131d6ad55f07155b86ca780c34b73a.png" />
 </div>
 </div>
 </section>
