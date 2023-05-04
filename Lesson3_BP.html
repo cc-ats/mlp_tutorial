@@ -490,16 +490,18 @@ document.write(`
 <br />
 The cutoff function is defined as:<br />
 <br /><br />
+$<span class="math notranslate nohighlight">\(
 \begin{aligned}
-f_c(R_{ij}) = \left{
-\begin{array}{cl}
-0.5\times\left[\cos\left(\frac{\pi R_{ij}}{R_c}\right)\right] &amp; \textrm{for } R_{ij} \le R_c \
-0 &amp; \textrm{for } R_{ij} \gt R_c
-\end{array}
-\right.
+        f_c(R_{ij}) = \left\{
+        \begin{array}{cl}
+        0.5\times\left[\cos\left(\frac{\pi R_{ij}}{R_c}\right)\right] &amp; \textrm{for } R_{ij} \le R_c \\
+        0 &amp; \textrm{for } R_{ij} \gt R_c
+        \end{array}
+        \right.
 \end{aligned}
-<br /><br />
-Where <span class="math notranslate nohighlight">\(R_{ij}\)</span> is the distance between atoms and <span class="math notranslate nohighlight">\(R_c\)</span> is the cutoff distance.<br />
+\)</span><span class="math notranslate nohighlight">\(
+&lt;br /&gt;  
+Where \)</span>R_{ij}<span class="math notranslate nohighlight">\( is the distance between atoms and \)</span>R_c$ is the cutoff distance.<br />
 The radial symmetry function can be defined as: <br /><br />
 \begin{aligned}
 \begin{array}{c}
@@ -748,7 +750,7 @@ The Dense class contains functions to describe a densely connected neural networ
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Fitting</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_types</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">in_features</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">neuron</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="mi">240</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">240</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
-        <span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="n">Dense</span><span class="p">(</span><span class="n">n_types</span><span class="p">,</span> <span class="n">in_features</span><span class="p">,</span> <span class="n">neuron</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">activation</span><span class="o">=</span><span class="kc">True</span><span class="p">)]</span> <span class="c1"># using the Dense class defined in 3.3 </span>
+        <span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="n">Dense</span><span class="p">(</span><span class="n">n_types</span><span class="p">,</span> <span class="n">in_features</span><span class="p">,</span> <span class="n">neuron</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">activation</span><span class="o">=</span><span class="kc">True</span><span class="p">)]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">neuron</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
             <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">n_types</span><span class="p">,</span> <span class="n">neuron</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">neuron</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">activation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">residual</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>  <span class="c1"># iterating through the neurons</span>
         <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">n_types</span><span class="p">,</span> <span class="n">neuron</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
@@ -918,6 +920,7 @@ The Dense class contains functions to describe a densely connected neural networ
 <span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">csv_logger</span><span class="p">,</span> <span class="n">log_every_n_steps</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">accelerator</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
 
 <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">val_loader</span><span class="p">)</span>
+<span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -977,10 +980,7 @@ The Dense class contains functions to describe a densely connected neural networ
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cpu_coord</span> <span class="o">=</span> <span class="n">qm_coord</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
-<span class="n">cpu_atoms</span> <span class="o">=</span> <span class="n">atom_types</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
-<span class="n">ene_pred</span><span class="p">,</span> <span class="n">grad_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">cpu_coord</span><span class="p">,</span> <span class="n">cpu_atoms</span><span class="p">)</span>
-<span class="c1">#ene_pred, grad_pred = model(qm_coord, atom_types[0])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ene_pred</span><span class="p">,</span> <span class="n">grad_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">qm_coord</span><span class="p">,</span> <span class="n">atom_types</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 </pre></div>
 </div>
 </div>
@@ -1083,7 +1083,7 @@ fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
 500
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f54a3d0d060&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f72c359af50&gt;
 </pre></div>
 </div>
 <img alt="_images/b7bb2365e348f066108d0ce9a02cada07a03a3c5eb4aaa40c96192f8aaf67d67.png" src="_images/b7bb2365e348f066108d0ce9a02cada07a03a3c5eb4aaa40c96192f8aaf67d67.png" />

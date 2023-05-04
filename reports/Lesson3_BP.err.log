@@ -32,6 +32,6 @@ Here is a preview of the cell contents:
 -------------------
 ['%%capture', '%%time', 'pl.seed_everything(2)', '', 'ani = True']
 ...
-['model = BPNN(descriptor, fitting_net, learning_rate=5e-4)', "csv_logger = pl_loggers.CSVLogger('logs_csv/')", "trainer = pl.Trainer(max_epochs=500, logger=csv_logger, log_every_n_steps=20, accelerator='auto')", '', 'trainer.fit(model, train_loader, val_loader)']
+["csv_logger = pl_loggers.CSVLogger('logs_csv/')", "trainer = pl.Trainer(max_epochs=500, logger=csv_logger, log_every_n_steps=20, accelerator='auto')", '', 'trainer.fit(model, train_loader, val_loader)', 'model.to(device)']
 -------------------
 
