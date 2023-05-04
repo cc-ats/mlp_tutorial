@@ -1,15 +1,4 @@
 Traceback (most recent call last):
-  File "/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/nbclient/client.py", line 778, in _async_poll_for_reply
-    msg = await ensure_async(self.kc.shell_channel.get_msg(timeout=new_timeout))
-  File "/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/jupyter_core/utils/__init__.py", line 182, in ensure_async
-    result = await obj
-  File "/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/jupyter_client/channels.py", line 315, in get_msg
-    raise Empty
-_queue.Empty
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
   File "/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
     executenb(
   File "/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/nbclient/client.py", line 1305, in execute
@@ -20,18 +9,37 @@ Traceback (most recent call last):
     return future.result()
   File "/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/nbclient/client.py", line 705, in async_execute
     await self.async_execute_cell(
-  File "/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/nbclient/client.py", line 1001, in async_execute_cell
-    exec_reply = await self.task_poll_for_reply
-  File "/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/nbclient/client.py", line 802, in _async_poll_for_reply
-    error_on_timeout_execute_reply = await self._async_handle_timeout(timeout, cell)
-  File "/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/nbclient/client.py", line 852, in _async_handle_timeout
-    raise CellTimeoutError.error_from_timeout_and_cell(
-nbclient.exceptions.CellTimeoutError: A cell timed out while it was being executed, after 30 seconds.
-The message was: Cell execution timed out.
-Here is a preview of the cell contents:
--------------------
-['import numpy as np', '', 'ds = np.DataSource(None) ', 'coord = np.array(np.load(ds.open("https://github.com/cc-ats/mlp_class/raw/main/DeepPot_PyTorch/input_coord.npy", "rb")), dtype="float32")', 'atom_types = np.loadtxt(ds.open("https://github.com/cc-ats/mlp_class/raw/main/DeepPot_PyTorch/type.raw", "r"), dtype=int)']
-...
-['model = DeepPot(descriptor, fitting_net, learning_rate=5e-4)', "csv_logger = pl_loggers.CSVLogger('logs_csv/')", 'trainer = pl.Trainer(max_epochs=10, logger=csv_logger)', 'trainer.fit(model, train_loader)', '_, grad_pred = model(coord, atom_types[0])']
--------------------
+  File "/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/nbclient/client.py", line 1058, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/nbclient/client.py", line 914, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import matplotlib.pyplot as plt
+import pandas as pd
+
+f1 = -grad.detach().numpy().reshape(-1)
+f2 = -grad_pred.detach().numpy().reshape(-1)
+fig, ax = plt.subplots()
+
+ax.plot(f1, f2, linestyle='none', marker='.', )
+ax.set_aspect('equal', adjustable='box')
+plt.plot([-20, 20], [-20, 20], color="k", linewidth=0.5)
+ax.set_xlabel("Reference Force (kcal/mol/A)")
+ax.set_ylabel("Predicted Force (kcal/mol/A)")
+ax.text(-20, 18, 'RMSD: %.3f' % np.sqrt(np.mean((f1 - f2)**2)), size=11)
+loss = pd.read_csv("logs_csv/lightning_logs/version_0/metrics.csv")
+plt.show()
+------------------
+
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+Cell [0;32mIn[8], line 2[0m
+[1;32m      1[0m [38;5;28;01mimport[39;00m [38;5;21;01mmatplotlib[39;00m[38;5;21;01m.[39;00m[38;5;21;01mpyplot[39;00m [38;5;28;01mas[39;00m [38;5;21;01mplt[39;00m
+[0;32m----> 2[0m [38;5;28;01mimport[39;00m [38;5;21;01mpandas[39;00m [38;5;28;01mas[39;00m [38;5;21;01mpd[39;00m
+[1;32m      4[0m f1 [38;5;241m=[39m [38;5;241m-[39mgrad[38;5;241m.[39mdetach()[38;5;241m.[39mnumpy()[38;5;241m.[39mreshape([38;5;241m-[39m[38;5;241m1[39m)
+[1;32m      5[0m f2 [38;5;241m=[39m [38;5;241m-[39mgrad_pred[38;5;241m.[39mdetach()[38;5;241m.[39mnumpy()[38;5;241m.[39mreshape([38;5;241m-[39m[38;5;241m1[39m)
+
+[0;31mModuleNotFoundError[0m: No module named 'pandas'
 
