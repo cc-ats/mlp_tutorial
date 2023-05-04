@@ -1,5 +1,6 @@
 jupyter-book
 matplotlib
 numpy
+pandas
 plotly
 torch
