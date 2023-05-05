@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>3. Behler-Parrinello Symmetry Functions &#8212; MLP Class</title>
+    <title>5. Behler-Parrinello Fitting Neural Network with Machine Learning Potential (BP-FNN MLP) Models for the Claisen Rearrangement &#8212; MLP Class</title>
   
   
   
@@ -65,11 +65,11 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
     <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'Lesson3_BP';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Lesson5_BP-FNN_MLP';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="4. A PyTorch implementation of Deep Potential-Smooth Edition (DeepPot-SE)" href="Lesson4_DeepPot.html" />
-    <link rel="prev" title="2. Gaussian Process Regression Models" href="Lesson2_GPR.html" />
+    <link rel="next" title="10. Neural Netwotk with Deep Potential" href="Lesson6_DeepPot-FNN_MLP.html" />
+    <link rel="prev" title="4. A PyTorch implementation of Deep Potential-Smooth Edition (DeepPot-SE)" href="Lesson4_DeepPot.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -160,13 +160,13 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="Lesson2_GPR.html">2. Gaussian Process Regression Models</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">B. Molecular Representations</span></p>
-<ul class="current nav bd-sidenav">
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">3. Behler-Parrinello  Symmetry Functions</a></li>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="Lesson3_BP.html">3. Behler-Parrinello  Symmetry Functions</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Lesson4_DeepPot.html">4. A PyTorch implementation of Deep Potential-Smooth Edition (DeepPot-SE)</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">C. Machine Learning Potentials</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="Lesson5_BP-FNN_MLP.html">5. Behler-Parrinello Fitting Neural Network with Machine Learning Potential (BP-FNN MLP) Models for the Claisen Rearrangement</a></li>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">5. Behler-Parrinello Fitting Neural Network with Machine Learning Potential (BP-FNN MLP) Models for the Claisen Rearrangement</a></li>
 
 
 
@@ -227,7 +227,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://colab.research.google.com/github/cc-ats/mlp_class/blob/main/Lesson3_BP.ipynb" target="_blank"
+      <li><a href="https://colab.research.google.com/github/cc-ats/mlp_class/blob/main/Lesson5_BP-FNN_MLP.ipynb" target="_blank"
    class="btn btn-sm dropdown-item"
    title="Launch onColab"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -275,7 +275,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="https://github.com/cc-ats/mlp_class/issues/new?title=Issue%20on%20page%20%2FLesson3_BP.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/cc-ats/mlp_class/issues/new?title=Issue%20on%20page%20%2FLesson5_BP-FNN_MLP.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -305,7 +305,7 @@ const thebe_selector_output = ".output, .cell_output"
       
       
       
-      <li><a href="_sources/Lesson3_BP.ipynb" target="_blank"
+      <li><a href="_sources/Lesson5_BP-FNN_MLP.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -387,7 +387,7 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Behler-Parrinello  Symmetry Functions</h1>
+    <h1>Behler-Parrinello Fitting Neural Network with Machine Learning Potential (BP-FNN MLP) Models for the Claisen Rearrangement</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
@@ -397,27 +397,31 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-and-libraries">3.1. Importing Data and Libraries</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-from-github-mlp-class-and-installing-pytorch-lightning">3.1.1. Importing Data From GitHub (mlp_class) and Installing PyTorch Lightning</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-libraries">3.1.2. Importing Libraries</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">5. Behler-Parrinello Fitting Neural Network with Machine Learning Potential (BP-FNN MLP) Models for the Claisen Rearrangement</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-and-libraries">5.1. Importing Data and Libraries</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#import-data-from-github-mlp-class-and-installing-pytorch-lightning">5.1.1. Import data from GitHub (mlp_class) and Installing PyTorch Lightning</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#symmetry-functions">3.2. Symmetry Functions</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-symmetry-functions">3.2.1. Defining Symmetry Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-libraries">5.2. Import Libraries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-dense-neural-network">5.3. Defining the Dense Neural Network</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-bp-symmetry-functions">5.4. Creating the BP Symmetry Functions</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-neural-network-and-feature-extraction-classes">3.3. Defining Neural Network and Feature Extraction Classes</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-sequential-and-dense-classes">3.3.1. Defining Sequential and Dense Classes</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-feature-class">3.3.2. Creating the Feature Class</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-feature-class-for-ani">3.3.3. Creating the Feature Class for ANI</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-fitting-class">3.3.4. Creating the Fitting Class</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-behler-parrinello-neural-network-bpnn-class">3.3.5. Create the Behler-Parrinello Neural Network (BPNN) Class</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-bp-feature-class">6. Defining the BP Feature Class</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-ani-feature-class">7. Defining the ANI Feature Class</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-fitting-neural-network">8. Creating the Fitting Neural Network</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#the-behler-parrinello-fitting-neural-network-bp-fnn">9. The Behler-Parrinello Fitting Neural Network (BP-FNN)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-and-seeding">9.1. Importing Data and Seeding</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-ani-parameters">9.2. Setting ANI Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-model-to-pytorch-file">9.3. Saving model to PyTorch file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-rmsd-for-deltamlp-energy-and-forces">9.4. Plotting RMSD for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP Energy and Forces</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model-weights-and-biases-dictionary">9.5. The Model Weights and Biases Dictionary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-validation-error-for-deltamlp">9.6. Plotting Validation Error for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-training-and-validation-loss-for-deltamlp">9.7. Plotting Training and Validation Loss for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-data">3.4. Loading Data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-ani-for-feature-extraction">3.5. Using ANI for Feature Extraction</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-model-to-pytorch-file">3.6. Saving model to PyTorch File</a></li>
 </ul>
+
             </nav>
         </div>
     </div>
@@ -428,48 +432,49 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article" role="main">
                   
-  <p><a href="https://colab.research.google.com/github/cc-ats/mlp_class/blob/main/Lesson3_BP.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a></p>
-<section class="tex2jax_ignore mathjax_ignore" id="behler-parrinello-symmetry-functions">
-<h1><span class="section-number">3. </span>Behler-Parrinello  Symmetry Functions<a class="headerlink" href="#behler-parrinello-symmetry-functions" title="Permalink to this heading">#</a></h1>
-<p>In this tutorial, we will create Behler-Parrinello and ANI neural networks using atom-centered symmetry functions. The symmetry functions will allow us to ensure that our observables (such as energy) are invariant to translations and rotations.</p>
+  <p><a href="https://colab.research.google.com/github/cc-ats/mlp_class/blob/main/Lesson5_BP-FNN_MLP.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a></p>
+<section class="tex2jax_ignore mathjax_ignore" id="behler-parrinello-fitting-neural-network-with-machine-learning-potential-bp-fnn-mlp-models-for-the-claisen-rearrangement">
+<h1><span class="section-number">5. </span>Behler-Parrinello Fitting Neural Network with Machine Learning Potential (BP-FNN MLP) Models for the Claisen Rearrangement<a class="headerlink" href="#behler-parrinello-fitting-neural-network-with-machine-learning-potential-bp-fnn-mlp-models-for-the-claisen-rearrangement" title="Permalink to this heading">#</a></h1>
+<p>For this tutorial, we will be combining the Fitting Neural Network (FNN) from Lesson 1 and the Behler-Parrinello Neural Network (BPNN) from Lesson 3 to train a <span class="math notranslate nohighlight">\(\Delta\)</span> Machine Learning Potential (<span class="math notranslate nohighlight">\(\Delta\)</span>MLP) model to reproduce the energy and forces for the claisen rearrangement reaction. With a BP-FNN, we can utilize the symmetry functions from the BPNN model for feature extraction and use the FNN for training. The goal of this model is to train with data that is from the semiempirical (PM3) and DFT (B3LYP) levels of theory. The BP-FNN will be used to correct the semiempirical values to obtain DFT level accuracy, which is what makes it a <span class="math notranslate nohighlight">\(\Delta\)</span>MLP model.</p>
 <section id="importing-data-and-libraries">
-<h2><span class="section-number">3.1. </span>Importing Data and Libraries<a class="headerlink" href="#importing-data-and-libraries" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">5.1. </span>Importing Data and Libraries<a class="headerlink" href="#importing-data-and-libraries" title="Permalink to this heading">#</a></h2>
 <p>We will first import data and libraries needed to train our machine learning models.</p>
-<section id="importing-data-from-github-mlp-class-and-installing-pytorch-lightning">
-<h3><span class="section-number">3.1.1. </span>Importing Data From GitHub (mlp_class) and Installing PyTorch Lightning<a class="headerlink" href="#importing-data-from-github-mlp-class-and-installing-pytorch-lightning" title="Permalink to this heading">#</a></h3>
+<section id="import-data-from-github-mlp-class-and-installing-pytorch-lightning">
+<h3><span class="section-number">5.1.1. </span>Import data from GitHub (mlp_class) and Installing PyTorch Lightning<a class="headerlink" href="#import-data-from-github-mlp-class-and-installing-pytorch-lightning" title="Permalink to this heading">#</a></h3>
+<p>Install PyTorch Lightning.</p>
 <p>Files from GitHub:</p>
 <ul class="simple">
-<li><p>Coordinates and atom types:</p></li>
-<li><p><strong>qm_coord.npy</strong> (1800, 14, 3)</p></li>
-<li><p><strong>qm_elem.txt</strong> ([6, 6, 6, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])</p></li>
-<li><p>PM3 energies and gradients:</p></li>
-<li><p><strong>energy_sqm.npy</strong> (1800,)</p></li>
-<li><p><strong>qm_grad_sqm.npy</strong> (1800, 14, 3)</p></li>
-<li><p>B3LYP/6-31+G* energies and gradients:</p></li>
-<li><p><strong>energy.npy</strong>  (1800,)</p></li>
-<li><p><strong>qm_grad.npy</strong> (1800, 14, 3)</p></li>
+<li><p><strong>qm_coord.npy</strong> (2100, 14, 3)</p></li>
+<li><p><strong>qm_elem.txt</strong> ([8, 6, 6, 6, 6, 6, 1, 1, 1, 1, 1, 1, 1, 1])</p></li>
+<li><p>PM3</p></li>
+<li><p><strong>energy_sqm.npy</strong> (2100,)</p></li>
+<li><p><strong>qm_grad_sqm.npy</strong> (2100, 14, 3)</p></li>
+<li><p>B3LYP/6-31+G*</p></li>
+<li><p><strong>energy.npy</strong>  (2100,)</p></li>
+<li><p><strong>qm_grad.npy</strong> (2100, 14, 3)</p></li>
 </ul>
-<p>These files will provide us with semi-empirical (PM3) and QM (B3LYP/6-31+G*) data to train our machine learning model.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%%capture
-!pip install pytorch-lightning &gt; /dev/null   #installing PyTorch lightning
+!pip install pytorch-lightning &gt; /dev/null
 </pre></div>
 </div>
 </div>
 </div>
 </section>
-<section id="importing-libraries">
-<h3><span class="section-number">3.1.2. </span>Importing Libraries<a class="headerlink" href="#importing-libraries" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="import-libraries">
+<h2><span class="section-number">5.2. </span>Import Libraries<a class="headerlink" href="#import-libraries" title="Permalink to this heading">#</a></h2>
 <p>We will import the following libraries:</p>
 <ul class="simple">
-<li><p>math, typing (Sequence, Tuple)</p></li>
+<li><p>math, numpy, typing (Sequence, Tuple)</p></li>
 <li><p>Torch (nn, nn.functional, Tensor. TensorDataset, DataLoader, random_split)</p></li>
 <li><p>PyTorch Lightning (loggers)</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span>
 
 <span class="kn">import</span> <span class="nn">torch</span>
@@ -485,126 +490,9 @@ document.write(`
 </div>
 </div>
 </section>
-</section>
-<section id="symmetry-functions">
-<h2><span class="section-number">3.2. </span>Symmetry Functions<a class="headerlink" href="#symmetry-functions" title="Permalink to this heading">#</a></h2>
-<p>So far, we have used cartesian coordinates and energies as inputs for our machine learning models. However, cartesian coordinates are not ideal for use with neural networks because translating or rotating the molecule can change the neural network output. In the case of chemistry this would imply that translating a molecule in space changes the molecule’s energy, which is incorrect.</p>
-<p>Instead, we can describe our cartesian coordinates with symmetry functions and use our newly transformed coordinates as inputs, which will produce outputs that are invariant to translations and rotations.</p>
-<p>From Behler and Parrinello’s 2007 paper (***cite), several symmetry functions and a cutoff function were introduced:<br />
-<br />
-The cutoff function is defined as:<br />
-<br /><br />
-$<span class="math notranslate nohighlight">\(
-\begin{aligned}
-        f_c(R_{ij}) = \left\{
-        \begin{array}{cl}
-        0.5\times\left[\cos\left(\frac{\pi R_{ij}}{R_c}\right)+1\right] &amp; \textrm{for } R_{ij} \le R_c \\
-        0 &amp; \textrm{for } R_{ij} \gt R_c
-        \end{array}
-        \right.
-\end{aligned}
-\)</span><span class="math notranslate nohighlight">\(
-&lt;br /&gt;  
-Where \)</span>R_{ij}<span class="math notranslate nohighlight">\( is the distance between atoms and \)</span>R_c$ is the cutoff distance.<br />
-The radial symmetry function can be defined as: <br /><br />
-\begin{aligned}
-\begin{array}{c}
-G_i^1 = \sum_{j \neq i}^{all} e^{-\eta(R_{ij}-R_s)^2}f_c(R_{ij})
-\end{array}
-\end{aligned}</p>
-<br />
-Where $\eta$ changes the width of the Gaussian distribution and $R_s$ shifts the center of the gaussian peak.  
-<br /> 
-<p>The angular symmetry function can be defined as:
-<br /><br />
-\begin{aligned}
-\begin{array}{c}
-G_i^2 = 2^{1-\zeta}\sum_{j,k\neq i}^{all} (1+\lambda \cos\theta_{ijk})^\zeta \times e^{-\eta(R_{ij}^2+R_{ik}^2+R_{jk}^2)}f_c(R_{ij}) f_c(R_{ik}) f_c(R_{jk})
-\end{array}
-\end{aligned}
-<br /></p>
-<p>The angular terms are created for each set of 3 atoms as <span class="math notranslate nohighlight">\(\theta_{ijk} = \frac{\mathbf{R_{ij}}\cdot\mathbf{R_{ik}}}{R_{ij}R_{ik}}\)</span>, where <span class="math notranslate nohighlight">\(\mathbf{R_{ij}} = \mathbf{R_{i}} - \mathbf{R_{j}}\)</span> and gives the distance vector between atoms i and j. The <span class="math notranslate nohighlight">\(\lambda\)</span> parameter is set to +1,-1 to allow exploration of the angular environment at the +1 and -1 positions. The parameter <span class="math notranslate nohighlight">\(\eta\)</span> changes the width of the gaussian distribution and <span class="math notranslate nohighlight">\(\zeta\)</span> changes the width of the gaussians in the angular environment.<br />
-<br /></p>
-<p>In 2017, Isayev and Roitberg developed the ANAKIN-ME (Accurate NeurAl networK engINe for Molecular Energies), also referred to as ANI (***cite). ANI uses a modified angular symmetry function defined as:  <br /><br />
-\begin{aligned}
-\begin{array}{c}
-G_i^2 = 2^{1-\zeta}\sum_{j,k\neq i}^{all} (1+\cos(\theta_{ijk}-\theta_s))^\zeta \times e^{-\eta\left(\frac{R_{ij}+R_{ik}}{2}-R_{s}\right)^2}f_c(R_{ij}) f_c(R_{ik})
-\end{array}
-\end{aligned}<br />
-<br /></p>
-<p>Here, <span class="math notranslate nohighlight">\(\theta_s\)</span> is a parameter that allows for shifts in the angular environment and <span class="math notranslate nohighlight">\(R_s\)</span> allows for calculating the angular environment in radial shells by shifting the center of the gaussians. The result is probing the angular environment at different radial lengths and angles instead of only at <span class="math notranslate nohighlight">\(\lambda\)</span> values of +1,-1.</p>
-<section id="defining-symmetry-functions">
-<h3><span class="section-number">3.2.1. </span>Defining Symmetry Functions<a class="headerlink" href="#defining-symmetry-functions" title="Permalink to this heading">#</a></h3>
-<p>Now we will define the radial symmetry functions:</p>
-<ul class="simple">
-<li><p><strong>pairwise_vector:</strong> Distance function for calculating distances between each atom.</p></li>
-<li><p><strong>symmetry_function_g2:</strong> BP radial symmetry function.</p></li>
-<li><p><strong>symmetry_function_g3:</strong> BP angular symmetry function.</p></li>
-<li><p><strong>symmetry_function_g3ani:</strong> ANI angular symmetry function.</p></li>
-</ul>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">pairwise_vector</span><span class="p">(</span><span class="n">coords</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-    <span class="n">num_batches</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">coords</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
-    <span class="n">rij</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[:,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">coords</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
-    <span class="n">mask</span> <span class="o">=</span> <span class="o">~</span><span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">num_channels</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">coords</span><span class="o">.</span><span class="n">device</span><span class="p">)</span> <span class="c1"># remove self-interaction</span>
-    <span class="n">rij</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">masked_select</span><span class="p">(</span><span class="n">rij</span><span class="p">,</span> <span class="n">mask</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">num_batches</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">,</span> <span class="n">num_channels</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">rij</span>
-
-
-<span class="k">def</span> <span class="nf">symmetry_function_g2</span><span class="p">(</span><span class="n">rij</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Rcr</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">EtaR</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">ShfR</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-    <span class="n">dij</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">rij</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">fij</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">dij</span> <span class="o">/</span> <span class="n">Rcr</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
-    <span class="n">g2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">EtaR</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">dij</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">ShfR</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">fij</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">g2</span>
-
-
-<span class="k">def</span> <span class="nf">symmetry_function_g3</span><span class="p">(</span><span class="n">rij</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Rca</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">Zeta</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">EtaA</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">rij</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">rij</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">c</span><span class="p">]</span>
-    <span class="n">r12</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
-    <span class="n">r13</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
-    <span class="n">r23</span> <span class="o">=</span> <span class="n">r12</span> <span class="o">-</span> <span class="n">r13</span>
-    <span class="n">d12</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r12</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">d13</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r13</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">d23</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r23</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">f12</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d12</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
-    <span class="n">f13</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d13</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
-    <span class="n">f23</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d23</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
-    <span class="n">cosine</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ijkl,ijkl-&gt;ijk&#39;</span><span class="p">,</span> <span class="n">r12</span><span class="p">,</span> <span class="n">r13</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">d12</span> <span class="o">*</span> <span class="n">d13</span><span class="p">)</span>
-
-    <span class="n">g3</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">Zeta</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">cosine</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="n">Zeta</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">EtaA</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">d12</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">d13</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">d23</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">f12</span> <span class="o">*</span> <span class="n">f13</span> <span class="o">*</span> <span class="n">f23</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">g3</span>
-
-
-<span class="k">def</span> <span class="nf">symmetry_function_g3ani</span><span class="p">(</span><span class="n">rij</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Rca</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">Zeta</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">ShfZ</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">EtaA</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">ShfA</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">rij</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">rij</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">c</span><span class="p">]</span>
-    <span class="n">r12</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
-    <span class="n">r13</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
-    <span class="n">r23</span> <span class="o">=</span> <span class="n">r12</span> <span class="o">-</span> <span class="n">r13</span>
-    <span class="n">d12</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r12</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">d13</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r13</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">f12</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d12</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
-    <span class="n">f13</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d13</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
-    <span class="n">cosine</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ijkl,ijkl-&gt;ijk&#39;</span><span class="p">,</span> <span class="n">r12</span><span class="p">,</span> <span class="n">r13</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">d12</span> <span class="o">*</span> <span class="n">d13</span><span class="p">)</span>
-    <span class="n">cosine</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">acos</span><span class="p">(</span><span class="n">cosine</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">ShfA</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-
-    <span class="n">g3</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">Zeta</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">cosine</span><span class="p">)</span><span class="o">**</span><span class="n">Zeta</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">EtaA</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">d12</span> <span class="o">+</span> <span class="n">d13</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">ShfZ</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">f12</span> <span class="o">*</span> <span class="n">f13</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">g3</span>
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-</section>
-<section id="defining-neural-network-and-feature-extraction-classes">
-<h2><span class="section-number">3.3. </span>Defining Neural Network and Feature Extraction Classes<a class="headerlink" href="#defining-neural-network-and-feature-extraction-classes" title="Permalink to this heading">#</a></h2>
-<p>We will now define feature extraction classes which will be used in our Behler-Parrinello and ANI neural networks.</p>
-<section id="defining-sequential-and-dense-classes">
-<h3><span class="section-number">3.3.1. </span>Defining Sequential and Dense Classes<a class="headerlink" href="#defining-sequential-and-dense-classes" title="Permalink to this heading">#</a></h3>
-<p>The Sequential class contains the function for the feed-forward aspect of our neural network.
-The Dense class contains functions to describe a densely connected neural network.</p>
+<section id="defining-the-dense-neural-network">
+<h2><span class="section-number">5.3. </span>Defining the Dense Neural Network<a class="headerlink" href="#defining-the-dense-neural-network" title="Permalink to this heading">#</a></h2>
+<p>The Dense class contains functions to describe a densely connected neural network.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Sequential</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
@@ -668,9 +556,68 @@ The Dense class contains functions to describe a densely connected neural networ
 </div>
 </div>
 </section>
-<section id="creating-the-feature-class">
-<h3><span class="section-number">3.3.2. </span>Creating the Feature Class<a class="headerlink" href="#creating-the-feature-class" title="Permalink to this heading">#</a></h3>
-<p>Now we will create the feature class, which takes input information and uses functions to extract characteristics unique to the called input features. Here we will be using the previously defined symmetry functions for feature extraction.</p>
+<section id="creating-the-bp-symmetry-functions">
+<h2><span class="section-number">5.4. </span>Creating the BP Symmetry Functions<a class="headerlink" href="#creating-the-bp-symmetry-functions" title="Permalink to this heading">#</a></h2>
+<p>We will define the BP and ANI symmetry functions to ensure that our ML predictions are invariant to translations, rotations, and permutations.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">pairwise_vector</span><span class="p">(</span><span class="n">coords</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+    <span class="n">num_batches</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">coords</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+    <span class="n">rij</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[:,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">coords</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="o">~</span><span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">num_channels</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">coords</span><span class="o">.</span><span class="n">device</span><span class="p">)</span> <span class="c1"># remove self-interaction</span>
+    <span class="n">rij</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">masked_select</span><span class="p">(</span><span class="n">rij</span><span class="p">,</span> <span class="n">mask</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">num_batches</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">,</span> <span class="n">num_channels</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rij</span>
+
+
+<span class="k">def</span> <span class="nf">symmetry_function_g2</span><span class="p">(</span><span class="n">rij</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Rcr</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">EtaR</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">ShfR</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+    <span class="n">dij</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">rij</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">fij</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">dij</span> <span class="o">/</span> <span class="n">Rcr</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+    <span class="n">g2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">EtaR</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">dij</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">ShfR</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">fij</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">g2</span>
+
+
+<span class="k">def</span> <span class="nf">symmetry_function_g3</span><span class="p">(</span><span class="n">rij</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Rca</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">Zeta</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">EtaA</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">rij</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">rij</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">c</span><span class="p">]</span>
+    <span class="n">r12</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">r13</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">r23</span> <span class="o">=</span> <span class="n">r12</span> <span class="o">-</span> <span class="n">r13</span>
+    <span class="n">d12</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r12</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">d13</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r13</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">d23</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r23</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">f12</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d12</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+    <span class="n">f13</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d13</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+    <span class="n">f23</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d23</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+    <span class="n">cosine</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ijkl,ijkl-&gt;ijk&#39;</span><span class="p">,</span> <span class="n">r12</span><span class="p">,</span> <span class="n">r13</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">d12</span> <span class="o">*</span> <span class="n">d13</span><span class="p">)</span>
+
+    <span class="n">g3</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">Zeta</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">cosine</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="n">Zeta</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">EtaA</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">d12</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">d13</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">d23</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">f12</span> <span class="o">*</span> <span class="n">f13</span> <span class="o">*</span> <span class="n">f23</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">g3</span>
+
+
+<span class="k">def</span> <span class="nf">symmetry_function_g3ani</span><span class="p">(</span><span class="n">rij</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Rca</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">Zeta</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">ShfZ</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">EtaA</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">ShfA</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">rij</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">rij</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">c</span><span class="p">]</span>
+    <span class="n">r12</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">r13</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">r23</span> <span class="o">=</span> <span class="n">r12</span> <span class="o">-</span> <span class="n">r13</span>
+    <span class="n">d12</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r12</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">d13</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r13</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">f12</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d12</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+    <span class="n">f13</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d13</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+    <span class="n">cosine</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ijkl,ijkl-&gt;ijk&#39;</span><span class="p">,</span> <span class="n">r12</span><span class="p">,</span> <span class="n">r13</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">d12</span> <span class="o">*</span> <span class="n">d13</span><span class="p">)</span>
+    <span class="n">cosine</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">acos</span><span class="p">(</span><span class="n">cosine</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">ShfA</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="n">g3</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">Zeta</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">cosine</span><span class="p">)</span><span class="o">**</span><span class="n">Zeta</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">EtaA</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">d12</span> <span class="o">+</span> <span class="n">d13</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">ShfZ</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">f12</span> <span class="o">*</span> <span class="n">f13</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">g3</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="defining-the-bp-feature-class">
+<h1><span class="section-number">6. </span>Defining the BP Feature Class<a class="headerlink" href="#defining-the-bp-feature-class" title="Permalink to this heading">#</a></h1>
+<p>Now we will create the feature class, which takes input information and uses functions to extract characteristics unique to the input called features. Here we will be using the previously defined symmetry functions for feature extraction.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Feature</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
@@ -688,10 +635,10 @@ The Dense class contains functions to describe a densely connected neural networ
     <span class="k">def</span> <span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coords</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">atom_types</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
         <span class="n">num_batches</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">coords</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
         <span class="n">rij</span> <span class="o">=</span> <span class="n">pairwise_vector</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
-        <span class="n">EtaR</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">EtaR</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="n">coords</span><span class="o">.</span><span class="n">device</span><span class="p">)[</span><span class="n">atom_types</span><span class="p">]</span>
-        <span class="n">ShfR</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ShfR</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="n">coords</span><span class="o">.</span><span class="n">device</span><span class="p">)[</span><span class="n">atom_types</span><span class="p">]</span>
-        <span class="n">Zeta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Zeta</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="n">coords</span><span class="o">.</span><span class="n">device</span><span class="p">)[</span><span class="n">atom_types</span><span class="p">]</span>
-        <span class="n">EtaA</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">EtaA</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="n">coords</span><span class="o">.</span><span class="n">device</span><span class="p">)[</span><span class="n">atom_types</span><span class="p">]</span>
+        <span class="n">EtaR</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">EtaR</span><span class="p">[</span><span class="n">atom_types</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="n">coords</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">ShfR</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ShfR</span><span class="p">[</span><span class="n">atom_types</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="n">coords</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">Zeta</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Zeta</span><span class="p">[</span><span class="n">atom_types</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="n">coords</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">EtaA</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">EtaA</span><span class="p">[</span><span class="n">atom_types</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="o">=</span><span class="n">coords</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
         <span class="n">g2</span> <span class="o">=</span> <span class="n">symmetry_function_g2</span><span class="p">(</span><span class="n">rij</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Rcr</span><span class="p">,</span> <span class="n">EtaR</span><span class="p">,</span> <span class="n">ShfR</span><span class="p">)</span>
         <span class="n">g3</span> <span class="o">=</span> <span class="n">symmetry_function_g3</span><span class="p">(</span><span class="n">rij</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Rca</span><span class="p">,</span> <span class="n">Zeta</span><span class="p">,</span> <span class="n">EtaA</span><span class="p">)</span>
 
@@ -705,8 +652,8 @@ The Dense class contains functions to describe a densely connected neural networ
 </div>
 </div>
 </section>
-<section id="creating-the-feature-class-for-ani">
-<h3><span class="section-number">3.3.3. </span>Creating the Feature Class for ANI<a class="headerlink" href="#creating-the-feature-class-for-ani" title="Permalink to this heading">#</a></h3>
+<section class="tex2jax_ignore mathjax_ignore" id="defining-the-ani-feature-class">
+<h1><span class="section-number">7. </span>Defining the ANI Feature Class<a class="headerlink" href="#defining-the-ani-feature-class" title="Permalink to this heading">#</a></h1>
 <p>We will create a similar feature class for ANI that uses the ANI angle symmetry function.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -746,9 +693,9 @@ The Dense class contains functions to describe a densely connected neural networ
 </div>
 </div>
 </section>
-<section id="creating-the-fitting-class">
-<h3><span class="section-number">3.3.4. </span>Creating the Fitting Class<a class="headerlink" href="#creating-the-fitting-class" title="Permalink to this heading">#</a></h3>
-<p>Now we create the fitting class, which will use the dense neural network for fitting.</p>
+<section class="tex2jax_ignore mathjax_ignore" id="creating-the-fitting-neural-network">
+<h1><span class="section-number">8. </span>Creating the Fitting Neural Network<a class="headerlink" href="#creating-the-fitting-neural-network" title="Permalink to this heading">#</a></h1>
+<p>Now we create the Fitting class, which will use the dense neural network for fitting.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Fitting</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
@@ -756,7 +703,7 @@ The Dense class contains functions to describe a densely connected neural networ
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="n">layers</span> <span class="o">=</span> <span class="p">[</span><span class="n">Dense</span><span class="p">(</span><span class="n">n_types</span><span class="p">,</span> <span class="n">in_features</span><span class="p">,</span> <span class="n">neuron</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">activation</span><span class="o">=</span><span class="kc">True</span><span class="p">)]</span>
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">neuron</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
-            <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">n_types</span><span class="p">,</span> <span class="n">neuron</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">neuron</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">activation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">residual</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>  <span class="c1"># iterating through the neurons</span>
+            <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">n_types</span><span class="p">,</span> <span class="n">neuron</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">neuron</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">activation</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">residual</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
         <span class="n">layers</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="n">n_types</span><span class="p">,</span> <span class="n">neuron</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">fitting_net</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">(</span><span class="o">*</span><span class="n">layers</span><span class="p">)</span>
 
@@ -768,9 +715,9 @@ The Dense class contains functions to describe a densely connected neural networ
 </div>
 </div>
 </section>
-<section id="create-the-behler-parrinello-neural-network-bpnn-class">
-<h3><span class="section-number">3.3.5. </span>Create the Behler-Parrinello Neural Network (BPNN) Class<a class="headerlink" href="#create-the-behler-parrinello-neural-network-bpnn-class" title="Permalink to this heading">#</a></h3>
-<p>Finally, we will now create the BPNN class that can be used for training with the symmetry functions.</p>
+<section class="tex2jax_ignore mathjax_ignore" id="the-behler-parrinello-fitting-neural-network-bp-fnn">
+<h1><span class="section-number">9. </span>The Behler-Parrinello Fitting Neural Network (BP-FNN)<a class="headerlink" href="#the-behler-parrinello-fitting-neural-network-bp-fnn" title="Permalink to this heading">#</a></h1>
+<p>We create the BPNN class that can be used for feature extraction with the symmetry functions.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">BPNN</span><span class="p">(</span><span class="n">pl</span><span class="o">.</span><span class="n">LightningModule</span><span class="p">):</span>
@@ -790,14 +737,14 @@ The Dense class contains functions to describe a densely connected neural networ
 
     <span class="k">def</span> <span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
         <span class="n">qm_coord</span><span class="p">,</span> <span class="n">atom_types</span><span class="p">,</span> <span class="n">energy</span><span class="p">,</span> <span class="n">gradient</span> <span class="o">=</span> <span class="n">batch</span>
-        <span class="n">ene_pred</span><span class="p">,</span> <span class="n">grad_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">qm_coord</span><span class="p">,</span> <span class="n">atom_types</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="c1"># training the energy and gradient predictions </span>
-        <span class="n">ene_loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">mse_loss</span><span class="p">(</span><span class="n">ene_pred</span><span class="p">,</span> <span class="n">energy</span><span class="p">)</span>   <span class="c1"># defining loss functions for energy and gradient predictions</span>
+        <span class="n">ene_pred</span><span class="p">,</span> <span class="n">grad_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">qm_coord</span><span class="p">,</span> <span class="n">atom_types</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">ene_loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">mse_loss</span><span class="p">(</span><span class="n">ene_pred</span><span class="p">,</span> <span class="n">energy</span><span class="p">)</span>
         <span class="n">grad_loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">mse_loss</span><span class="p">(</span><span class="n">grad_pred</span><span class="p">,</span> <span class="n">gradient</span><span class="p">)</span>
 
         <span class="n">lr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimizers</span><span class="p">()</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">param_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;lr&#39;</span><span class="p">]</span>
         <span class="n">start_lr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimizers</span><span class="p">()</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">param_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;initial_lr&#39;</span><span class="p">]</span>
         <span class="n">w_ene</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="n">w_grad</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">99</span> <span class="o">*</span> <span class="p">(</span><span class="n">lr</span> <span class="o">/</span> <span class="n">start_lr</span><span class="p">)</span>  
+        <span class="n">w_grad</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">99</span> <span class="o">*</span> <span class="p">(</span><span class="n">lr</span> <span class="o">/</span> <span class="n">start_lr</span><span class="p">)</span>
 
         <span class="n">loss</span> <span class="o">=</span> <span class="n">w_ene</span> <span class="o">/</span> <span class="p">(</span><span class="n">w_ene</span> <span class="o">+</span> <span class="n">w_grad</span><span class="p">)</span> <span class="o">*</span> <span class="n">ene_loss</span> <span class="o">+</span> <span class="n">w_grad</span> <span class="o">/</span> <span class="p">(</span><span class="n">w_ene</span> <span class="o">+</span> <span class="n">w_grad</span><span class="p">)</span> <span class="o">*</span> <span class="n">grad_loss</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s1">&#39;train_loss&#39;</span><span class="p">,</span> <span class="n">loss</span><span class="p">)</span>
@@ -837,25 +784,21 @@ The Dense class contains functions to describe a densely connected neural networ
 </div>
 </div>
 </div>
-</section>
-</section>
-<section id="loading-data">
-<h2><span class="section-number">3.4. </span>Loading Data<a class="headerlink" href="#loading-data" title="Permalink to this heading">#</a></h2>
-<p>We will now load the files previously imported from GitHub and use the data in our machine learning model.</p>
+<section id="importing-data-and-seeding">
+<h2><span class="section-number">9.1. </span>Importing Data and Seeding<a class="headerlink" href="#importing-data-and-seeding" title="Permalink to this heading">#</a></h2>
+<p>We will now import our semiempirical and DFT calculation data. We will then use seeding to generate random but reproducible training.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-
-<span class="n">ds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">DataSource</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span> 
-<span class="n">qm_coord</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_class/raw/main/Butane/qm_coord.npy&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
-<span class="n">atom_types</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_class/raw/main/Butane/qm_elem.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">DataSource</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span> 
+<span class="n">qm_coord</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_class/raw/main/Claisen_Rearrangement/qm_coord.npy&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+<span class="n">atom_types</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_class/raw/main/Claisen_Rearrangement/qm_elem.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
 <span class="n">elems</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">atom_types</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
 <span class="n">atom_types</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">elems</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">atom_types</span><span class="p">]])</span>
 <span class="n">atom_types</span> <span class="o">=</span> <span class="n">atom_types</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">qm_coord</span><span class="p">),</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
-<span class="n">energy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_class/raw/main/Butane/energy.npy&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_class/raw/main/Butane/energy_sqm.npy&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)))</span> <span class="o">*</span> <span class="mf">27.2114</span> <span class="o">*</span> <span class="mf">23.061</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+<span class="n">energy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_class/raw/main/Claisen_Rearrangement/energy.npy&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_class/raw/main/Claisen_Rearrangement/energy_sqm.npy&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)))</span> <span class="o">*</span> <span class="mf">27.2114</span> <span class="o">*</span> <span class="mf">23.061</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
 <span class="n">energy</span> <span class="o">=</span> <span class="n">energy</span> <span class="o">-</span> <span class="n">energy</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
-<span class="n">qm_gradient</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_class/raw/main/Butane/qm_grad.npy&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_class/raw/main/Butane/qm_grad_sqm.npy&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)))</span> <span class="o">*</span> <span class="mf">27.2114</span> <span class="o">*</span> <span class="mf">23.061</span> <span class="o">/</span> <span class="mf">0.529177249</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
+<span class="n">qm_gradient</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">((</span><span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_class/raw/main/Claisen_Rearrangement/qm_grad.npy&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">))</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_class/raw/main/Claisen_Rearrangement/qm_grad_sqm.npy&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)))</span> <span class="o">*</span> <span class="mf">27.2114</span> <span class="o">*</span> <span class="mf">23.061</span> <span class="o">/</span> <span class="mf">0.529177249</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
 
 <span class="n">device</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;cuda&#39;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s1">&#39;cpu&#39;</span><span class="p">)</span>
 
@@ -863,10 +806,15 @@ The Dense class contains functions to describe a densely connected neural networ
 <span class="n">atom_types</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">atom_types</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
 <span class="n">energy</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">energy</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
 <span class="n">qm_gradient</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">qm_gradient</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
-
-<span class="n">pl</span><span class="o">.</span><span class="n">seed_everything</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span><span class="o">.</span><span class="n">seed_everything</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">qm_coord</span><span class="p">,</span> <span class="n">atom_types</span><span class="p">,</span> <span class="n">energy</span><span class="p">,</span> <span class="n">qm_gradient</span><span class="p">)</span>
-<span class="n">train</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">random_split</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="p">[</span><span class="mi">1728</span><span class="p">,</span> <span class="mi">72</span><span class="p">])</span>  
+<span class="n">train</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">random_split</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="p">[</span><span class="mi">2016</span><span class="p">,</span> <span class="mi">84</span><span class="p">])</span>
 <span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
 <span class="n">val_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
 </pre></div>
@@ -879,9 +827,9 @@ The Dense class contains functions to describe a densely connected neural networ
 </div>
 </div>
 </section>
-<section id="using-ani-for-feature-extraction">
-<h2><span class="section-number">3.5. </span>Using ANI for Feature Extraction<a class="headerlink" href="#using-ani-for-feature-extraction" title="Permalink to this heading">#</a></h2>
-<p>Here is an example where we use our ANI model for feature extraction. We will use values for our symmetry function parameters from ***cite.</p>
+<section id="setting-ani-parameters">
+<h2><span class="section-number">9.2. </span>Setting ANI Parameters<a class="headerlink" href="#setting-ani-parameters" title="Permalink to this heading">#</a></h2>
+<p>Here we set the parameters for the ANI model and begin training our BP-FNN.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span>
@@ -922,9 +870,7 @@ The Dense class contains functions to describe a densely connected neural networ
 <span class="n">model</span> <span class="o">=</span> <span class="n">BPNN</span><span class="p">(</span><span class="n">descriptor</span><span class="p">,</span> <span class="n">fitting_net</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">5e-4</span><span class="p">)</span>
 <span class="n">csv_logger</span> <span class="o">=</span> <span class="n">pl_loggers</span><span class="o">.</span><span class="n">CSVLogger</span><span class="p">(</span><span class="s1">&#39;logs_csv/&#39;</span><span class="p">)</span>
 <span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">500</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">csv_logger</span><span class="p">,</span> <span class="n">log_every_n_steps</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">accelerator</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
-
 <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">val_loader</span><span class="p">)</span>
-<span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -959,8 +905,8 @@ The Dense class contains functions to describe a densely connected neural networ
 </div>
 </section>
 <section id="saving-model-to-pytorch-file">
-<h2><span class="section-number">3.6. </span>Saving model to PyTorch File<a class="headerlink" href="#saving-model-to-pytorch-file" title="Permalink to this heading">#</a></h2>
-<p>The following files will be saved:</p>
+<h2><span class="section-number">9.3. </span>Saving model to PyTorch file<a class="headerlink" href="#saving-model-to-pytorch-file" title="Permalink to this heading">#</a></h2>
+<p>The following files are saved:</p>
 <p><strong>1) <a class="reference external" href="http://model.pt">model.pt</a></strong></p>
 <ul class="simple">
 <li><p>torch.save saves tensors to <a class="reference external" href="http://model.pt">model.pt</a></p></li>
@@ -971,8 +917,8 @@ The Dense class contains functions to describe a densely connected neural networ
 </ul>
 <p>Previously saved models can be loaded with:</p>
 <ul class="simple">
-<li><p>model.load_state_dict(torch.load(’ 1) ‘))</p></li>
-<li><p>torch.jit.load(’ 2) ‘)</p></li>
+<li><p>model.load_state_dict(torch.load(’ <strong>1)</strong> ‘))</p></li>
+<li><p>torch.jit.load(’ <strong>2)</strong> ‘)</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -984,27 +930,35 @@ The Dense class contains functions to describe a densely connected neural networ
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ene_pred</span><span class="p">,</span> <span class="n">grad_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">qm_coord</span><span class="p">,</span> <span class="n">atom_types</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">cpu_coord</span> <span class="o">=</span> <span class="n">qm_coord</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+<span class="n">cpu_atoms</span> <span class="o">=</span> <span class="n">atom_types</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span>
+<span class="n">ene_pred</span><span class="p">,</span> <span class="n">grad_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">cpu_coord</span><span class="p">,</span> <span class="n">cpu_atoms</span><span class="p">)</span>
+<span class="c1">#ene_pred, grad_pred = model(qm_coord.cpu(), atom_types[0].cpu())</span>
 </pre></div>
 </div>
 </div>
 </div>
+</section>
+<section id="plotting-rmsd-for-deltamlp-energy-and-forces">
+<h2><span class="section-number">9.4. </span>Plotting RMSD for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP Energy and Forces<a class="headerlink" href="#plotting-rmsd-for-deltamlp-energy-and-forces" title="Permalink to this heading">#</a></h2>
+<p>RMSD for predicted and reference energy and forces are calculated and displayed below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
-<span class="n">ds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">DataSource</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
-<span class="n">e1</span> <span class="o">=</span> <span class="n">energy</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_class/raw/main/Butane/energy_sqm.npy&quot;</span><span class="p">,</span><span class="s2">&quot;rb&quot;</span><span class="p">))</span> <span class="o">*</span> <span class="mf">27.2114</span> <span class="o">*</span> <span class="mf">23.061</span>
-<span class="n">e2</span> <span class="o">=</span> <span class="n">ene_pred</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_class/raw/main/Butane/energy_sqm.npy&quot;</span><span class="p">,</span><span class="s2">&quot;rb&quot;</span><span class="p">))</span> <span class="o">*</span> <span class="mf">27.2114</span> <span class="o">*</span> <span class="mf">23.061</span>
+
+<span class="n">e1</span> <span class="o">=</span> <span class="n">energy</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_class/raw/main/Claisen_Rearrangement/energy_sqm.npy&quot;</span><span class="p">,</span><span class="s2">&quot;rb&quot;</span><span class="p">))</span> <span class="o">*</span> <span class="mf">27.2114</span> <span class="o">*</span> <span class="mf">23.061</span>
+<span class="n">e2</span> <span class="o">=</span> <span class="n">ene_pred</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_class/raw/main/Claisen_Rearrangement/energy_sqm.npy&quot;</span><span class="p">,</span><span class="s2">&quot;rb&quot;</span><span class="p">))</span> <span class="o">*</span> <span class="mf">27.2114</span> <span class="o">*</span> <span class="mf">23.061</span>
+
 <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">e1</span><span class="p">,</span><span class="n">e2</span><span class="p">))),</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">e1</span><span class="p">,</span><span class="n">e2</span><span class="p">)))],</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">e1</span><span class="p">,</span><span class="n">e2</span><span class="p">))),</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">e1</span><span class="p">,</span><span class="n">e2</span><span class="p">)))],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">e1</span><span class="p">,</span><span class="n">e2</span><span class="p">))),</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">e1</span><span class="p">,</span><span class="n">e2</span><span class="p">)))],</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">e1</span><span class="p">,</span><span class="n">e2</span><span class="p">))),</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">e1</span><span class="p">,</span><span class="n">e2</span><span class="p">)))],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Reference Energy (kcal/mol)&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Predicted Energy (kcal/mol)&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s1">&#39;RMSD: </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">e1</span> <span class="o">-</span> <span class="n">e2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)),</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;axes fraction&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 
-<span class="n">f1</span> <span class="o">=</span> <span class="o">-</span><span class="n">qm_gradient</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_class/raw/main/Butane/qm_grad_sqm.npy&quot;</span><span class="p">,</span><span class="s2">&quot;rb&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">27.2114</span> <span class="o">*</span> <span class="mf">23.061</span> <span class="o">/</span> <span class="mf">0.529177249</span>
-<span class="n">f2</span> <span class="o">=</span> <span class="o">-</span><span class="n">grad_pred</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_class/raw/main/Butane/qm_grad_sqm.npy&quot;</span><span class="p">,</span><span class="s2">&quot;rb&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">27.2114</span> <span class="o">*</span> <span class="mf">23.061</span> <span class="o">/</span> <span class="mf">0.529177249</span>
+<span class="n">f1</span> <span class="o">=</span> <span class="o">-</span><span class="n">qm_gradient</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_class/raw/main/Claisen_Rearrangement/qm_grad_sqm.npy&quot;</span><span class="p">,</span><span class="s2">&quot;rb&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">27.2114</span> <span class="o">*</span> <span class="mf">23.061</span> <span class="o">/</span> <span class="mf">0.529177249</span>
+<span class="n">f2</span> <span class="o">=</span> <span class="o">-</span><span class="n">grad_pred</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_class/raw/main/Claisen_Rearrangement/qm_grad_sqm.npy&quot;</span><span class="p">,</span><span class="s2">&quot;rb&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">27.2114</span> <span class="o">*</span> <span class="mf">23.061</span> <span class="o">/</span> <span class="mf">0.529177249</span>
 
 <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)))),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)))],</span> <span class="p">[</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">))),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)))],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
@@ -1018,9 +972,13 @@ The Dense class contains functions to describe a densely connected neural networ
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/fcd1622ce50b98cbdd4cff75bc4ec3c61a11eaf3ad30dced261529fa487f045a.png" src="_images/fcd1622ce50b98cbdd4cff75bc4ec3c61a11eaf3ad30dced261529fa487f045a.png" />
+<img alt="_images/810daa53be9b1b6a09a6fa6fc11c3f9d67099aeaf01c8d4b2452303ce271e5fd.png" src="_images/810daa53be9b1b6a09a6fa6fc11c3f9d67099aeaf01c8d4b2452303ce271e5fd.png" />
 </div>
 </div>
+</section>
+<section id="the-model-weights-and-biases-dictionary">
+<h2><span class="section-number">9.5. </span>The Model Weights and Biases Dictionary<a class="headerlink" href="#the-model-weights-and-biases-dictionary" title="Permalink to this heading">#</a></h2>
+<p>This cell prints the size of the weights and biases used in the trained model for reference.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Model&#39;s state_dict:&quot;</span><span class="p">)</span>
@@ -1043,6 +1001,10 @@ fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
 </div>
 </div>
 </div>
+</section>
+<section id="plotting-validation-error-for-deltamlp">
+<h2><span class="section-number">9.6. </span>Plotting Validation Error for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP<a class="headerlink" href="#plotting-validation-error-for-deltamlp" title="Permalink to this heading">#</a></h2>
+<p>Validation error for the <span class="math notranslate nohighlight">\(\Delta\)</span>MLP is shown below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
@@ -1062,9 +1024,13 @@ fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/029839f5552fc56a8d7b3ae134b61ed9bbb9bd7193b3f616852bf0e99d981562.png" src="_images/029839f5552fc56a8d7b3ae134b61ed9bbb9bd7193b3f616852bf0e99d981562.png" />
+<img alt="_images/d85db26cdc677e0c09694616c7bee31314af70582f5d655b25880aef4d31fdc7.png" src="_images/d85db26cdc677e0c09694616c7bee31314af70582f5d655b25880aef4d31fdc7.png" />
 </div>
 </div>
+</section>
+<section id="plotting-training-and-validation-loss-for-deltamlp">
+<h2><span class="section-number">9.7. </span>Plotting Training and Validation Loss for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP<a class="headerlink" href="#plotting-training-and-validation-loss-for-deltamlp" title="Permalink to this heading">#</a></h2>
+<p>The loss at each step of the training process is displayed below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;logs_csv/lightning_logs/version_0/metrics.csv&#39;</span><span class="p">)</span>
@@ -1083,14 +1049,14 @@ fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1350
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1575
 500
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7efb91fcecb0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fb747ac45b0&gt;
 </pre></div>
 </div>
-<img alt="_images/b7bb2365e348f066108d0ce9a02cada07a03a3c5eb4aaa40c96192f8aaf67d67.png" src="_images/b7bb2365e348f066108d0ce9a02cada07a03a3c5eb4aaa40c96192f8aaf67d67.png" />
+<img alt="_images/ea6f561e770afa3980b2abc116ae22a534e5e81add471d3a7290797d1d8427cd.png" src="_images/ea6f561e770afa3980b2abc116ae22a534e5e81add471d3a7290797d1d8427cd.png" />
 </div>
 </div>
 </section>
@@ -1128,20 +1094,20 @@ fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
     <div class="footer-article-item"><!-- Previous / next buttons -->
 <div class="prev-next-area">
     <a class="left-prev"
-       href="Lesson2_GPR.html"
+       href="Lesson4_DeepPot.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><span class="section-number">2. </span>Gaussian Process Regression Models</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>A PyTorch implementation of Deep Potential-Smooth Edition (DeepPot-SE)</p>
       </div>
     </a>
     <a class="right-next"
-       href="Lesson4_DeepPot.html"
+       href="Lesson6_DeepPot-FNN_MLP.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">4. </span>A PyTorch implementation of Deep Potential-Smooth Edition (DeepPot-SE)</p>
+        <p class="prev-next-title"><span class="section-number">10. </span>Neural Netwotk with Deep Potential</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1163,27 +1129,31 @@ fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-and-libraries">3.1. Importing Data and Libraries</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-from-github-mlp-class-and-installing-pytorch-lightning">3.1.1. Importing Data From GitHub (mlp_class) and Installing PyTorch Lightning</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-libraries">3.1.2. Importing Libraries</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">5. Behler-Parrinello Fitting Neural Network with Machine Learning Potential (BP-FNN MLP) Models for the Claisen Rearrangement</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-and-libraries">5.1. Importing Data and Libraries</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#import-data-from-github-mlp-class-and-installing-pytorch-lightning">5.1.1. Import data from GitHub (mlp_class) and Installing PyTorch Lightning</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#symmetry-functions">3.2. Symmetry Functions</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-symmetry-functions">3.2.1. Defining Symmetry Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-libraries">5.2. Import Libraries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-dense-neural-network">5.3. Defining the Dense Neural Network</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-bp-symmetry-functions">5.4. Creating the BP Symmetry Functions</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-neural-network-and-feature-extraction-classes">3.3. Defining Neural Network and Feature Extraction Classes</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-sequential-and-dense-classes">3.3.1. Defining Sequential and Dense Classes</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-feature-class">3.3.2. Creating the Feature Class</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-feature-class-for-ani">3.3.3. Creating the Feature Class for ANI</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-fitting-class">3.3.4. Creating the Fitting Class</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-the-behler-parrinello-neural-network-bpnn-class">3.3.5. Create the Behler-Parrinello Neural Network (BPNN) Class</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-bp-feature-class">6. Defining the BP Feature Class</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-ani-feature-class">7. Defining the ANI Feature Class</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-fitting-neural-network">8. Creating the Fitting Neural Network</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#the-behler-parrinello-fitting-neural-network-bp-fnn">9. The Behler-Parrinello Fitting Neural Network (BP-FNN)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-and-seeding">9.1. Importing Data and Seeding</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-ani-parameters">9.2. Setting ANI Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-model-to-pytorch-file">9.3. Saving model to PyTorch file</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-rmsd-for-deltamlp-energy-and-forces">9.4. Plotting RMSD for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP Energy and Forces</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model-weights-and-biases-dictionary">9.5. The Model Weights and Biases Dictionary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-validation-error-for-deltamlp">9.6. Plotting Validation Error for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-training-and-validation-loss-for-deltamlp">9.7. Plotting Training and Validation Loss for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-data">3.4. Loading Data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-ani-for-feature-extraction">3.5. Using ANI for Feature Extraction</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-model-to-pytorch-file">3.6. Saving model to PyTorch File</a></li>
 </ul>
+
   </nav></div>
 
 </div></div>
