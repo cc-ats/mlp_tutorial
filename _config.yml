@@ -5,7 +5,7 @@
 
 #######################################################################################
 # Book settings
-title                       : MLP Class  # The title of the book. Will be placed in the left navbar.
+title                       : MLP Tutorial  # The title of the book. Will be placed in the left navbar.
 author                      : Xiaoliang Pan  # The author of the book
 copyright                   : "2022"  # Copyright year to be placed in the footer
 logo                        : logo.png  # A path to the book logo
@@ -28,7 +28,7 @@ bibtex_bibfiles:
 
 # Information about where the book exists on the web
 repository:
-  url: https://github.com/cc-ats/mlp_class  # Online location of your book
+  url: https://github.com/cc-ats/mlp_tutorial  # Online location of your book
   branch: main  # Which branch of the repository should be used when creating links (optional)
 
 # Add GitHub buttons to your book
