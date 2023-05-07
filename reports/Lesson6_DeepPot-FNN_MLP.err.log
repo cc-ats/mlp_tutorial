@@ -34,25 +34,19 @@ HTML(f"""<video src={url} width=300 controls/>""")
 [1m[[0m[34;49mnotice[0m[1;39;49m][0m[39;49m A new release of pip is available: [0m[31;49m22.0.4[0m[39;49m -> [0m[32;49m23.1.2[0m
 [1m[[0m[34;49mnotice[0m[1;39;49m][0m[39;49m To update, run: [0m[32;49mpip install --upgrade pip[0m
 ----- stdout -----
---2023-05-07 21:54:51--  https://github.com/cc-ats/mlp_class/raw/main/Claisen_Rearrangement/ml_qmmm.py
-Resolving github.com (github.com)... 140.82.114.4
-Connecting to github.com (github.com)|140.82.114.4|:443...
+--2023-05-07 21:55:53--  https://github.com/cc-ats/mlp_class/raw/main/Claisen_Rearrangement/ml_qmmm.py
 ----- stdout -----
-connected.
------ stdout -----
-HTTP request sent, awaiting response...
------ stdout -----
-301 Moved Permanently
+Resolving github.com (github.com)... 140.82.114.3
+Connecting to github.com (github.com)|140.82.114.3|:443... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
 Location: https://github.com/cc-ats/mlp_tutorial/raw/main/Claisen_Rearrangement/ml_qmmm.py [following]
---2023-05-07 21:54:51--  https://github.com/cc-ats/mlp_tutorial/raw/main/Claisen_Rearrangement/ml_qmmm.py
+--2023-05-07 21:55:53--  https://github.com/cc-ats/mlp_tutorial/raw/main/Claisen_Rearrangement/ml_qmmm.py
 Reusing existing connection to github.com:443.
-HTTP request sent, awaiting response...
------ stdout -----
-302 Found
+HTTP request sent, awaiting response... 302 Found
 Location: https://raw.githubusercontent.com/cc-ats/mlp_tutorial/main/Claisen_Rearrangement/ml_qmmm.py [following]
---2023-05-07 21:54:51--  https://raw.githubusercontent.com/cc-ats/mlp_tutorial/main/Claisen_Rearrangement/ml_qmmm.py
-Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.110.133, 185.199.109.133, 185.199.111.133, ...
-Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.110.133|:443... connected.
+--2023-05-07 21:55:53--  https://raw.githubusercontent.com/cc-ats/mlp_tutorial/main/Claisen_Rearrangement/ml_qmmm.py
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.108.133, 185.199.111.133, 185.199.110.133, ...
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.108.133|:443... connected.
 HTTP request sent, awaiting response...
 ----- stdout -----
 200 OK
@@ -61,7 +55,7 @@ Saving to: ‘ml_qmmm.py’
 
 ml_qmmm.py            0%[                    ]       0  --.-KB/s               ml_qmmm.py          100%[===================>]   5.08K  --.-KB/s    in 0s      
 
-2023-05-07 21:54:52 (47.3 MB/s) - ‘ml_qmmm.py’ saved [5203/5203]
+2023-05-07 21:55:53 (75.5 MB/s) - ‘ml_qmmm.py’ saved [5203/5203]
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
