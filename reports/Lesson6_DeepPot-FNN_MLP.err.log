@@ -15,34 +15,61 @@ Traceback (most recent call last):
     raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
 nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
 ------------------
-#@title Trajectory { display-mode: "form" }
-
-#@markdown Reaction coordinate is $d_1 -d_2$ with 21 windows.
-
-#@markdown Total of 2100 frames (1 ps/window, frames are saved every 1 fs.)
-!rm /content/claisen.* &> /dev/null
-!rm /content/*.png &> /dev/null
 !pip install -U kora &> /dev/null
+!pip install pytorch-lightning > /dev/null
+
 !wget https://github.com/cc-ats/mlp_class/raw/main/Claisen_Rearrangement/img/claisen.mp4 &> /dev/null
+!wget https://github.com/cc-ats/mlp_class/raw/main/Claisen_Rearrangement/ml_qmmm.py
+
 from kora.drive import upload_public
 url = upload_public('claisen.mp4')
 # then display it
 from IPython.display import HTML
 
 HTML(f"""<video src={url} width=300 controls/>""")
-
-#@markdown <img src='https://raw.githubusercontent.com/cc-ats/mlp_class/main/Claisen_Rearrangement/img/pent-4-enal.png' width=200px>
 ------------------
 
+----- stdout -----
+
+[1m[[0m[34;49mnotice[0m[1;39;49m][0m[39;49m A new release of pip is available: [0m[31;49m22.0.4[0m[39;49m -> [0m[32;49m23.1.2[0m
+[1m[[0m[34;49mnotice[0m[1;39;49m][0m[39;49m To update, run: [0m[32;49mpip install --upgrade pip[0m
+----- stdout -----
+--2023-05-07 20:39:02--  https://github.com/cc-ats/mlp_class/raw/main/Claisen_Rearrangement/ml_qmmm.py
+Resolving github.com (github.com)... 192.30.255.112
+Connecting to github.com (github.com)|192.30.255.112|:443... connected.
+----- stdout -----
+HTTP request sent, awaiting response...
+----- stdout -----
+301 Moved Permanently
+Location: https://github.com/cc-ats/mlp_tutorial/raw/main/Claisen_Rearrangement/ml_qmmm.py [following]
+--2023-05-07 20:39:02--  https://github.com/cc-ats/mlp_tutorial/raw/main/Claisen_Rearrangement/ml_qmmm.py
+Reusing existing connection to github.com:443.
+HTTP request sent, awaiting response...
+----- stdout -----
+302 Found
+Location: https://raw.githubusercontent.com/cc-ats/mlp_tutorial/main/Claisen_Rearrangement/ml_qmmm.py [following]
+--2023-05-07 20:39:02--  https://raw.githubusercontent.com/cc-ats/mlp_tutorial/main/Claisen_Rearrangement/ml_qmmm.py
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.109.133, 185.199.108.133, 185.199.110.133, ...
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.109.133|:443... connected.
+HTTP request sent, awaiting response...
+----- stdout -----
+200 OK
+Length: 5203 (5.1K) [text/plain]
+Saving to: ‘ml_qmmm.py’
+
+ml_qmmm.py            0%[                    ]       0  --.-KB/s               ml_qmmm.py          100%[===================>]   5.08K  --.-KB/s    in 0s      
+
+2023-05-07 20:39:02 (73.9 MB/s) - ‘ml_qmmm.py’ saved [5203/5203]
+------------------
 
 [0;31m---------------------------------------------------------------------------[0m
 [0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
-Cell [0;32mIn[1], line 10[0m
-[1;32m      8[0m get_ipython()[38;5;241m.[39msystem([38;5;124m'[39m[38;5;124mpip install -U kora &> /dev/null[39m[38;5;124m'[39m)
-[1;32m      9[0m get_ipython()[38;5;241m.[39msystem([38;5;124m'[39m[38;5;124mwget https://github.com/cc-ats/mlp_class/raw/main/Claisen_Rearrangement/img/claisen.mp4 &> /dev/null[39m[38;5;124m'[39m)
-[0;32m---> 10[0m [38;5;28;01mfrom[39;00m [38;5;21;01mkora[39;00m[38;5;21;01m.[39;00m[38;5;21;01mdrive[39;00m [38;5;28;01mimport[39;00m upload_public
-[1;32m     11[0m url [38;5;241m=[39m upload_public([38;5;124m'[39m[38;5;124mclaisen.mp4[39m[38;5;124m'[39m)
-[1;32m     12[0m [38;5;66;03m# then display it[39;00m
+Cell [0;32mIn[1], line 7[0m
+[1;32m      4[0m get_ipython()[38;5;241m.[39msystem([38;5;124m'[39m[38;5;124mwget https://github.com/cc-ats/mlp_class/raw/main/Claisen_Rearrangement/img/claisen.mp4 &> /dev/null[39m[38;5;124m'[39m)
+[1;32m      5[0m get_ipython()[38;5;241m.[39msystem([38;5;124m'[39m[38;5;124mwget https://github.com/cc-ats/mlp_class/raw/main/Claisen_Rearrangement/ml_qmmm.py[39m[38;5;124m'[39m)
+[0;32m----> 7[0m [38;5;28;01mfrom[39;00m [38;5;21;01mkora[39;00m[38;5;21;01m.[39;00m[38;5;21;01mdrive[39;00m [38;5;28;01mimport[39;00m upload_public
+[1;32m      8[0m url [38;5;241m=[39m upload_public([38;5;124m'[39m[38;5;124mclaisen.mp4[39m[38;5;124m'[39m)
+[1;32m      9[0m [38;5;66;03m# then display it[39;00m
 
 [0;31mModuleNotFoundError[0m: No module named 'kora'
 
