@@ -1,4 +1,4 @@
-# MLP Class
+# MLP Tutorial
 
 ## Table of Contents
 
