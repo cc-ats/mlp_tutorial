@@ -172,7 +172,7 @@ const thebe_selector_output = ".output, .cell_output"
 
 
 <li class="toctree-l1"><a class="reference internal" href="Lesson6_DeepPot-FNN_MLP.html">10. <strong>Lesson 6: DeepPot-Smooth Edition Fitting Neural Network with Machine Learning Potentials (DeepPot-SE-FNN MLP)</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="Lesson7_BP-GPR_MLP.html">11. <strong>Lesson 7: Behler-Parrinello Gaussian Process Regression (BP-GPR) for Machine Learning Potentials</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lesson7_BP-GPR_MLP.html">11. Gaussian Process Regression with Behler-Parrinello Symmetry Functions</a></li>
 </ul>
 
     </div>
@@ -729,6 +729,50 @@ The local feature matrix is then mapped to the atomic energy using the fitting n
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">line</span> <span class="mi">28</span>
+<span class="g g-Whitespace">     </span><span class="mi">26</span> <span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">csv_logger</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">27</span> <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">28</span> <span class="n">_</span><span class="p">,</span> <span class="n">grad_pred</span> <span class="o">=</span> <span class="n">model</span><span class="p">(</span><span class="n">coord</span><span class="p">,</span> <span class="n">atom_types</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/torch/nn/modules/module.py:1501,</span> in <span class="ni">Module._call_impl</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1496</span> <span class="c1"># If we don&#39;t have any hooks, we want to skip the rest of the logic in</span>
+<span class="g g-Whitespace">   </span><span class="mi">1497</span> <span class="c1"># this function, and just call forward.</span>
+<span class="g g-Whitespace">   </span><span class="mi">1498</span> <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_backward_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backward_pre_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_hooks</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_pre_hooks</span>
+<span class="g g-Whitespace">   </span><span class="mi">1499</span>         <span class="ow">or</span> <span class="n">_global_backward_pre_hooks</span> <span class="ow">or</span> <span class="n">_global_backward_hooks</span>
+<span class="g g-Whitespace">   </span><span class="mi">1500</span>         <span class="ow">or</span> <span class="n">_global_forward_hooks</span> <span class="ow">or</span> <span class="n">_global_forward_pre_hooks</span><span class="p">):</span>
+<span class="ne">-&gt; </span><span class="mi">1501</span>     <span class="k">return</span> <span class="n">forward_call</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1502</span> <span class="c1"># Do not call functions when jit is used</span>
+<span class="g g-Whitespace">   </span><span class="mi">1503</span> <span class="n">full_backward_hooks</span><span class="p">,</span> <span class="n">non_full_backward_hooks</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+
+<span class="nn">Cell In[6], line 13,</span> in <span class="ni">DeepPot.forward</span><span class="nt">(self, coords, atom_types)</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span> <span class="n">atomic_energies</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">fitting_net</span><span class="p">((</span><span class="n">descriptors</span><span class="p">,</span> <span class="n">atom_types</span><span class="p">))</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span> <span class="n">energy</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">unbind</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">atomic_energies</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+<span class="ne">---&gt; </span><span class="mi">13</span> <span class="n">gradient</span><span class="p">,</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">energy</span><span class="p">,</span> <span class="p">[</span><span class="n">coords</span><span class="p">],</span> <span class="n">create_graph</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">14</span> <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">hstack</span><span class="p">(</span><span class="n">energy</span><span class="p">),</span> <span class="n">gradient</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/torch/autograd/__init__.py:288,</span> in <span class="ni">grad</span><span class="nt">(outputs, inputs, grad_outputs, retain_graph, create_graph, only_inputs, allow_unused, is_grads_batched)</span>
+<span class="g g-Whitespace">    </span><span class="mi">283</span>     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="s2">&quot;only_inputs argument is deprecated and is ignored now &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">284</span>                   <span class="s2">&quot;(defaults to True). To accumulate gradient for other &quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">285</span>                   <span class="s2">&quot;parts of the graph, please use torch.autograd.backward.&quot;</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">287</span> <span class="n">grad_outputs_</span> <span class="o">=</span> <span class="n">_tensor_or_tensors_to_tuple</span><span class="p">(</span><span class="n">grad_outputs</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">t_outputs</span><span class="p">))</span>
+<span class="ne">--&gt; </span><span class="mi">288</span> <span class="n">grad_outputs_</span> <span class="o">=</span> <span class="n">_make_grads</span><span class="p">(</span><span class="n">t_outputs</span><span class="p">,</span> <span class="n">grad_outputs_</span><span class="p">,</span> <span class="n">is_grads_batched</span><span class="o">=</span><span class="n">is_grads_batched</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">290</span> <span class="k">if</span> <span class="n">retain_graph</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">291</span>     <span class="n">retain_graph</span> <span class="o">=</span> <span class="n">create_graph</span>
+
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/torch/autograd/__init__.py:54,</span> in <span class="ni">_make_grads</span><span class="nt">(outputs, grads, is_grads_batched)</span>
+<span class="g g-Whitespace">     </span><span class="mi">52</span> <span class="n">new_grads</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="n">_OptionalTensor</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="g g-Whitespace">     </span><span class="mi">53</span> <span class="k">for</span> <span class="n">out</span><span class="p">,</span> <span class="n">grad</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">outputs</span><span class="p">,</span> <span class="n">grads</span><span class="p">):</span>
+<span class="ne">---&gt; </span><span class="mi">54</span>     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">grad</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+<span class="g g-Whitespace">     </span><span class="mi">55</span>         <span class="n">first_grad</span> <span class="o">=</span> <span class="n">grad</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">is_grads_batched</span> <span class="k">else</span> <span class="n">grad</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="g g-Whitespace">     </span><span class="mi">56</span>         <span class="k">if</span> <span class="ow">not</span> <span class="n">torch</span><span class="o">.</span><span class="n">is_same_size</span><span class="p">(</span><span class="n">out</span><span class="p">,</span> <span class="n">first_grad</span><span class="p">):</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
+</div>
+</div>
 </div>
 </section>
 <section id="plotting-rmsd-for-force">
@@ -755,7 +799,7 @@ The local feature matrix is then mapped to the atomic energy using the fitting n
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/ad9e896b3a36b24b36cc88e64d6f0d78c1b826ca0f97d2abafda5a36b7580169.png" src="_images/ad9e896b3a36b24b36cc88e64d6f0d78c1b826ca0f97d2abafda5a36b7580169.png" />
+<img alt="_images/694c2a3a690a8126f9372cb307e3348387720288fbb03bfb8c11882307cb3879.png" src="_images/694c2a3a690a8126f9372cb307e3348387720288fbb03bfb8c11882307cb3879.png" />
 </div>
 </div>
 </section>
@@ -775,7 +819,7 @@ The local feature matrix is then mapped to the atomic energy using the fitting n
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/e41cd9ec1396fec3ed404c530baa4fd39ce992d9cadb1c42b2796e444653b3cf.png" src="_images/e41cd9ec1396fec3ed404c530baa4fd39ce992d9cadb1c42b2796e444653b3cf.png" />
+<img alt="_images/f647ee37f8ec325680d517842b162306290c1417693980f5f0aa89458666c2d8.png" src="_images/f647ee37f8ec325680d517842b162306290c1417693980f5f0aa89458666c2d8.png" />
 </div>
 </div>
 </section>
