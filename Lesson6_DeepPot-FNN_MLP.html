@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>10. Lesson 6: DeepPot-Smooth Edition Fitting Neural Network with Machine Learning Potentials (DeepPot-SE-FNN MLP) &#8212; MLP Tutorial</title>
+    <title>6. Lesson 6: DeepPot-Smooth Edition Fitting Neural Network with Machine Learning Potentials (DeepPot-SE-FNN MLP) &#8212; MLP Tutorial</title>
   
   
   
@@ -68,7 +68,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'Lesson6_DeepPot-FNN_MLP';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="11. Lesson 7: Behler-Parrinello Gaussian Process Regression (BP-GPR) for Machine Learning Potentials" href="Lesson7_BP-GPR_MLP.html" />
+    <link rel="next" title="7. Lesson 7: Behler-Parrinello Gaussian Process Regression (BP-GPR) for Machine Learning Potentials" href="Lesson7_BP-GPR_MLP.html" />
     <link rel="prev" title="5. Behler-Parrinello Fitting Neural Network with Machine Learning Potential (BP-FNN MLP) Models for the Claisen Rearrangement" href="Lesson5_BP-FNN_MLP.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -167,12 +167,8 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">C. Machine Learning Potentials</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="Lesson5_BP-FNN_MLP.html">5. Behler-Parrinello Fitting Neural Network with Machine Learning Potential (BP-FNN MLP) Models for the Claisen Rearrangement</a></li>
-
-
-
-
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">10. <strong>Lesson 6: DeepPot-Smooth Edition Fitting Neural Network with Machine Learning Potentials (DeepPot-SE-FNN MLP)</strong></a></li>
-<li class="toctree-l1"><a class="reference internal" href="Lesson7_BP-GPR_MLP.html">11. <strong>Lesson 7: Behler-Parrinello Gaussian Process Regression (BP-GPR) for Machine Learning Potentials</strong></a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">6. <strong>Lesson 6: DeepPot-Smooth Edition Fitting Neural Network with Machine Learning Potentials (DeepPot-SE-FNN MLP)</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lesson7_BP-GPR_MLP.html">7. <strong>Lesson 7: Behler-Parrinello Gaussian Process Regression (BP-GPR) for Machine Learning Potentials</strong></a></li>
 </ul>
 
     </div>
@@ -397,16 +393,16 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-reaction-coordinate-and-system-size">10.1. Defining the Reaction Coordinate and System Size</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-data-from-github-mlp-tutorial-and-install-pytorch-lightning">10.2. Import Data from GitHub (mlp_tutorial) and Install PyTorch Lightning.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-libraries">10.3. Import Libraries</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-deeppot-class">10.4. The DeepPot Class</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-and-feature-extraction">10.5. Importing Data and Feature Extraction</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-the-neural-network">10.6. Training the Neural Network</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-the-model-to-a-pytorch-file">10.7. Saving the Model to a PyTorch File</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-rmsd-for-deltamlp-energy-and-forces">10.8. Plotting RMSD for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP Energy and Forces</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model-weights-and-biases-dictionary">10.9. The Model Weights and Biases Dictionary</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-training-and-validation-loss-for-deltamlp">10.10. Plotting Training and Validation Loss for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-reaction-coordinate-and-system-size">6.1. Defining the Reaction Coordinate and System Size</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-data-from-github-mlp-tutorial-and-install-pytorch-lightning">6.2. Import Data from GitHub (mlp_tutorial) and Install PyTorch Lightning.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-libraries">6.3. Import Libraries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-deeppot-class">6.4. The DeepPot Class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-and-feature-extraction">6.5. Importing Data and Feature Extraction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-the-neural-network">6.6. Training the Neural Network</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-the-model-to-a-pytorch-file">6.7. Saving the Model to a PyTorch File</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-rmsd-for-deltamlp-energy-and-forces">6.8. Plotting RMSD for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP Energy and Forces</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model-weights-and-biases-dictionary">6.9. The Model Weights and Biases Dictionary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-training-and-validation-loss-for-deltamlp">6.10. Plotting Training and Validation Loss for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
 </ul>
             </nav>
         </div>
@@ -420,11 +416,11 @@ document.write(`
                   
   <p><a href="https://colab.research.google.com/github/cc-ats/mlp_tutorial/blob/main/Lesson6_DeepPot-FNN_MLP.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a></p>
 <section class="tex2jax_ignore mathjax_ignore" id="lesson-6-deeppot-smooth-edition-fitting-neural-network-with-machine-learning-potentials-deeppot-se-fnn-mlp">
-<h1><span class="section-number">10. </span><strong>Lesson 6: DeepPot-Smooth Edition Fitting Neural Network with Machine Learning Potentials (DeepPot-SE-FNN MLP)</strong><a class="headerlink" href="#lesson-6-deeppot-smooth-edition-fitting-neural-network-with-machine-learning-potentials-deeppot-se-fnn-mlp" title="Permalink to this heading">#</a></h1>
+<h1><span class="section-number">6. </span><strong>Lesson 6: DeepPot-Smooth Edition Fitting Neural Network with Machine Learning Potentials (DeepPot-SE-FNN MLP)</strong><a class="headerlink" href="#lesson-6-deeppot-smooth-edition-fitting-neural-network-with-machine-learning-potentials-deeppot-se-fnn-mlp" title="Permalink to this heading">#</a></h1>
 <p><span class="math notranslate nohighlight">\(\Delta\)</span> MLP  with PyTorch for the claisen rearrangement reaction</p>
 <p>For this tutorial, we will be combining the Fitting Neural Network (FNN) from Lesson 1 and the DeepPot-Smooth Edition (DeepPot-SE) from Lesson 4 to train a <span class="math notranslate nohighlight">\(\Delta\)</span> Machine Learning Potential (<span class="math notranslate nohighlight">\(\Delta\)</span>MLP) model to reproduce the energy and forces for the claisen rearrangement reaction. With a DeepPot-SE-FNN, we can utilize the properties from the local environment defined in the DeepPot-SE model for feature extraction and use the FNN for training. The goal of this model is to train with data that is from semiempirical (PM3) and DFT (B3LYP) levels of theory. The DeepPot-SE-FNN will be used to correct the semiempirical values to obtain DFT level accuracy, which is what makes it a <span class="math notranslate nohighlight">\(\Delta\)</span>MLP model.</p>
 <section id="defining-the-reaction-coordinate-and-system-size">
-<h2><span class="section-number">10.1. </span>Defining the Reaction Coordinate and System Size<a class="headerlink" href="#defining-the-reaction-coordinate-and-system-size" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">6.1. </span>Defining the Reaction Coordinate and System Size<a class="headerlink" href="#defining-the-reaction-coordinate-and-system-size" title="Permalink to this heading">#</a></h2>
 <p>Reaction coordinate is <span class="math notranslate nohighlight">\(d_1 -d_2\)</span> with 21 windows.</p>
 <p>Total of 2100 frames (1 ps/window, frames are saved every 1 fs.)</p>
 <img src='https://raw.githubusercontent.com/cc-ats/mlp_class/main/Claisen_Rearrangement/img/pent-4-enal.png' width=200px><div class="cell docutils container">
@@ -449,9 +445,9 @@ document.write(`
 <span class=" -Color -Color-Bold">[</span><span class=" -Color -Color-Blue">notice</span><span class=" -Color -Color-Bold">]</span> To update, run: <span class=" -Color -Color-Green">pip install --upgrade pip</span>
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--2023-05-07 21:56:20--  https://github.com/cc-ats/mlp_class/raw/main/Claisen_Rearrangement/ml_qmmm.py
-Resolving github.com (github.com)... 140.82.114.4
-Connecting to github.com (github.com)|140.82.114.4|:443... connected.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>--2023-05-07 22:01:19--  https://github.com/cc-ats/mlp_class/raw/main/Claisen_Rearrangement/ml_qmmm.py
+Resolving github.com (github.com)... 140.82.112.3
+Connecting to github.com (github.com)|140.82.112.3|:443... connected.
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>HTTP request sent, awaiting response... 
@@ -459,19 +455,20 @@ Connecting to github.com (github.com)|140.82.114.4|:443... connected.
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>301 Moved Permanently
 Location: https://github.com/cc-ats/mlp_tutorial/raw/main/Claisen_Rearrangement/ml_qmmm.py [following]
---2023-05-07 21:56:20--  https://github.com/cc-ats/mlp_tutorial/raw/main/Claisen_Rearrangement/ml_qmmm.py
+--2023-05-07 22:01:19--  https://github.com/cc-ats/mlp_tutorial/raw/main/Claisen_Rearrangement/ml_qmmm.py
 Reusing existing connection to github.com:443.
 HTTP request sent, awaiting response... 
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>302 Found
 Location: https://raw.githubusercontent.com/cc-ats/mlp_tutorial/main/Claisen_Rearrangement/ml_qmmm.py [following]
---2023-05-07 21:56:20--  https://raw.githubusercontent.com/cc-ats/mlp_tutorial/main/Claisen_Rearrangement/ml_qmmm.py
-Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.109.133, 185.199.110.133, 185.199.111.133, ...
-Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.109.133|:443... connected.
+--2023-05-07 22:01:19--  https://raw.githubusercontent.com/cc-ats/mlp_tutorial/main/Claisen_Rearrangement/ml_qmmm.py
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.110.133, 185.199.109.133, 185.199.111.133, ...
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.110.133|:443... connected.
+HTTP request sent, awaiting response... 
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>HTTP request sent, awaiting response... 200 OK
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>200 OK
 Length: 5203 (5.1K) [text/plain]
 Saving to: ‘ml_qmmm.py’
 
@@ -479,7 +476,7 @@ Saving to: ‘ml_qmmm.py’
 ml_qmmm.py            0%[                    ]       0  --.-KB/s               
 ml_qmmm.py          100%[===================&gt;]   5.08K  --.-KB/s    in 0s      
 
-2023-05-07 21:56:21 (64.9 MB/s) - ‘ml_qmmm.py’ saved [5203/5203]
+2023-05-07 22:01:19 (62.6 MB/s) - ‘ml_qmmm.py’ saved [5203/5203]
 </pre></div>
 </div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
@@ -498,7 +495,7 @@ ml_qmmm.py          100%[===================&gt;]   5.08K  --.-KB/s    in 0s
 </div>
 </section>
 <section id="import-data-from-github-mlp-tutorial-and-install-pytorch-lightning">
-<h2><span class="section-number">10.2. </span>Import Data from GitHub (mlp_tutorial) and Install PyTorch Lightning.<a class="headerlink" href="#import-data-from-github-mlp-tutorial-and-install-pytorch-lightning" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">6.2. </span>Import Data from GitHub (mlp_tutorial) and Install PyTorch Lightning.<a class="headerlink" href="#import-data-from-github-mlp-tutorial-and-install-pytorch-lightning" title="Permalink to this heading">#</a></h2>
 <p>Files from GitHub:</p>
 <ul class="simple">
 <li><p><strong>qm_coord.npy</strong> (2100, 14, 3)</p></li>
@@ -519,7 +516,7 @@ ml_qmmm.py          100%[===================&gt;]   5.08K  --.-KB/s    in 0s
 </ul>
 </section>
 <section id="import-libraries">
-<h2><span class="section-number">10.3. </span>Import Libraries<a class="headerlink" href="#import-libraries" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">6.3. </span>Import Libraries<a class="headerlink" href="#import-libraries" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p>math, typing (Sequence, Tuple)</p></li>
 <li><p>Torch (nn, nn.functional, Tensor. TensorDataset, DataLoader, random_split)</p></li>
@@ -548,7 +545,7 @@ ml_qmmm.py          100%[===================&gt;]   5.08K  --.-KB/s    in 0s
 </div>
 </section>
 <section id="the-deeppot-class">
-<h2><span class="section-number">10.4. </span>The DeepPot Class<a class="headerlink" href="#the-deeppot-class" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">6.4. </span>The DeepPot Class<a class="headerlink" href="#the-deeppot-class" title="Permalink to this heading">#</a></h2>
 <p>We define the DeepPot class to extract features from a data set using local environment propertiess for training a neural network model.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -618,7 +615,7 @@ ml_qmmm.py          100%[===================&gt;]   5.08K  --.-KB/s    in 0s
 </div>
 </section>
 <section id="importing-data-and-feature-extraction">
-<h2><span class="section-number">10.5. </span>Importing Data and Feature Extraction<a class="headerlink" href="#importing-data-and-feature-extraction" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">6.5. </span>Importing Data and Feature Extraction<a class="headerlink" href="#importing-data-and-feature-extraction" title="Permalink to this heading">#</a></h2>
 <p>We can load in our semiempirical and DFT data, which will be used by the DeepPot model for feature extraction.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -664,7 +661,7 @@ ml_qmmm.py          100%[===================&gt;]   5.08K  --.-KB/s    in 0s
 </div>
 </section>
 <section id="training-the-neural-network">
-<h2><span class="section-number">10.6. </span>Training the Neural Network<a class="headerlink" href="#training-the-neural-network" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">6.6. </span>Training the Neural Network<a class="headerlink" href="#training-the-neural-network" title="Permalink to this heading">#</a></h2>
 <p>Now we begin training our NN using the training and validation datasets.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -730,7 +727,7 @@ Wall time: 9min 43s
 </div>
 </section>
 <section id="saving-the-model-to-a-pytorch-file">
-<h2><span class="section-number">10.7. </span>Saving the Model to a PyTorch File<a class="headerlink" href="#saving-the-model-to-a-pytorch-file" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">6.7. </span>Saving the Model to a PyTorch File<a class="headerlink" href="#saving-the-model-to-a-pytorch-file" title="Permalink to this heading">#</a></h2>
 <p>The following files are saved:</p>
 <p><strong>1) <a class="reference external" href="http://model.pt">model.pt</a></strong></p>
 <ul class="simple">
@@ -767,7 +764,7 @@ Wall time: 9min 43s
 </div>
 </section>
 <section id="plotting-rmsd-for-deltamlp-energy-and-forces">
-<h2><span class="section-number">10.8. </span>Plotting RMSD for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP Energy and Forces<a class="headerlink" href="#plotting-rmsd-for-deltamlp-energy-and-forces" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">6.8. </span>Plotting RMSD for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP Energy and Forces<a class="headerlink" href="#plotting-rmsd-for-deltamlp-energy-and-forces" title="Permalink to this heading">#</a></h2>
 <p>RMSD for predicted and reference energy and forces are calculated and displayed below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -803,7 +800,7 @@ Wall time: 9min 43s
 </div>
 </section>
 <section id="the-model-weights-and-biases-dictionary">
-<h2><span class="section-number">10.9. </span>The Model Weights and Biases Dictionary<a class="headerlink" href="#the-model-weights-and-biases-dictionary" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">6.9. </span>The Model Weights and Biases Dictionary<a class="headerlink" href="#the-model-weights-and-biases-dictionary" title="Permalink to this heading">#</a></h2>
 <p>This cell prints the size of the weights and biases used in the trained model for reference.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -835,7 +832,7 @@ fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
 </div>
 </section>
 <section id="plotting-training-and-validation-loss-for-deltamlp">
-<h2><span class="section-number">10.10. </span>Plotting Training and Validation Loss for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP<a class="headerlink" href="#plotting-training-and-validation-loss-for-deltamlp" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">6.10. </span>Plotting Training and Validation Loss for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP<a class="headerlink" href="#plotting-training-and-validation-loss-for-deltamlp" title="Permalink to this heading">#</a></h2>
 <p>The loss at each step of the training process is displayed below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -927,7 +924,7 @@ fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">11. </span><strong>Lesson 7: Behler-Parrinello Gaussian Process Regression (BP-GPR) for Machine Learning Potentials</strong></p>
+        <p class="prev-next-title"><span class="section-number">7. </span><strong>Lesson 7: Behler-Parrinello Gaussian Process Regression (BP-GPR) for Machine Learning Potentials</strong></p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -949,16 +946,16 @@ fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-reaction-coordinate-and-system-size">10.1. Defining the Reaction Coordinate and System Size</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-data-from-github-mlp-tutorial-and-install-pytorch-lightning">10.2. Import Data from GitHub (mlp_tutorial) and Install PyTorch Lightning.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-libraries">10.3. Import Libraries</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-deeppot-class">10.4. The DeepPot Class</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-and-feature-extraction">10.5. Importing Data and Feature Extraction</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-the-neural-network">10.6. Training the Neural Network</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-the-model-to-a-pytorch-file">10.7. Saving the Model to a PyTorch File</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-rmsd-for-deltamlp-energy-and-forces">10.8. Plotting RMSD for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP Energy and Forces</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model-weights-and-biases-dictionary">10.9. The Model Weights and Biases Dictionary</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-training-and-validation-loss-for-deltamlp">10.10. Plotting Training and Validation Loss for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-reaction-coordinate-and-system-size">6.1. Defining the Reaction Coordinate and System Size</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-data-from-github-mlp-tutorial-and-install-pytorch-lightning">6.2. Import Data from GitHub (mlp_tutorial) and Install PyTorch Lightning.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-libraries">6.3. Import Libraries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-deeppot-class">6.4. The DeepPot Class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-and-feature-extraction">6.5. Importing Data and Feature Extraction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-the-neural-network">6.6. Training the Neural Network</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-the-model-to-a-pytorch-file">6.7. Saving the Model to a PyTorch File</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-rmsd-for-deltamlp-energy-and-forces">6.8. Plotting RMSD for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP Energy and Forces</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model-weights-and-biases-dictionary">6.9. The Model Weights and Biases Dictionary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-training-and-validation-loss-for-deltamlp">6.10. Plotting Training and Validation Loss for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
 </ul>
   </nav></div>
 
