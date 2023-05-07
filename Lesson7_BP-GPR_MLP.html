@@ -760,13 +760,7 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 100/500 - Loss: 1.703   outputscale: 2.950   lengthscale: 3.299   noise: 0.851
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 200/500 - Loss: 1.518   outputscale: 4.565   lengthscale: 3.564   noise: 0.194
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 300/500 - Loss: 1.460   outputscale: 5.945   lengthscale: 3.747   noise: 0.072
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 100/500 - Loss: 1.704   outputscale: 2.948   lengthscale: 3.300   noise: 0.853
 </pre></div>
 </div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
@@ -804,44 +798,13 @@ document.write(`
 <span class="g g-Whitespace">    </span><span class="mi">201</span>     <span class="n">tensors</span><span class="p">,</span> <span class="n">grad_tensors_</span><span class="p">,</span> <span class="n">retain_graph</span><span class="p">,</span> <span class="n">create_graph</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span>
 <span class="g g-Whitespace">    </span><span class="mi">202</span>     <span class="n">allow_unreachable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">accumulate_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/torch/autograd/function.py:274,</span> in <span class="ni">BackwardCFunction.apply</span><span class="nt">(self, *args)</span>
-<span class="g g-Whitespace">    </span><span class="mi">270</span>     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Implementing both &#39;backward&#39; and &#39;vjp&#39; for a custom &quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">271</span>                        <span class="s2">&quot;Function is not allowed. You should only implement one &quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">272</span>                        <span class="s2">&quot;of them.&quot;</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">273</span> <span class="n">user_fn</span> <span class="o">=</span> <span class="n">vjp_fn</span> <span class="k">if</span> <span class="n">vjp_fn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">Function</span><span class="o">.</span><span class="n">vjp</span> <span class="k">else</span> <span class="n">backward_fn</span>
-<span class="ne">--&gt; </span><span class="mi">274</span> <span class="k">return</span> <span class="n">user_fn</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">)</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/linear_operator/functions/_pivoted_cholesky.py:143,</span> in <span class="ni">PivotedCholesky.backward</span><span class="nt">(ctx, grad_output, _)</span>
-<span class="g g-Whitespace">    </span><span class="mi">136</span>     <span class="n">res</span> <span class="o">=</span> <span class="n">apply_permutation</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">137</span>         <span class="n">res_pivoted</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">138</span>         <span class="n">left_permutation</span><span class="o">=</span><span class="n">_inverse_permutation</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">139</span>         <span class="n">right_permutation</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">140</span>     <span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">142</span>     <span class="c1"># Now compute the backward pass of res</span>
-<span class="ne">--&gt; </span><span class="mi">143</span>     <span class="n">res</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">gradient</span><span class="o">=</span><span class="n">grad_output</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">145</span> <span class="c1"># Define gradient placeholders</span>
-<span class="g g-Whitespace">    </span><span class="mi">146</span> <span class="k">return</span> <span class="nb">tuple</span><span class="p">([</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">matrix_arg</span><span class="o">.</span><span class="n">grad</span> <span class="k">for</span> <span class="n">matrix_arg</span> <span class="ow">in</span> <span class="n">matrix_args</span><span class="p">])</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/torch/_tensor.py:487,</span> in <span class="ni">Tensor.backward</span><span class="nt">(self, gradient, retain_graph, create_graph, inputs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">477</span> <span class="k">if</span> <span class="n">has_torch_function_unary</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="g g-Whitespace">    </span><span class="mi">478</span>     <span class="k">return</span> <span class="n">handle_torch_function</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">479</span>         <span class="n">Tensor</span><span class="o">.</span><span class="n">backward</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">480</span>         <span class="p">(</span><span class="bp">self</span><span class="p">,),</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">485</span>         <span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">486</span>     <span class="p">)</span>
-<span class="ne">--&gt; </span><span class="mi">487</span> <span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">488</span>     <span class="bp">self</span><span class="p">,</span> <span class="n">gradient</span><span class="p">,</span> <span class="n">retain_graph</span><span class="p">,</span> <span class="n">create_graph</span><span class="p">,</span> <span class="n">inputs</span><span class="o">=</span><span class="n">inputs</span>
-<span class="g g-Whitespace">    </span><span class="mi">489</span> <span class="p">)</span>
-
-<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/torch/autograd/__init__.py:200,</span> in <span class="ni">backward</span><span class="nt">(tensors, grad_tensors, retain_graph, create_graph, grad_variables, inputs)</span>
-<span class="g g-Whitespace">    </span><span class="mi">195</span>     <span class="n">retain_graph</span> <span class="o">=</span> <span class="n">create_graph</span>
-<span class="g g-Whitespace">    </span><span class="mi">197</span> <span class="c1"># The reason we repeat same the comment below is that</span>
-<span class="g g-Whitespace">    </span><span class="mi">198</span> <span class="c1"># some Python versions print out the first line of a multi-line function</span>
-<span class="g g-Whitespace">    </span><span class="mi">199</span> <span class="c1"># calls in the traceback and some print out the last line</span>
-<span class="ne">--&gt; </span><span class="mi">200</span> <span class="n">Variable</span><span class="o">.</span><span class="n">_execution_engine</span><span class="o">.</span><span class="n">run_backward</span><span class="p">(</span>  <span class="c1"># Calls into the C++ engine to run the backward pass</span>
-<span class="g g-Whitespace">    </span><span class="mi">201</span>     <span class="n">tensors</span><span class="p">,</span> <span class="n">grad_tensors_</span><span class="p">,</span> <span class="n">retain_graph</span><span class="p">,</span> <span class="n">create_graph</span><span class="p">,</span> <span class="n">inputs</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">202</span>     <span class="n">allow_unreachable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">accumulate_grad</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/torch/autograd/function.py:264,</span> in <span class="ni">BackwardCFunction.apply</span><span class="nt">(self, *args)</span>
+<span class="g g-Whitespace">    </span><span class="mi">263</span> <span class="k">class</span> <span class="nc">BackwardCFunction</span><span class="p">(</span><span class="n">_C</span><span class="o">.</span><span class="n">_FunctionBase</span><span class="p">,</span> <span class="n">FunctionCtx</span><span class="p">,</span> <span class="n">_HookMixin</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">264</span>     <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">265</span>         <span class="c1"># _forward_cls is defined by derived class</span>
+<span class="g g-Whitespace">    </span><span class="mi">266</span>         <span class="c1"># The user should define either backward or vjp but never both.</span>
+<span class="g g-Whitespace">    </span><span class="mi">267</span>         <span class="n">backward_fn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_cls</span><span class="o">.</span><span class="n">backward</span>  <span class="c1"># type: ignore[attr-defined]</span>
+<span class="g g-Whitespace">    </span><span class="mi">268</span>         <span class="n">vjp_fn</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forward_cls</span><span class="o">.</span><span class="n">vjp</span>  <span class="c1"># type: ignore[attr-defined]</span>
 
 <span class="ne">KeyboardInterrupt</span>: 
 </pre></div>
