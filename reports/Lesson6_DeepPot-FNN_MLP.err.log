@@ -34,23 +34,24 @@ HTML(f"""<video src={url} width=300 controls/>""")
 [1m[[0m[34;49mnotice[0m[1;39;49m][0m[39;49m A new release of pip is available: [0m[31;49m22.0.4[0m[39;49m -> [0m[32;49m23.1.2[0m
 [1m[[0m[34;49mnotice[0m[1;39;49m][0m[39;49m To update, run: [0m[32;49mpip install --upgrade pip[0m
 ----- stdout -----
---2023-05-08 22:09:10--  https://github.com/cc-ats/mlp_class/raw/main/Claisen_Rearrangement/ml_qmmm.py
-Resolving github.com (github.com)... 140.82.114.3
-Connecting to github.com (github.com)|140.82.114.3|:443... connected.
+--2023-05-08 22:19:15--  https://github.com/cc-ats/mlp_class/raw/main/Claisen_Rearrangement/ml_qmmm.py
+Resolving github.com (github.com)... 140.82.114.4
+Connecting to github.com (github.com)|140.82.114.4|:443...
+----- stdout -----
+connected.
 HTTP request sent, awaiting response...
 ----- stdout -----
 301 Moved Permanently
 Location: https://github.com/cc-ats/mlp_tutorial/raw/main/Claisen_Rearrangement/ml_qmmm.py [following]
---2023-05-08 22:09:10--  https://github.com/cc-ats/mlp_tutorial/raw/main/Claisen_Rearrangement/ml_qmmm.py
+--2023-05-08 22:19:16--  https://github.com/cc-ats/mlp_tutorial/raw/main/Claisen_Rearrangement/ml_qmmm.py
 Reusing existing connection to github.com:443.
 HTTP request sent, awaiting response...
 ----- stdout -----
 302 Found
 Location: https://raw.githubusercontent.com/cc-ats/mlp_tutorial/main/Claisen_Rearrangement/ml_qmmm.py [following]
---2023-05-08 22:09:10--  https://raw.githubusercontent.com/cc-ats/mlp_tutorial/main/Claisen_Rearrangement/ml_qmmm.py
-Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.111.133, 185.199.108.133, 185.199.110.133, ...
-Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.111.133|:443... connected.
------ stdout -----
+--2023-05-08 22:19:16--  https://raw.githubusercontent.com/cc-ats/mlp_tutorial/main/Claisen_Rearrangement/ml_qmmm.py
+Resolving raw.githubusercontent.com (raw.githubusercontent.com)... 185.199.110.133, 185.199.109.133, 185.199.108.133, ...
+Connecting to raw.githubusercontent.com (raw.githubusercontent.com)|185.199.110.133|:443... connected.
 HTTP request sent, awaiting response...
 ----- stdout -----
 200 OK
@@ -59,7 +60,7 @@ Saving to: ‘ml_qmmm.py’
 
 ml_qmmm.py            0%[                    ]       0  --.-KB/s               ml_qmmm.py          100%[===================>]   5.08K  --.-KB/s    in 0s      
 
-2023-05-08 22:09:10 (63.9 MB/s) - ‘ml_qmmm.py’ saved [5203/5203]
+2023-05-08 22:19:16 (49.8 MB/s) - ‘ml_qmmm.py’ saved [5203/5203]
 ------------------
 
 [0;31m---------------------------------------------------------------------------[0m
@@ -71,5 +72,12 @@ Cell [0;32mIn[1], line 7[0m
 [1;32m      8[0m url [38;5;241m=[39m upload_public([38;5;124m'[39m[38;5;124mclaisen.mp4[39m[38;5;124m'[39m)
 [1;32m      9[0m [38;5;66;03m# then display it[39;00m
 
-[0;31mModuleNotFoundError[0m: No module named 'kora'
+File [0;32m/opt/hostedtoolcache/Python/3.9.16/x64/lib/python3.9/site-packages/kora/drive.py:11[0m
+[1;32m      8[0m [38;5;28;01mfrom[39;00m [38;5;21;01murllib[39;00m[38;5;21;01m.[39;00m[38;5;21;01mrequest[39;00m [38;5;28;01mimport[39;00m urlretrieve
+[1;32m      9[0m [38;5;28;01mfrom[39;00m [38;5;21;01murllib[39;00m[38;5;21;01m.[39;00m[38;5;21;01mparse[39;00m [38;5;28;01mimport[39;00m unquote
+[0;32m---> 11[0m [38;5;28;01mfrom[39;00m [38;5;21;01mgoogle[39;00m[38;5;21;01m.[39;00m[38;5;21;01mcolab[39;00m[38;5;21;01m.[39;00m[38;5;21;01mdrive[39;00m [38;5;28;01mimport[39;00m mount
+[1;32m     14[0m [38;5;28;01mdef[39;00m [38;5;21mauth_drive[39m():
+[1;32m     15[0m     [38;5;28;01mfrom[39;00m [38;5;21;01mpydrive[39;00m[38;5;21;01m.[39;00m[38;5;21;01mauth[39;00m [38;5;28;01mimport[39;00m GoogleAuth
+
+[0;31mModuleNotFoundError[0m: No module named 'google'
 
