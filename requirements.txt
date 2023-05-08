@@ -4,3 +4,4 @@ numpy
 pandas
 plotly
 torch
+kora
