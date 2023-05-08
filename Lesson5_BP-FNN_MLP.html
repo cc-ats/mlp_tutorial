@@ -394,23 +394,26 @@ document.write(`
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-and-libraries">5.1. Importing Data and Libraries</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#import-data-from-github-mlp-class-and-installing-pytorch-lightning">5.1.1. Import data from GitHub (mlp_class) and Installing PyTorch Lightning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#import-data-from-github-mlp-tutorial-and-installing-pytorch-lightning">5.1.1. Import data from GitHub (mlp_tutorial) and Installing PyTorch Lightning</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-libraries">5.2. Import Libraries</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-dense-neural-network">5.3. Defining the Dense Neural Network</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-bp-symmetry-functions">5.4. Creating the BP Symmetry Functions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-bp-feature-class">5.5. Defining the BP Feature Class</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-ani-feature-class">5.6. Defining the ANI Feature Class</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-fitting-neural-network">5.7. Creating the Fitting Neural Network</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-behler-parrinello-fitting-neural-network-bp-fnn">5.8. The Behler-Parrinello Fitting Neural Network (BP-FNN)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-and-seeding">5.8.1. Importing Data and Seeding</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-ani-parameters">5.8.2. Setting ANI Parameters</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-model-to-pytorch-file">5.8.3. Saving model to PyTorch file</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-rmsd-for-deltamlp-energy-and-forces">5.8.4. Plotting RMSD for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP Energy and Forces</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model-weights-and-biases-dictionary">5.8.5. The Model Weights and Biases Dictionary</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-validation-error-for-deltamlp">5.8.6. Plotting Validation Error for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-training-and-validation-loss-for-deltamlp">5.8.7. Plotting Training and Validation Loss for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-feature-classes-for-bp-and-ani">5.5. Creating the Feature Classes for BP and ANI</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-bp-feature-class">5.5.1. Defining the BP Feature Class</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-ani-feature-class">5.5.2. Defining the ANI Feature Class</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-fitting-neural-network">5.6. Creating the Fitting Neural Network</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-behler-parrinello-fitting-neural-network-bp-fnn">5.7. The Behler-Parrinello Fitting Neural Network (BP-FNN)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-and-seeding">5.7.1. Importing Data and Seeding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-ani-parameters">5.7.2. Setting ANI Parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-model-to-pytorch-file">5.7.3. Saving model to PyTorch file</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-rmsd-for-deltamlp-energy-and-forces">5.7.4. Plotting RMSD for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP Energy and Forces</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model-weights-and-biases-dictionary">5.7.5. The Model Weights and Biases Dictionary</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-validation-error-for-deltamlp">5.7.6. Plotting Validation Error for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-training-and-validation-loss-for-deltamlp">5.7.7. Plotting Training and Validation Loss for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
 </ul>
 </li>
 </ul>
@@ -431,8 +434,8 @@ document.write(`
 <section id="importing-data-and-libraries">
 <h2><span class="section-number">5.1. </span>Importing Data and Libraries<a class="headerlink" href="#importing-data-and-libraries" title="Permalink to this heading">#</a></h2>
 <p>We will first import data and libraries needed to train our machine learning models.</p>
-<section id="import-data-from-github-mlp-class-and-installing-pytorch-lightning">
-<h3><span class="section-number">5.1.1. </span>Import data from GitHub (mlp_class) and Installing PyTorch Lightning<a class="headerlink" href="#import-data-from-github-mlp-class-and-installing-pytorch-lightning" title="Permalink to this heading">#</a></h3>
+<section id="import-data-from-github-mlp-tutorial-and-installing-pytorch-lightning">
+<h3><span class="section-number">5.1.1. </span>Import data from GitHub (mlp_tutorial) and Installing PyTorch Lightning<a class="headerlink" href="#import-data-from-github-mlp-tutorial-and-installing-pytorch-lightning" title="Permalink to this heading">#</a></h3>
 <p>Install PyTorch Lightning.</p>
 <p>Files from GitHub:</p>
 <ul class="simple">
@@ -606,8 +609,10 @@ document.write(`
 </div>
 </div>
 </section>
+<section id="creating-the-feature-classes-for-bp-and-ani">
+<h2><span class="section-number">5.5. </span>Creating the Feature Classes for BP and ANI<a class="headerlink" href="#creating-the-feature-classes-for-bp-and-ani" title="Permalink to this heading">#</a></h2>
 <section id="defining-the-bp-feature-class">
-<h2><span class="section-number">5.5. </span>Defining the BP Feature Class<a class="headerlink" href="#defining-the-bp-feature-class" title="Permalink to this heading">#</a></h2>
+<h3><span class="section-number">5.5.1. </span>Defining the BP Feature Class<a class="headerlink" href="#defining-the-bp-feature-class" title="Permalink to this heading">#</a></h3>
 <p>Now we will create the feature class, which takes input information and uses functions to extract characteristics unique to the input called features. Here we will be using the previously defined symmetry functions for feature extraction.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -644,7 +649,7 @@ document.write(`
 </div>
 </section>
 <section id="defining-the-ani-feature-class">
-<h2><span class="section-number">5.6. </span>Defining the ANI Feature Class<a class="headerlink" href="#defining-the-ani-feature-class" title="Permalink to this heading">#</a></h2>
+<h3><span class="section-number">5.5.2. </span>Defining the ANI Feature Class<a class="headerlink" href="#defining-the-ani-feature-class" title="Permalink to this heading">#</a></h3>
 <p>We will create a similar feature class for ANI that uses the ANI angle symmetry function.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -684,8 +689,9 @@ document.write(`
 </div>
 </div>
 </section>
+</section>
 <section id="creating-the-fitting-neural-network">
-<h2><span class="section-number">5.7. </span>Creating the Fitting Neural Network<a class="headerlink" href="#creating-the-fitting-neural-network" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">5.6. </span>Creating the Fitting Neural Network<a class="headerlink" href="#creating-the-fitting-neural-network" title="Permalink to this heading">#</a></h2>
 <p>Now we create the Fitting class, which will use the dense neural network for fitting.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -707,7 +713,7 @@ document.write(`
 </div>
 </section>
 <section id="the-behler-parrinello-fitting-neural-network-bp-fnn">
-<h2><span class="section-number">5.8. </span>The Behler-Parrinello Fitting Neural Network (BP-FNN)<a class="headerlink" href="#the-behler-parrinello-fitting-neural-network-bp-fnn" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">5.7. </span>The Behler-Parrinello Fitting Neural Network (BP-FNN)<a class="headerlink" href="#the-behler-parrinello-fitting-neural-network-bp-fnn" title="Permalink to this heading">#</a></h2>
 <p>We create the BPNN class that can be used for feature extraction with the symmetry functions.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -776,7 +782,7 @@ document.write(`
 </div>
 </div>
 <section id="importing-data-and-seeding">
-<h3><span class="section-number">5.8.1. </span>Importing Data and Seeding<a class="headerlink" href="#importing-data-and-seeding" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">5.7.1. </span>Importing Data and Seeding<a class="headerlink" href="#importing-data-and-seeding" title="Permalink to this heading">#</a></h3>
 <p>We will now import our semiempirical and DFT calculation data. We will then use seeding to generate random but reproducible training.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -819,7 +825,7 @@ document.write(`
 </div>
 </section>
 <section id="setting-ani-parameters">
-<h3><span class="section-number">5.8.2. </span>Setting ANI Parameters<a class="headerlink" href="#setting-ani-parameters" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">5.7.2. </span>Setting ANI Parameters<a class="headerlink" href="#setting-ani-parameters" title="Permalink to this heading">#</a></h3>
 <p>Here we set the parameters for the ANI model and begin training our BP-FNN.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -898,7 +904,7 @@ document.write(`
 </div>
 </section>
 <section id="saving-model-to-pytorch-file">
-<h3><span class="section-number">5.8.3. </span>Saving model to PyTorch file<a class="headerlink" href="#saving-model-to-pytorch-file" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">5.7.3. </span>Saving model to PyTorch file<a class="headerlink" href="#saving-model-to-pytorch-file" title="Permalink to this heading">#</a></h3>
 <p>The following files are saved:</p>
 <p><strong>1) <a class="reference external" href="http://model.pt">model.pt</a></strong></p>
 <ul class="simple">
@@ -930,7 +936,7 @@ document.write(`
 </div>
 </section>
 <section id="plotting-rmsd-for-deltamlp-energy-and-forces">
-<h3><span class="section-number">5.8.4. </span>Plotting RMSD for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP Energy and Forces<a class="headerlink" href="#plotting-rmsd-for-deltamlp-energy-and-forces" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">5.7.4. </span>Plotting RMSD for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP Energy and Forces<a class="headerlink" href="#plotting-rmsd-for-deltamlp-energy-and-forces" title="Permalink to this heading">#</a></h3>
 <p>RMSD for predicted and reference energy and forces are calculated and displayed below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -941,7 +947,7 @@ document.write(`
 <span class="n">e1</span> <span class="o">=</span> <span class="n">energy</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_tutorial/raw/main/Claisen_Rearrangement/energy_sqm.npy&quot;</span><span class="p">,</span><span class="s2">&quot;rb&quot;</span><span class="p">))</span> <span class="o">*</span> <span class="mf">27.2114</span> <span class="o">*</span> <span class="mf">23.061</span>
 <span class="n">e2</span> <span class="o">=</span> <span class="n">ene_pred</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_tutorial/raw/main/Claisen_Rearrangement/energy_sqm.npy&quot;</span><span class="p">,</span><span class="s2">&quot;rb&quot;</span><span class="p">))</span> <span class="o">*</span> <span class="mf">27.2114</span> <span class="o">*</span> <span class="mf">23.061</span>
 
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">e1</span><span class="p">,</span> <span class="n">e2</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;springgreen&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">e1</span><span class="p">,</span><span class="n">e2</span><span class="p">))),</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">e1</span><span class="p">,</span><span class="n">e2</span><span class="p">)))],</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">e1</span><span class="p">,</span><span class="n">e2</span><span class="p">))),</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">e1</span><span class="p">,</span><span class="n">e2</span><span class="p">)))],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Reference Energy (kcal/mol)&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Predicted Energy (kcal/mol)&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
@@ -950,10 +956,10 @@ document.write(`
 <span class="n">f1</span> <span class="o">=</span> <span class="o">-</span><span class="n">qm_gradient</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_tutorial/raw/main/Claisen_Rearrangement/qm_grad_sqm.npy&quot;</span><span class="p">,</span><span class="s2">&quot;rb&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">27.2114</span> <span class="o">*</span> <span class="mf">23.061</span> <span class="o">/</span> <span class="mf">0.529177249</span>
 <span class="n">f2</span> <span class="o">=</span> <span class="o">-</span><span class="n">grad_pred</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_tutorial/raw/main/Claisen_Rearrangement/qm_grad_sqm.npy&quot;</span><span class="p">,</span><span class="s2">&quot;rb&quot;</span><span class="p">))</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">27.2114</span> <span class="o">*</span> <span class="mf">23.061</span> <span class="o">/</span> <span class="mf">0.529177249</span>
 
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;springgreen&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)))),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)))],</span> <span class="p">[</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">))),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)))],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Reference Force (kcal/mol/A)&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;Predicted Force (kcal/mol/A)&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Reference Force (kcal/mol/$\AA$)&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Predicted Force (kcal/mol/$\AA$)&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s1">&#39;RMSD: </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">f1</span> <span class="o">-</span> <span class="n">f2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)),</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;axes fraction&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 
 <span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
@@ -962,12 +968,12 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/810daa53be9b1b6a09a6fa6fc11c3f9d67099aeaf01c8d4b2452303ce271e5fd.png" src="_images/810daa53be9b1b6a09a6fa6fc11c3f9d67099aeaf01c8d4b2452303ce271e5fd.png" />
+<img alt="_images/e7eaf557cc0b18946387b37ca49751e7dd58f80a4883fd58055aea16ea2eed0d.png" src="_images/e7eaf557cc0b18946387b37ca49751e7dd58f80a4883fd58055aea16ea2eed0d.png" />
 </div>
 </div>
 </section>
 <section id="the-model-weights-and-biases-dictionary">
-<h3><span class="section-number">5.8.5. </span>The Model Weights and Biases Dictionary<a class="headerlink" href="#the-model-weights-and-biases-dictionary" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">5.7.5. </span>The Model Weights and Biases Dictionary<a class="headerlink" href="#the-model-weights-and-biases-dictionary" title="Permalink to this heading">#</a></h3>
 <p>This cell prints the size of the weights and biases used in the trained model for reference.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -993,7 +999,7 @@ fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
 </div>
 </section>
 <section id="plotting-validation-error-for-deltamlp">
-<h3><span class="section-number">5.8.6. </span>Plotting Validation Error for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP<a class="headerlink" href="#plotting-validation-error-for-deltamlp" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">5.7.6. </span>Plotting Validation Error for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP<a class="headerlink" href="#plotting-validation-error-for-deltamlp" title="Permalink to this heading">#</a></h3>
 <p>Validation error for the <span class="math notranslate nohighlight">\(\Delta\)</span>MLP is shown below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1004,22 +1010,22 @@ fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
 <span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;epoch&#39;</span><span class="p">][</span><span class="o">~</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;l2_e_tst&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;l2_e_tst&#39;</span><span class="p">][</span><span class="o">~</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;l2_e_tst&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span>
 <span class="n">y2</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;l2_f_tst&#39;</span><span class="p">][</span><span class="o">~</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;l2_f_tst&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Energy Validation Error (kcal/mol)&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Force Validation Error (kcal/mol&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Epoch&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Force Validation Error (kcal/mol/A)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;dodgerblue&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Energy Validation Error (kcal/mol)&#39;</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Force Validation Error (kcal/mol&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;dodgerblue&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Epoch&#39;</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Force Validation Error (kcal/mol/$\AA$)&#39;</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;loss.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/d85db26cdc677e0c09694616c7bee31314af70582f5d655b25880aef4d31fdc7.png" src="_images/d85db26cdc677e0c09694616c7bee31314af70582f5d655b25880aef4d31fdc7.png" />
+<img alt="_images/795bdc65026e2fcad6bf36ea195fbb69790f832106c50e3f1a45f2c2d15fa7eb.png" src="_images/795bdc65026e2fcad6bf36ea195fbb69790f832106c50e3f1a45f2c2d15fa7eb.png" />
 </div>
 </div>
 </section>
 <section id="plotting-training-and-validation-loss-for-deltamlp">
-<h3><span class="section-number">5.8.7. </span>Plotting Training and Validation Loss for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP<a class="headerlink" href="#plotting-training-and-validation-loss-for-deltamlp" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">5.7.7. </span>Plotting Training and Validation Loss for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP<a class="headerlink" href="#plotting-training-and-validation-loss-for-deltamlp" title="Permalink to this heading">#</a></h3>
 <p>The loss at each step of the training process is displayed below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1028,12 +1034,12 @@ fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
 <span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;epoch&#39;</span><span class="p">][</span><span class="o">~</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;epoch&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;train_loss&#39;</span><span class="p">][</span><span class="o">~</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;train_loss&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span>
 <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Train Loss&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Training Loss&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;dodgerblue&#39;</span><span class="p">)</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;val_loss&#39;</span><span class="p">][</span><span class="o">~</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;val_loss&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span>
 <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Validation Loss&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Steps&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Loss&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Validation Loss&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Steps&#39;</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Loss&#39;</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -1043,10 +1049,10 @@ fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
 500
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fafebb27100&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fa46871d000&gt;
 </pre></div>
 </div>
-<img alt="_images/ea6f561e770afa3980b2abc116ae22a534e5e81add471d3a7290797d1d8427cd.png" src="_images/ea6f561e770afa3980b2abc116ae22a534e5e81add471d3a7290797d1d8427cd.png" />
+<img alt="_images/a4632f3f7d2808c3f344fa76a7a9dbe7c36e9cc2cc0494de32fb4c8827765f50.png" src="_images/a4632f3f7d2808c3f344fa76a7a9dbe7c36e9cc2cc0494de32fb4c8827765f50.png" />
 </div>
 </div>
 </section>
@@ -1121,23 +1127,26 @@ fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-and-libraries">5.1. Importing Data and Libraries</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#import-data-from-github-mlp-class-and-installing-pytorch-lightning">5.1.1. Import data from GitHub (mlp_class) and Installing PyTorch Lightning</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#import-data-from-github-mlp-tutorial-and-installing-pytorch-lightning">5.1.1. Import data from GitHub (mlp_tutorial) and Installing PyTorch Lightning</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-libraries">5.2. Import Libraries</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-dense-neural-network">5.3. Defining the Dense Neural Network</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-bp-symmetry-functions">5.4. Creating the BP Symmetry Functions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-bp-feature-class">5.5. Defining the BP Feature Class</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-ani-feature-class">5.6. Defining the ANI Feature Class</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-fitting-neural-network">5.7. Creating the Fitting Neural Network</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-behler-parrinello-fitting-neural-network-bp-fnn">5.8. The Behler-Parrinello Fitting Neural Network (BP-FNN)</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-and-seeding">5.8.1. Importing Data and Seeding</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-ani-parameters">5.8.2. Setting ANI Parameters</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-model-to-pytorch-file">5.8.3. Saving model to PyTorch file</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-rmsd-for-deltamlp-energy-and-forces">5.8.4. Plotting RMSD for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP Energy and Forces</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model-weights-and-biases-dictionary">5.8.5. The Model Weights and Biases Dictionary</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-validation-error-for-deltamlp">5.8.6. Plotting Validation Error for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-training-and-validation-loss-for-deltamlp">5.8.7. Plotting Training and Validation Loss for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-feature-classes-for-bp-and-ani">5.5. Creating the Feature Classes for BP and ANI</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-bp-feature-class">5.5.1. Defining the BP Feature Class</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-ani-feature-class">5.5.2. Defining the ANI Feature Class</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-fitting-neural-network">5.6. Creating the Fitting Neural Network</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-behler-parrinello-fitting-neural-network-bp-fnn">5.7. The Behler-Parrinello Fitting Neural Network (BP-FNN)</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-and-seeding">5.7.1. Importing Data and Seeding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-ani-parameters">5.7.2. Setting ANI Parameters</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-model-to-pytorch-file">5.7.3. Saving model to PyTorch file</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-rmsd-for-deltamlp-energy-and-forces">5.7.4. Plotting RMSD for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP Energy and Forces</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model-weights-and-biases-dictionary">5.7.5. The Model Weights and Biases Dictionary</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-validation-error-for-deltamlp">5.7.6. Plotting Validation Error for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-training-and-validation-loss-for-deltamlp">5.7.7. Plotting Training and Validation Loss for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
 </ul>
 </li>
 </ul>
