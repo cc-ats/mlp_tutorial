@@ -491,54 +491,41 @@ document.write(`
 <h2><span class="section-number">3.2. </span>Symmetry Functions<a class="headerlink" href="#symmetry-functions" title="Permalink to this heading">#</a></h2>
 <p>So far, we have used cartesian coordinates and energies as inputs for our machine learning models. However, cartesian coordinates are not ideal for use with neural networks because translating or rotating the molecule can change the neural network output. In the case of chemistry this would imply that translating a molecule in space changes the molecule’s energy, which is incorrect.</p>
 <p>Instead, we can describe our cartesian coordinates with symmetry functions and use our newly transformed coordinates as inputs, which will produce outputs that are invariant to translations and rotations.</p>
-<p>From Behler and Parrinello’s 2007 paper (***cite), several symmetry functions and a cutoff function were introduced:<br />
-<br />
-The cutoff function is defined as:<br />
-<br /><br />
-$<span class="math notranslate nohighlight">\(
-\begin{align}
+<p>A cutoff function and several symmetry functions were introduced by Behler and Parrinello in 2007 (<a class="reference external" href="https://doi.org/10.1103/PhysRevLett.98.146401">https://doi.org/10.1103/PhysRevLett.98.146401</a>).</p>
+<p>The cutoff function is defined as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{align}
         f_c(R_{ij}) = \left\{
         \begin{array}{cl}
         0.5\times\left[\cos\left(\frac{\pi R_{ij}}{R_c}\right)+1\right] &amp; \textrm{for } R_{ij} \le R_c \\
         0 &amp; \textrm{for } R_{ij} \gt R_c
         \end{array}
         \right.
-\end{align}
-\)</span>$</p>
-<br />  
-Where $R_{ij}$ is the distance between atoms and $R_c$ is the cutoff distance.  
-The radial symmetry function can be defined as: <br />  
-$$
-\begin{align}
+\end{align}\end{split}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(R_{ij}\)</span> is the distance between atoms and <span class="math notranslate nohighlight">\(R_c\)</span> is the cutoff distance.<br />
+The radial symmetry function can be defined as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{align}
 \begin{array}{c}
 G_i^1 = \sum_{j \neq i}^{all} e^{-\eta(R_{ij}-R_s)^2}f_c(R_{ij}) 
 \end{array}
-\end{align}
-$$
-<br />
-Where $\eta$ changes the width of the Gaussian distribution and $R_s$ shifts the center of the gaussian peak.  
-<br /> 
-<p>The angular symmetry function can be defined as:
-<br /><br />
-$<span class="math notranslate nohighlight">\(
-\begin{align}
+\end{align}\]</div>
+<p>Where <span class="math notranslate nohighlight">\(\eta\)</span> changes the width of the Gaussian distribution and <span class="math notranslate nohighlight">\(R_s\)</span> shifts the center of the gaussian peak.</p>
+<p>The angular symmetry function can be defined as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{align}
 \begin{array}{c}
 G_i^2 = 2^{1-\zeta}\sum_{j,k\neq i}^{all} (1+\lambda \cos\theta_{ijk})^\zeta \times e^{-\eta(R_{ij}^2+R_{ik}^2+R_{jk}^2)}f_c(R_{ij}) f_c(R_{ik}) f_c(R_{jk}) 
 \end{array}
-\end{align}
-\)</span>$
-<br /></p>
-<p>The angular terms are created for each set of 3 atoms as <span class="math notranslate nohighlight">\(\theta_{ijk} = \frac{\mathbf{R_{ij}}\cdot\mathbf{R_{ik}}}{R_{ij}R_{ik}}\)</span>, where <span class="math notranslate nohighlight">\(\mathbf{R_{ij}} = \mathbf{R_{i}} - \mathbf{R_{j}}\)</span> and gives the distance vector between atoms i and j. The <span class="math notranslate nohighlight">\(\lambda\)</span> parameter is set to +1,-1 to allow exploration of the angular environment at the +1 and -1 positions. The parameter <span class="math notranslate nohighlight">\(\eta\)</span> changes the width of the gaussian distribution and <span class="math notranslate nohighlight">\(\zeta\)</span> changes the width of the gaussians in the angular environment.<br />
-<br /></p>
-<p>In 2017, Isayev and Roitberg developed the ANAKIN-ME (Accurate NeurAl networK engINe for Molecular Energies), also referred to as ANI (***cite). ANI uses a modified angular symmetry function defined as:  <br /><br />
-$<span class="math notranslate nohighlight">\(
-\begin{align}
+\end{align}\]</div>
+<p>The angular terms are created for each set of 3 atoms as <span class="math notranslate nohighlight">\(\theta_{ijk} = \frac{\mathbf{R_{ij}}\cdot\mathbf{R_{ik}}}{R_{ij}R_{ik}}\)</span>, where <span class="math notranslate nohighlight">\(\mathbf{R_{ij}} = \mathbf{R_{i}} - \mathbf{R_{j}}\)</span> and gives the distance vector between atoms i and j. The <span class="math notranslate nohighlight">\(\lambda\)</span> parameter is set to +1,-1 to allow exploration of the angular environment at the +1 and -1 positions. The parameter <span class="math notranslate nohighlight">\(\eta\)</span> changes the width of the gaussian distribution and <span class="math notranslate nohighlight">\(\zeta\)</span> changes the width of the gaussians in the angular environment.</p>
+<p>In 2017, Isayev and Roitberg developed the ANAKIN-ME (Accurate NeurAl networK engINe for Molecular Energies), also referred to as ANI (<a class="reference external" href="https://doi.org/10.1039/C6SC05720A">https://doi.org/10.1039/C6SC05720A</a>). ANI uses a modified angular symmetry function defined as:</p>
+<div class="math notranslate nohighlight">
+\[\begin{align}
 \begin{array}{c}
 G_i^2 = 2^{1-\zeta}\sum_{j,k\neq i}^{all} (1+\cos(\theta_{ijk}-\theta_s))^\zeta \times e^{-\eta\left(\frac{R_{ij}+R_{ik}}{2}-R_{s}\right)^2}f_c(R_{ij}) f_c(R_{ik})
 \end{array}
-\end{align}    
-\)</span>$
-<br /></p>
+\end{align}\]</div>
 <p>Here, <span class="math notranslate nohighlight">\(\theta_s\)</span> is a parameter that allows for shifts in the angular environment and <span class="math notranslate nohighlight">\(R_s\)</span> allows for calculating the angular environment in radial shells by shifting the center of the gaussians. The result is probing the angular environment at different radial lengths and angles instead of only at <span class="math notranslate nohighlight">\(\lambda\)</span> values of +1,-1.</p>
 <section id="defining-symmetry-functions">
 <h3><span class="section-number">3.2.1. </span>Defining Symmetry Functions<a class="headerlink" href="#defining-symmetry-functions" title="Permalink to this heading">#</a></h3>
@@ -888,7 +875,7 @@ The Dense class contains functions to describe a densely connected neural networ
 </section>
 <section id="using-ani-for-feature-extraction">
 <h2><span class="section-number">3.5. </span>Using ANI for Feature Extraction<a class="headerlink" href="#using-ani-for-feature-extraction" title="Permalink to this heading">#</a></h2>
-<p>Here is an example where we use our ANI model for feature extraction. We will use values for our symmetry function parameters from ***cite.</p>
+<p>Here is an example where we use our ANI model for feature extraction. We will use values for our symmetry function parameters from the ASE_ANI model references (<a class="github reference external" href="https://github.com/isayev/ASE_ANI">isayev/ASE_ANI</a>), which serves as an interface for the TorchANI (<a class="reference external" href="https://doi.org/10.1021/acs.jcim.0c00451">https://doi.org/10.1021/acs.jcim.0c00451</a>) software package.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span>
