@@ -507,7 +507,7 @@ The radial symmetry function can be defined as:</p>
 <div class="math notranslate nohighlight">
 \[\begin{align}
 \begin{array}{c}
-G_i^1 = \sum_{j \neq i}^{all} e^{-\eta(R_{ij}-R_s)^2}f_c(R_{ij}) 
+G_i^1 = \sum_{j \neq i}^{all} e^{-\eta(R_{ij}-R_s)^2}f_c(R_{ij})
 \end{array}
 \end{align}\]</div>
 <p>Where <span class="math notranslate nohighlight">\(\eta\)</span> changes the width of the Gaussian distribution and <span class="math notranslate nohighlight">\(R_s\)</span> shifts the center of the gaussian peak.</p>
@@ -515,7 +515,7 @@ G_i^1 = \sum_{j \neq i}^{all} e^{-\eta(R_{ij}-R_s)^2}f_c(R_{ij})
 <div class="math notranslate nohighlight">
 \[\begin{align}
 \begin{array}{c}
-G_i^2 = 2^{1-\zeta}\sum_{j,k\neq i}^{all} (1+\lambda \cos\theta_{ijk})^\zeta \times e^{-\eta(R_{ij}^2+R_{ik}^2+R_{jk}^2)}f_c(R_{ij}) f_c(R_{ik}) f_c(R_{jk}) 
+G_i^2 = 2^{1-\zeta}\sum_{j,k\neq i}^{all} (1+\lambda \cos\theta_{ijk})^\zeta \times e^{-\eta(R_{ij}^2+R_{ik}^2+R_{jk}^2)}f_c(R_{ij}) f_c(R_{ik}) f_c(R_{jk})
 \end{array}
 \end{align}\]</div>
 <p>The angular terms are created for each set of 3 atoms as <span class="math notranslate nohighlight">\(\cos\theta_{ijk} = \frac{\mathbf{R_{ij}}\cdot\mathbf{R_{ik}}}{R_{ij}R_{ik}}\)</span>, where <span class="math notranslate nohighlight">\(\mathbf{R_{ij}} = \mathbf{R_{i}} - \mathbf{R_{j}}\)</span> and gives the distance vector between atoms i and j. The <span class="math notranslate nohighlight">\(\lambda\)</span> parameter is set to +1,-1 to allow exploration of the angular environment at the +1 and -1 positions. The parameter <span class="math notranslate nohighlight">\(\eta\)</span> changes the width of the gaussian distribution and <span class="math notranslate nohighlight">\(\zeta\)</span> changes the width of the gaussians in the angular environment.</p>
@@ -784,14 +784,14 @@ The Dense class contains functions to describe a densely connected neural networ
 
     <span class="k">def</span> <span class="nf">training_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">):</span>
         <span class="n">qm_coord</span><span class="p">,</span> <span class="n">atom_types</span><span class="p">,</span> <span class="n">energy</span><span class="p">,</span> <span class="n">gradient</span> <span class="o">=</span> <span class="n">batch</span>
-        <span class="n">ene_pred</span><span class="p">,</span> <span class="n">grad_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">qm_coord</span><span class="p">,</span> <span class="n">atom_types</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="c1"># training the energy and gradient predictions </span>
+        <span class="n">ene_pred</span><span class="p">,</span> <span class="n">grad_pred</span> <span class="o">=</span> <span class="bp">self</span><span class="p">(</span><span class="n">qm_coord</span><span class="p">,</span> <span class="n">atom_types</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="c1"># training the energy and gradient predictions</span>
         <span class="n">ene_loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">mse_loss</span><span class="p">(</span><span class="n">ene_pred</span><span class="p">,</span> <span class="n">energy</span><span class="p">)</span>   <span class="c1"># defining loss functions for energy and gradient predictions</span>
         <span class="n">grad_loss</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">mse_loss</span><span class="p">(</span><span class="n">grad_pred</span><span class="p">,</span> <span class="n">gradient</span><span class="p">)</span>
 
         <span class="n">lr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimizers</span><span class="p">()</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">param_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;lr&#39;</span><span class="p">]</span>
         <span class="n">start_lr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimizers</span><span class="p">()</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">param_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s1">&#39;initial_lr&#39;</span><span class="p">]</span>
         <span class="n">w_ene</span> <span class="o">=</span> <span class="mi">1</span>
-        <span class="n">w_grad</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">99</span> <span class="o">*</span> <span class="p">(</span><span class="n">lr</span> <span class="o">/</span> <span class="n">start_lr</span><span class="p">)</span>  
+        <span class="n">w_grad</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">+</span> <span class="mi">99</span> <span class="o">*</span> <span class="p">(</span><span class="n">lr</span> <span class="o">/</span> <span class="n">start_lr</span><span class="p">)</span>
 
         <span class="n">loss</span> <span class="o">=</span> <span class="n">w_ene</span> <span class="o">/</span> <span class="p">(</span><span class="n">w_ene</span> <span class="o">+</span> <span class="n">w_grad</span><span class="p">)</span> <span class="o">*</span> <span class="n">ene_loss</span> <span class="o">+</span> <span class="n">w_grad</span> <span class="o">/</span> <span class="p">(</span><span class="n">w_ene</span> <span class="o">+</span> <span class="n">w_grad</span><span class="p">)</span> <span class="o">*</span> <span class="n">grad_loss</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="s1">&#39;train_loss&#39;</span><span class="p">,</span> <span class="n">loss</span><span class="p">)</span>
@@ -840,7 +840,7 @@ The Dense class contains functions to describe a densely connected neural networ
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="n">ds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">DataSource</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span> 
+<span class="n">ds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">DataSource</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
 <span class="n">qm_coord</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_tutorial/raw/main/Butane/qm_coord.npy&quot;</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)),</span> <span class="n">dtype</span><span class="o">=</span><span class="s2">&quot;float32&quot;</span><span class="p">)</span>
 <span class="n">atom_types</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="n">ds</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;https://github.com/cc-ats/mlp_tutorial/raw/main/Butane/qm_elem.txt&quot;</span><span class="p">,</span> <span class="s2">&quot;r&quot;</span><span class="p">),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
 <span class="n">elems</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">atom_types</span><span class="p">)</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
@@ -860,7 +860,7 @@ The Dense class contains functions to describe a densely connected neural networ
 
 <span class="n">pl</span><span class="o">.</span><span class="n">seed_everything</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">qm_coord</span><span class="p">,</span> <span class="n">atom_types</span><span class="p">,</span> <span class="n">energy</span><span class="p">,</span> <span class="n">qm_gradient</span><span class="p">)</span>
-<span class="n">train</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">random_split</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="p">[</span><span class="mi">1728</span><span class="p">,</span> <span class="mi">72</span><span class="p">])</span>  
+<span class="n">train</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">random_split</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="p">[</span><span class="mi">1728</span><span class="p">,</span> <span class="mi">72</span><span class="p">])</span>
 <span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
 <span class="n">val_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
 </pre></div>
@@ -1024,20 +1024,20 @@ The Dense class contains functions to describe a densely connected neural networ
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Model&#39;s state_dict:&quot;</span><span class="p">)</span>
 <span class="k">for</span> <span class="n">param_tensor</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">():</span>
-    <span class="nb">print</span><span class="p">(</span><span class="n">param_tensor</span><span class="p">,</span> <span class="s2">&quot;</span><span class="se">\t</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">()[</span><span class="n">param_tensor</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">())</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">param_tensor</span><span class="si">:</span><span class="s1">&lt;33</span><span class="si">}</span><span class="se">\t</span><span class="si">{</span><span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">()[</span><span class="n">param_tensor</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Model&#39;s state_dict:
-fitting_net.fitting_net.0.weight 	 torch.Size([3, 240, 48])
-fitting_net.fitting_net.0.bias 	 torch.Size([3, 240])
-fitting_net.fitting_net.1.weight 	 torch.Size([3, 240, 240])
-fitting_net.fitting_net.1.bias 	 torch.Size([3, 240])
-fitting_net.fitting_net.2.weight 	 torch.Size([3, 240, 240])
-fitting_net.fitting_net.2.bias 	 torch.Size([3, 240])
-fitting_net.fitting_net.3.weight 	 torch.Size([3, 1, 240])
-fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
+fitting_net.fitting_net.0.weight 	torch.Size([3, 240, 48])
+fitting_net.fitting_net.0.bias   	torch.Size([3, 240])
+fitting_net.fitting_net.1.weight 	torch.Size([3, 240, 240])
+fitting_net.fitting_net.1.bias   	torch.Size([3, 240])
+fitting_net.fitting_net.2.weight 	torch.Size([3, 240, 240])
+fitting_net.fitting_net.2.bias   	torch.Size([3, 240])
+fitting_net.fitting_net.3.weight 	torch.Size([3, 1, 240])
+fitting_net.fitting_net.3.bias   	torch.Size([3, 1])
 </pre></div>
 </div>
 </div>
@@ -1056,16 +1056,20 @@ fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
 <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;l2_e_tst&#39;</span><span class="p">][</span><span class="o">~</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;l2_e_tst&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span>
 <span class="n">y2</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;l2_f_tst&#39;</span><span class="p">][</span><span class="o">~</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;l2_f_tst&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;dodgerblue&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Energy Validation Error (kcal/mol)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Energy Validation Error (kcal/mol)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Energy Loss Function&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Force Validation Error (kcal/mol&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;dodgerblue&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Epoch&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Force Validation Error (kcal/mol/$\AA$)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Epoch&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Force Validation Error (kcal/mol/$\AA$)&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="s1">&#39;Force Loss Function&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;loss.png&#39;</span><span class="p">,</span> <span class="n">dpi</span><span class="o">=</span><span class="mi">300</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/5bbf53cbfe8b21a396fb3b2b0fd9ebbec9913a6154ce1868a30e5e8f876c49c3.png" src="_images/5bbf53cbfe8b21a396fb3b2b0fd9ebbec9913a6154ce1868a30e5e8f876c49c3.png" />
+<img alt="_images/65d938ea8efbbd7f8f7eb74396c6d8bc9a537b198cb976b5112e74d1f3468580.png" src="_images/65d938ea8efbbd7f8f7eb74396c6d8bc9a537b198cb976b5112e74d1f3468580.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1074,26 +1078,27 @@ fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span><span class="mi">5</span><span class="p">))</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;epoch&#39;</span><span class="p">][</span><span class="o">~</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;epoch&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;train_loss&#39;</span><span class="p">][</span><span class="o">~</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;train_loss&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Size of the Training Set:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Training Loss&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;dodgerblue&#39;</span><span class="p">)</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">data</span><span class="p">[</span><span class="s1">&#39;val_loss&#39;</span><span class="p">][</span><span class="o">~</span><span class="n">data</span><span class="p">[</span><span class="s1">&#39;val_loss&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isnull</span><span class="p">()]</span>
-<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Size of the Validation Set:&#39;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s1">&#39;Validation Loss&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Steps&#39;</span><span class="p">)</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Loss&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Steps&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Loss&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="mi">12</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;BPNN Training Data Loss&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1350
-500
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Size of the Training Data: 1350
+Size of the Validation Data: 500
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fdcd83c18a0&gt;
-</pre></div>
-</div>
-<img alt="_images/ea2d2c26f26cdff9a194d8e85f4c17eff3ce67d3838622d796232ae12dc5601c.png" src="_images/ea2d2c26f26cdff9a194d8e85f4c17eff3ce67d3838622d796232ae12dc5601c.png" />
+<img alt="_images/4a5401f66d9a2f214db8ed13bf96c9113f0b0adbc42bc70ec27835efc70495de.png" src="_images/4a5401f66d9a2f214db8ed13bf96c9113f0b0adbc42bc70ec27835efc70495de.png" />
 </div>
 </div>
 </section>
