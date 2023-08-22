@@ -30,7 +30,7 @@ nbclient.exceptions.CellTimeoutError: A cell timed out while it was being execut
 The message was: Cell execution timed out.
 Here is a preview of the cell contents:
 -------------------
-['%%capture', 'import numpy as np', '', 'ds = np.DataSource(None) ', 'coord = np.array(np.load(ds.open("https://github.com/cc-ats/mlp_tutorial/raw/main/DeepPot_PyTorch/input_coord.npy", "rb")), dtype="float32")']
+['%%capture', 'import numpy as np', '', 'ds = np.DataSource(None)', 'coord = np.array(np.load(ds.open("https://github.com/cc-ats/mlp_tutorial/raw/main/DeepPot_PyTorch/input_coord.npy", "rb")), dtype="float32")']
 ...
 ['trainer.fit(model, train_loader)', 'model.to(device)', '', '', '_, grad_pred = model(coord, atom_types[0])']
 -------------------
