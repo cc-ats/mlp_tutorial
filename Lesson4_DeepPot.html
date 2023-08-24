@@ -700,7 +700,19 @@ s(R_{ji}) =
 </section>
 <section id="importing-data-and-feature-extraction">
 <h2><span class="section-number">4.6. </span>Importing Data and Feature Extraction<a class="headerlink" href="#importing-data-and-feature-extraction" title="Permalink to this heading">#</a></h2>
-<p>We can load in data and use the DeepPot neural network for feature extraction.</p>
+<p>Files from GitHub:</p>
+<ul class="simple">
+<li><p>Coordinates and atom types:</p></li>
+<li><p><strong>qm_coord.npy</strong> (1800, 14, 3)</p></li>
+<li><p><strong>qm_elem.txt</strong> ([6, 6, 6, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])</p></li>
+<li><p>PM3 energies and gradients:</p></li>
+<li><p><strong>energy_sqm.npy</strong> (1800,)</p></li>
+<li><p><strong>qm_grad_sqm.npy</strong> (1800, 14, 3)</p></li>
+<li><p>B3LYP/6-31+G* energies and gradients:</p></li>
+<li><p><strong>energy.npy</strong>  (1800,)</p></li>
+<li><p><strong>qm_grad.npy</strong> (1800, 14, 3)</p></li>
+</ul>
+<p>These files will provide us with semi-empirical (PM3) and QM (B3LYP/6-31+G*) data to train our machine learning model and use the DeepPot neural network for feature extraction.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%capture</span>
