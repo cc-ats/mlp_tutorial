@@ -393,9 +393,8 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-and-libraries">3.1. Importing Data and Libraries</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-from-github-mlp-class-and-installing-pytorch-lightning">3.1.1. Importing Data From GitHub (mlp_class) and Installing PyTorch Lightning</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-libraries">3.1.2. Importing Libraries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-pytorch-and-libraries">3.1. Importing PyTorch and Libraries</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-libraries">3.1.1. Importing Libraries</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#symmetry-functions">3.2. Symmetry Functions</a><ul class="nav section-nav flex-column">
@@ -433,35 +432,11 @@ document.write(`
 <section class="tex2jax_ignore mathjax_ignore" id="behler-parrinello-symmetry-functions">
 <h1><span class="section-number">3. </span>Behler-Parrinello  Symmetry Functions<a class="headerlink" href="#behler-parrinello-symmetry-functions" title="Permalink to this heading">#</a></h1>
 <p>In this tutorial, we will create Behler-Parrinello and ANI neural networks using atom-centered symmetry functions. The symmetry functions will allow us to ensure that our observables (such as energy) are invariant to translations and rotations.</p>
-<section id="importing-data-and-libraries">
-<h2><span class="section-number">3.1. </span>Importing Data and Libraries<a class="headerlink" href="#importing-data-and-libraries" title="Permalink to this heading">#</a></h2>
-<p>We will first import data and libraries needed to train our machine learning models.</p>
-<section id="importing-data-from-github-mlp-class-and-installing-pytorch-lightning">
-<h3><span class="section-number">3.1.1. </span>Importing Data From GitHub (mlp_class) and Installing PyTorch Lightning<a class="headerlink" href="#importing-data-from-github-mlp-class-and-installing-pytorch-lightning" title="Permalink to this heading">#</a></h3>
-<p>Files from GitHub:</p>
-<ul class="simple">
-<li><p>Coordinates and atom types:</p></li>
-<li><p><strong>qm_coord.npy</strong> (1800, 14, 3)</p></li>
-<li><p><strong>qm_elem.txt</strong> ([6, 6, 6, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])</p></li>
-<li><p>PM3 energies and gradients:</p></li>
-<li><p><strong>energy_sqm.npy</strong> (1800,)</p></li>
-<li><p><strong>qm_grad_sqm.npy</strong> (1800, 14, 3)</p></li>
-<li><p>B3LYP/6-31+G* energies and gradients:</p></li>
-<li><p><strong>energy.npy</strong>  (1800,)</p></li>
-<li><p><strong>qm_grad.npy</strong> (1800, 14, 3)</p></li>
-</ul>
-<p>These files will provide us with semi-empirical (PM3) and QM (B3LYP/6-31+G*) data to train our machine learning model.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%%capture
-!pip install pytorch-lightning &gt; /dev/null   #installing PyTorch lightning
-</pre></div>
-</div>
-</div>
-</div>
-</section>
+<section id="importing-pytorch-and-libraries">
+<h2><span class="section-number">3.1. </span>Importing PyTorch and Libraries<a class="headerlink" href="#importing-pytorch-and-libraries" title="Permalink to this heading">#</a></h2>
+<p>We begin by importing PyTorch and required libraries.</p>
 <section id="importing-libraries">
-<h3><span class="section-number">3.1.2. </span>Importing Libraries<a class="headerlink" href="#importing-libraries" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">3.1.1. </span>Importing Libraries<a class="headerlink" href="#importing-libraries" title="Permalink to this heading">#</a></h3>
 <p>We will import the following libraries:</p>
 <ul class="simple">
 <li><p>math, typing (Sequence, Tuple)</p></li>
@@ -470,17 +445,20 @@ document.write(`
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%%capture
+!pip install pytorch-lightning &gt; /dev/null   #installing PyTorch lightning
 
-<span class="kn">import</span> <span class="nn">torch</span>
-<span class="kn">import</span> <span class="nn">torch.nn</span> <span class="k">as</span> <span class="nn">nn</span>
-<span class="kn">import</span> <span class="nn">torch.nn.functional</span> <span class="k">as</span> <span class="nn">F</span>
-<span class="kn">from</span> <span class="nn">torch</span> <span class="kn">import</span> <span class="n">Tensor</span>
+import math
+from typing import Sequence, Tuple
 
-<span class="kn">from</span> <span class="nn">torch.utils.data</span> <span class="kn">import</span> <span class="n">TensorDataset</span><span class="p">,</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">random_split</span>
-<span class="kn">import</span> <span class="nn">pytorch_lightning</span> <span class="k">as</span> <span class="nn">pl</span>
-<span class="kn">from</span> <span class="nn">pytorch_lightning</span> <span class="kn">import</span> <span class="n">loggers</span> <span class="k">as</span> <span class="n">pl_loggers</span>
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+from torch import Tensor
+
+from torch.utils.data import TensorDataset, DataLoader, random_split
+import pytorch_lightning as pl
+from pytorch_lightning import loggers as pl_loggers
 </pre></div>
 </div>
 </div>
@@ -835,7 +813,19 @@ The Dense class contains functions to describe a densely connected neural networ
 </section>
 <section id="loading-data">
 <h2><span class="section-number">3.4. </span>Loading Data<a class="headerlink" href="#loading-data" title="Permalink to this heading">#</a></h2>
-<p>We will now load the files previously imported from GitHub and use the data in our machine learning model.</p>
+<p>Files from GitHub:</p>
+<ul class="simple">
+<li><p>Coordinates and atom types:</p></li>
+<li><p><strong>qm_coord.npy</strong> (1800, 14, 3)</p></li>
+<li><p><strong>qm_elem.txt</strong> ([6, 6, 6, 6, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1])</p></li>
+<li><p>PM3 energies and gradients:</p></li>
+<li><p><strong>energy_sqm.npy</strong> (1800,)</p></li>
+<li><p><strong>qm_grad_sqm.npy</strong> (1800, 14, 3)</p></li>
+<li><p>B3LYP/6-31+G* energies and gradients:</p></li>
+<li><p><strong>energy.npy</strong>  (1800,)</p></li>
+<li><p><strong>qm_grad.npy</strong> (1800, 14, 3)</p></li>
+</ul>
+<p>These files will provide us with semi-empirical (PM3) and QM (B3LYP/6-31+G*) data to train our machine learning model.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -863,11 +853,6 @@ The Dense class contains functions to describe a densely connected neural networ
 <span class="n">train</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">random_split</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="p">[</span><span class="mi">1728</span><span class="p">,</span> <span class="mi">72</span><span class="p">])</span>
 <span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
 <span class="n">val_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Global seed set to 2
 </pre></div>
 </div>
 </div>
@@ -919,34 +904,6 @@ The Dense class contains functions to describe a densely connected neural networ
 
 <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">val_loader</span><span class="p">)</span>
 <span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Global seed set to 2
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>GPU available: False, used: False
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TPU available: False, using: 0 TPU cores
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>IPU available: False, using: 0 IPUs
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>HPU available: False, using: 0 HPUs
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>  | Name        | Type       | Params
--------------------------------------------
-0 | descriptor  | FeatureANI | 0     
-1 | fitting_net | Fitting    | 383 K 
--------------------------------------------
-383 K     Trainable params
-0         Non-trainable params
-383 K     Total params
-1.532     Total estimated model params size (MB)
 </pre></div>
 </div>
 </div>
@@ -1171,9 +1128,8 @@ Size of the Validation Data: 500
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-and-libraries">3.1. Importing Data and Libraries</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-from-github-mlp-class-and-installing-pytorch-lightning">3.1.1. Importing Data From GitHub (mlp_class) and Installing PyTorch Lightning</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-libraries">3.1.2. Importing Libraries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-pytorch-and-libraries">3.1. Importing PyTorch and Libraries</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-libraries">3.1.1. Importing Libraries</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#symmetry-functions">3.2. Symmetry Functions</a><ul class="nav section-nav flex-column">
