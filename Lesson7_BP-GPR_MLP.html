@@ -756,7 +756,10 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 100/500 - Loss: 1.700   outputscale: 2.947   lengthscale: 3.299   noise: 0.852
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 100/500 - Loss: 1.698   outputscale: 2.948   lengthscale: 3.299   noise: 0.851
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 200/500 - Loss: 1.521   outputscale: 4.565   lengthscale: 3.564   noise: 0.193
 </pre></div>
 </div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
@@ -911,12 +914,12 @@ document.write(`
 <span class="g g-Whitespace">    </span><span class="mi">356</span>     <span class="n">dist_func</span> <span class="o">=</span> <span class="n">sq_dist</span> <span class="k">if</span> <span class="n">square_dist</span> <span class="k">else</span> <span class="n">dist</span>
 <span class="ne">--&gt; </span><span class="mi">357</span>     <span class="k">return</span> <span class="n">dist_func</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x2</span><span class="p">,</span> <span class="n">x1_eq_x2</span><span class="p">)</span>
 
-<span class="nn">File /opt/hostedtoolcache/Python/3.9.17/x64/lib/python3.9/site-packages/gpytorch/kernels/kernel.py:43,</span> in <span class="ni">sq_dist</span><span class="nt">(x1, x2, x1_eq_x2)</span>
+<span class="nn">File /opt/hostedtoolcache/Python/3.9.17/x64/lib/python3.9/site-packages/gpytorch/kernels/kernel.py:42,</span> in <span class="ni">sq_dist</span><span class="nt">(x1, x2, x1_eq_x2)</span>
+<span class="g g-Whitespace">     </span><span class="mi">40</span>     <span class="n">x2_pad</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">x2_norm</span><span class="p">)</span>
 <span class="g g-Whitespace">     </span><span class="mi">41</span> <span class="n">x1_</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="o">-</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">x1</span><span class="p">,</span> <span class="n">x1_norm</span><span class="p">,</span> <span class="n">x1_pad</span><span class="p">],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">42</span> <span class="n">x2_</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">x2</span><span class="p">,</span> <span class="n">x2_pad</span><span class="p">,</span> <span class="n">x2_norm</span><span class="p">],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
-<span class="ne">---&gt; </span><span class="mi">43</span> <span class="n">res</span> <span class="o">=</span> <span class="n">x1_</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">x2_</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
+<span class="ne">---&gt; </span><span class="mi">42</span> <span class="n">x2_</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">x2</span><span class="p">,</span> <span class="n">x2_pad</span><span class="p">,</span> <span class="n">x2_norm</span><span class="p">],</span> <span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">43</span> <span class="n">res</span> <span class="o">=</span> <span class="n">x1_</span><span class="o">.</span><span class="n">matmul</span><span class="p">(</span><span class="n">x2_</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">))</span>
 <span class="g g-Whitespace">     </span><span class="mi">45</span> <span class="k">if</span> <span class="n">x1_eq_x2</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">x1</span><span class="o">.</span><span class="n">requires_grad</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">x2</span><span class="o">.</span><span class="n">requires_grad</span><span class="p">:</span>
-<span class="g g-Whitespace">     </span><span class="mi">46</span>     <span class="n">res</span><span class="o">.</span><span class="n">diagonal</span><span class="p">(</span><span class="n">dim1</span><span class="o">=-</span><span class="mi">2</span><span class="p">,</span> <span class="n">dim2</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">fill_</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 
 <span class="ne">KeyboardInterrupt</span>: 
 </pre></div>
