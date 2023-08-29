@@ -68,7 +68,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'Lesson5_BP-FNN_MLP';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="6. Lesson 6: DeepPot-Smooth Edition Fitting Neural Network with Machine Learning Potentials (DeepPot-SE-FNN MLP)" href="Lesson6_DeepPot-FNN_MLP.html" />
+    <link rel="next" title="7. Lesson 6: DeepPot-Smooth Edition Fitting Neural Network with Machine Learning Potentials (DeepPot-SE-FNN MLP)" href="Lesson6_DeepPot-FNN_MLP.html" />
     <link rel="prev" title="4. A PyTorch implementation of Deep Potential-Smooth Edition (DeepPot-SE)" href="Lesson4_DeepPot.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -167,8 +167,9 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">C. Machine Learning Potentials</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">5. Behler-Parrinello Fitting Neural Network with Machine Learning Potential (BP-FNN MLP) Models for the Claisen Rearrangement</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Lesson6_DeepPot-FNN_MLP.html">6. Lesson 6: DeepPot-Smooth Edition Fitting Neural Network with Machine Learning Potentials (DeepPot-SE-FNN MLP)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Lesson7_BP-GPR_MLP.html">7. <strong>Lesson 7: Behler-Parrinello Gaussian Process Regression (BP-GPR) for Machine Learning Potentials</strong></a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="Lesson6_DeepPot-FNN_MLP.html">7. Lesson 6: DeepPot-Smooth Edition Fitting Neural Network with Machine Learning Potentials (DeepPot-SE-FNN MLP)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lesson7_BP-GPR_MLP.html">8. <strong>Lesson 7: Behler-Parrinello Gaussian Process Regression (BP-GPR) for Machine Learning Potentials</strong></a></li>
 </ul>
 
     </div>
@@ -393,28 +394,35 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-reaction-coordinate-and-system-size">5.1. Defining the Reaction Coordinate and System Size</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-pytorch-lightning-and-libraries">5.2. Importing PyTorch Lightning and Libraries</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-from-github-mlp-tutorial">5.3. Importing data from GitHub (mlp_tutorial)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-dense-neural-network">5.4. Defining the Dense Neural Network</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-bp-symmetry-functions">5.5. Creating the BP Symmetry Functions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-feature-classes-for-bp-and-ani">5.6. Creating the Feature Classes for BP and ANI</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-bp-feature-class">5.6.1. Defining the BP Feature Class</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-ani-feature-class">5.6.2. Defining the ANI Feature Class</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">5. Behler-Parrinello Fitting Neural Network with Machine Learning Potential (BP-FNN MLP) Models for the Claisen Rearrangement</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-reaction-coordinate-and-system-size">6. Defining the Reaction Coordinate and System Size</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-pytorch-lightning-and-libraries">6.1. Importing PyTorch Lightning and Libraries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-symmetry-functions">6.2. Defining Symmetry Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-neural-network-and-feature-extraction-classes">6.3. Defining Neural Network and Feature Extraction Classes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-sequential-and-dense-classes">6.3.1. Defining Sequential and Dense Classes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-bp-feature-class">6.3.2. Defining the BP Feature Class</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-ani-feature-class">6.3.3. Defining the ANI Feature Class</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-fitting-neural-network">6.3.4. Creating the Fitting Neural Network</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-behler-parrinello-fitting-neural-network-bp-fnn">6.3.5. The Behler-Parrinello Fitting Neural Network (BP-FNN)</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-fitting-neural-network">5.7. Creating the Fitting Neural Network</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-behler-parrinello-fitting-neural-network-bp-fnn">5.8. The Behler-Parrinello Fitting Neural Network (BP-FNN)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-and-seeding">5.9. Importing Data and Seeding</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-ani-parameters">5.9.1. Setting ANI Parameters</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-model-to-pytorch-file">5.9.2. Saving model to PyTorch file</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-rmsd-for-deltamlp-energy-and-forces">5.9.3. Plotting RMSD for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP Energy and Forces</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model-weights-and-biases-dictionary">5.9.4. The Model Weights and Biases Dictionary</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-validation-error-for-deltamlp">5.9.5. Plotting Validation Error for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-training-and-validation-loss-for-deltamlp">5.9.6. Plotting Training and Validation Loss for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-and-seeding">6.4. Importing Data and Seeding</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-ani-for-feature-extraction">6.5. Using ANI for Feature Extraction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-the-model-with-pytorch-files-and-evaluating-the-model-s-accuracy-using-rmsd">6.6. Saving the Model with PyTorch Files and Evaluating the Model’s Accuracy Using RMSD</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-the-model-with-pytorch">6.6.1. Saving the Model with PyTorch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-rmsd-for-deltamlp-energy-and-forces">6.6.2. Plotting RMSD for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP Energy and Forces</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model-weights-and-biases-dictionary">6.6.3. The Model Weights and Biases Dictionary</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-the-minimization-of-the-loss-function">6.7. Plotting the Minimization of the Loss Function</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-validation-error-for-deltamlp">6.7.1. Plotting Validation Error for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-training-and-validation-loss-for-deltamlp">6.7.2. Plotting Training and Validation Loss for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
 </ul>
 </li>
 </ul>
+</li>
+</ul>
+
             </nav>
         </div>
     </div>
@@ -429,8 +437,9 @@ document.write(`
 <section class="tex2jax_ignore mathjax_ignore" id="behler-parrinello-fitting-neural-network-with-machine-learning-potential-bp-fnn-mlp-models-for-the-claisen-rearrangement">
 <h1><span class="section-number">5. </span>Behler-Parrinello Fitting Neural Network with Machine Learning Potential (BP-FNN MLP) Models for the Claisen Rearrangement<a class="headerlink" href="#behler-parrinello-fitting-neural-network-with-machine-learning-potential-bp-fnn-mlp-models-for-the-claisen-rearrangement" title="Permalink to this heading">#</a></h1>
 <p>For this tutorial, we will be combining the Fitting Neural Network (FNN) from Lesson 1 and the Behler-Parrinello Neural Network (BPNN) from Lesson 3 to train a <span class="math notranslate nohighlight">\(\Delta\)</span> Machine Learning Potential (<span class="math notranslate nohighlight">\(\Delta\)</span>MLP) model to reproduce the energy and forces for the claisen rearrangement reaction. With a BP-FNN, we can utilize the symmetry functions from the BPNN model for feature extraction and use the FNN for training. The goal of this model is to train with data that is from the semiempirical (PM3) and DFT (B3LYP) levels of theory. The BP-FNN will be used to correct the semiempirical values to obtain DFT level accuracy, which is what makes it a <span class="math notranslate nohighlight">\(\Delta\)</span>MLP model.</p>
-<section id="defining-the-reaction-coordinate-and-system-size">
-<h2><span class="section-number">5.1. </span>Defining the Reaction Coordinate and System Size<a class="headerlink" href="#defining-the-reaction-coordinate-and-system-size" title="Permalink to this heading">#</a></h2>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="defining-the-reaction-coordinate-and-system-size">
+<h1><span class="section-number">6. </span>Defining the Reaction Coordinate and System Size<a class="headerlink" href="#defining-the-reaction-coordinate-and-system-size" title="Permalink to this heading">#</a></h1>
 <p>The reaction coordinate is <span class="math notranslate nohighlight">\(d_1 -d_2\)</span> with 21 windows.</p>
 <p>Total of 2100 frames (1 ps/window, frames are saved every 1 fs.)</p>
 <img src='https://raw.githubusercontent.com/cc-ats/mlp_class/main/Claisen_Rearrangement/img/pent-4-enal.png' width=200px>
@@ -446,9 +455,8 @@ document.write(`
 <div class="output text_html"><video src="https://github.com/cc-ats/mlp_tutorial/raw/main/Claisen_Rearrangement/img/claisen.mp4" width=300 controls/></div></div>
 </div>
 <video src='https://github.com/cc-ats/mlp_tutorial/raw/main/Claisen_Rearrangement/img/claisen.mp4'>
-</section>
 <section id="importing-pytorch-lightning-and-libraries">
-<h2><span class="section-number">5.2. </span>Importing PyTorch Lightning and Libraries<a class="headerlink" href="#importing-pytorch-lightning-and-libraries" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">6.1. </span>Importing PyTorch Lightning and Libraries<a class="headerlink" href="#importing-pytorch-lightning-and-libraries" title="Permalink to this heading">#</a></h2>
 <p>We will first install PyTorch Lightning and import libraries needed to train our machine learning models.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -471,24 +479,77 @@ from pytorch_lightning import loggers as pl_loggers
 </div>
 </div>
 </section>
-<section id="importing-data-from-github-mlp-tutorial">
-<h2><span class="section-number">5.3. </span>Importing data from GitHub (mlp_tutorial)<a class="headerlink" href="#importing-data-from-github-mlp-tutorial" title="Permalink to this heading">#</a></h2>
-<p>We will now import our semiempirical and DFT calculation data.</p>
-<p>Files from GitHub:</p>
+<section id="defining-symmetry-functions">
+<h2><span class="section-number">6.2. </span>Defining Symmetry Functions<a class="headerlink" href="#defining-symmetry-functions" title="Permalink to this heading">#</a></h2>
+<p>We will define the BP and ANI symmetry functions to ensure that our ML predictions are invariant to translations, rotations, and permutations.</p>
 <ul class="simple">
-<li><p><strong>qm_coord.npy</strong> (2100, 14, 3)</p></li>
-<li><p><strong>qm_elem.txt</strong> ([8, 6, 6, 6, 6, 6, 1, 1, 1, 1, 1, 1, 1, 1])</p></li>
-<li><p>PM3</p></li>
-<li><p><strong>energy_sqm.npy</strong> (2100,)</p></li>
-<li><p><strong>qm_grad_sqm.npy</strong> (2100, 14, 3)</p></li>
-<li><p>B3LYP/6-31+G*</p></li>
-<li><p><strong>energy.npy</strong>  (2100,)</p></li>
-<li><p><strong>qm_grad.npy</strong> (2100, 14, 3)</p></li>
+<li><p><strong>pairwise_vector:</strong> Distance function for calculating distances between each atom.</p></li>
+<li><p><strong>symmetry_function_g2:</strong> BP radial symmetry function.</p></li>
+<li><p><strong>symmetry_function_g3:</strong> BP angular symmetry function.</p></li>
+<li><p><strong>symmetry_function_g3ani:</strong> ANI angular symmetry function.</p></li>
 </ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">pairwise_vector</span><span class="p">(</span><span class="n">coords</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+    <span class="n">num_batches</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">coords</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
+    <span class="n">rij</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[:,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">coords</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
+    <span class="n">mask</span> <span class="o">=</span> <span class="o">~</span><span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">num_channels</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">coords</span><span class="o">.</span><span class="n">device</span><span class="p">)</span> <span class="c1"># remove self-interaction</span>
+    <span class="n">rij</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">masked_select</span><span class="p">(</span><span class="n">rij</span><span class="p">,</span> <span class="n">mask</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">num_batches</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">,</span> <span class="n">num_channels</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">rij</span>
+
+
+<span class="k">def</span> <span class="nf">symmetry_function_g2</span><span class="p">(</span><span class="n">rij</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Rcr</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">EtaR</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">ShfR</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+    <span class="n">dij</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">rij</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">fij</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">dij</span> <span class="o">/</span> <span class="n">Rcr</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+    <span class="n">g2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">EtaR</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">dij</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">ShfR</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">fij</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">g2</span>
+
+
+<span class="k">def</span> <span class="nf">symmetry_function_g3</span><span class="p">(</span><span class="n">rij</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Rca</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">Zeta</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">EtaA</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">rij</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">rij</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">c</span><span class="p">]</span>
+    <span class="n">r12</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">r13</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">r23</span> <span class="o">=</span> <span class="n">r12</span> <span class="o">-</span> <span class="n">r13</span>
+    <span class="n">d12</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r12</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">d13</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r13</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">d23</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r23</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">f12</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d12</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+    <span class="n">f13</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d13</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+    <span class="n">f23</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d23</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+    <span class="n">cosine</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ijkl,ijkl-&gt;ijk&#39;</span><span class="p">,</span> <span class="n">r12</span><span class="p">,</span> <span class="n">r13</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">d12</span> <span class="o">*</span> <span class="n">d13</span><span class="p">)</span>
+
+    <span class="n">g3</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">Zeta</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">cosine</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="n">Zeta</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">EtaA</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">d12</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">d13</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">d23</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">f12</span> <span class="o">*</span> <span class="n">f13</span> <span class="o">*</span> <span class="n">f23</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">g3</span>
+
+
+<span class="k">def</span> <span class="nf">symmetry_function_g3ani</span><span class="p">(</span><span class="n">rij</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Rca</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">Zeta</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">ShfZ</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">EtaA</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">ShfA</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">rij</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">rij</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">c</span><span class="p">]</span>
+    <span class="n">r12</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
+    <span class="n">r13</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="n">r23</span> <span class="o">=</span> <span class="n">r12</span> <span class="o">-</span> <span class="n">r13</span>
+    <span class="n">d12</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r12</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">d13</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r13</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+    <span class="n">f12</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d12</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+    <span class="n">f13</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d13</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
+    <span class="n">cosine</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ijkl,ijkl-&gt;ijk&#39;</span><span class="p">,</span> <span class="n">r12</span><span class="p">,</span> <span class="n">r13</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">d12</span> <span class="o">*</span> <span class="n">d13</span><span class="p">)</span>
+    <span class="n">cosine</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">acos</span><span class="p">(</span><span class="n">cosine</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">ShfA</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+
+    <span class="n">g3</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">Zeta</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">cosine</span><span class="p">)</span><span class="o">**</span><span class="n">Zeta</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">EtaA</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">d12</span> <span class="o">+</span> <span class="n">d13</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">ShfZ</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">f12</span> <span class="o">*</span> <span class="n">f13</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">g3</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
-<section id="defining-the-dense-neural-network">
-<h2><span class="section-number">5.4. </span>Defining the Dense Neural Network<a class="headerlink" href="#defining-the-dense-neural-network" title="Permalink to this heading">#</a></h2>
-<p>The Dense class contains functions to describe a densely connected neural network.</p>
+<section id="defining-neural-network-and-feature-extraction-classes">
+<h2><span class="section-number">6.3. </span>Defining Neural Network and Feature Extraction Classes<a class="headerlink" href="#defining-neural-network-and-feature-extraction-classes" title="Permalink to this heading">#</a></h2>
+<p>We will now define feature extraction classes which will be used in our Behler-Parrinello and ANI neural networks.</p>
+<section id="defining-sequential-and-dense-classes">
+<h3><span class="section-number">6.3.1. </span>Defining Sequential and Dense Classes<a class="headerlink" href="#defining-sequential-and-dense-classes" title="Permalink to this heading">#</a></h3>
+<p>The Sequential class contains the function for the feed-forward aspect of our neural network.
+The Dense class contains functions to describe a densely connected neural network.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Sequential</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Sequential</span><span class="p">):</span>
@@ -552,69 +613,9 @@ from pytorch_lightning import loggers as pl_loggers
 </div>
 </div>
 </section>
-<section id="creating-the-bp-symmetry-functions">
-<h2><span class="section-number">5.5. </span>Creating the BP Symmetry Functions<a class="headerlink" href="#creating-the-bp-symmetry-functions" title="Permalink to this heading">#</a></h2>
-<p>We will define the BP and ANI symmetry functions to ensure that our ML predictions are invariant to translations, rotations, and permutations.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">pairwise_vector</span><span class="p">(</span><span class="n">coords</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-    <span class="n">num_batches</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">coords</span><span class="o">.</span><span class="n">size</span><span class="p">()</span>
-    <span class="n">rij</span> <span class="o">=</span> <span class="n">coords</span><span class="p">[:,</span> <span class="p">:,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">-</span> <span class="n">coords</span><span class="p">[:,</span> <span class="kc">None</span><span class="p">]</span>
-    <span class="n">mask</span> <span class="o">=</span> <span class="o">~</span><span class="n">torch</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="n">num_channels</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">coords</span><span class="o">.</span><span class="n">device</span><span class="p">)</span> <span class="c1"># remove self-interaction</span>
-    <span class="n">rij</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">masked_select</span><span class="p">(</span><span class="n">rij</span><span class="p">,</span> <span class="n">mask</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">2</span><span class="p">))</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">num_batches</span><span class="p">,</span> <span class="n">num_channels</span><span class="p">,</span> <span class="n">num_channels</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">rij</span>
-
-
-<span class="k">def</span> <span class="nf">symmetry_function_g2</span><span class="p">(</span><span class="n">rij</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Rcr</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">EtaR</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">ShfR</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-    <span class="n">dij</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">rij</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">fij</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">dij</span> <span class="o">/</span> <span class="n">Rcr</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
-    <span class="n">g2</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">EtaR</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">dij</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">ShfR</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="n">fij</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">g2</span>
-
-
-<span class="k">def</span> <span class="nf">symmetry_function_g3</span><span class="p">(</span><span class="n">rij</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Rca</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">Zeta</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">EtaA</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">rij</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">rij</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">c</span><span class="p">]</span>
-    <span class="n">r12</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
-    <span class="n">r13</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
-    <span class="n">r23</span> <span class="o">=</span> <span class="n">r12</span> <span class="o">-</span> <span class="n">r13</span>
-    <span class="n">d12</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r12</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">d13</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r13</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">d23</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r23</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">f12</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d12</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
-    <span class="n">f13</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d13</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
-    <span class="n">f23</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d23</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
-    <span class="n">cosine</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ijkl,ijkl-&gt;ijk&#39;</span><span class="p">,</span> <span class="n">r12</span><span class="p">,</span> <span class="n">r13</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">d12</span> <span class="o">*</span> <span class="n">d13</span><span class="p">)</span>
-
-    <span class="n">g3</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">Zeta</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">cosine</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="n">Zeta</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">EtaA</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">d12</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">d13</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">d23</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="n">f12</span> <span class="o">*</span> <span class="n">f13</span> <span class="o">*</span> <span class="n">f23</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">g3</span>
-
-
-<span class="k">def</span> <span class="nf">symmetry_function_g3ani</span><span class="p">(</span><span class="n">rij</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">Rca</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">Zeta</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">ShfZ</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">EtaA</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">,</span> <span class="n">ShfA</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
-    <span class="n">c</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">combinations</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">rij</span><span class="o">.</span><span class="n">size</span><span class="p">(</span><span class="mi">2</span><span class="p">)),</span> <span class="n">r</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="n">rij</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">c</span><span class="p">]</span>
-    <span class="n">r12</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">]</span>
-    <span class="n">r13</span> <span class="o">=</span> <span class="n">rij</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">1</span><span class="p">]</span>
-    <span class="n">r23</span> <span class="o">=</span> <span class="n">r12</span> <span class="o">-</span> <span class="n">r13</span>
-    <span class="n">d12</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r12</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">d13</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">r13</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-    <span class="n">f12</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d12</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
-    <span class="n">f13</span> <span class="o">=</span> <span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">d13</span> <span class="o">/</span> <span class="n">Rca</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">pi</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mf">0.5</span>
-    <span class="n">cosine</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="s1">&#39;ijkl,ijkl-&gt;ijk&#39;</span><span class="p">,</span> <span class="n">r12</span><span class="p">,</span> <span class="n">r13</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">d12</span> <span class="o">*</span> <span class="n">d13</span><span class="p">)</span>
-    <span class="n">cosine</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">acos</span><span class="p">(</span><span class="n">cosine</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">ShfA</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
-
-    <span class="n">g3</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">Zeta</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">cosine</span><span class="p">)</span><span class="o">**</span><span class="n">Zeta</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">EtaA</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">d12</span> <span class="o">+</span> <span class="n">d13</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span> <span class="o">-</span> <span class="n">ShfZ</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">f12</span> <span class="o">*</span> <span class="n">f13</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">),</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">g3</span>
-</pre></div>
-</div>
-</div>
-</div>
-</section>
-<section id="creating-the-feature-classes-for-bp-and-ani">
-<h2><span class="section-number">5.6. </span>Creating the Feature Classes for BP and ANI<a class="headerlink" href="#creating-the-feature-classes-for-bp-and-ani" title="Permalink to this heading">#</a></h2>
 <section id="defining-the-bp-feature-class">
-<h3><span class="section-number">5.6.1. </span>Defining the BP Feature Class<a class="headerlink" href="#defining-the-bp-feature-class" title="Permalink to this heading">#</a></h3>
-<p>Now we will create the feature class, which takes input information and uses functions to extract characteristics unique to the input called features. Here we will be using the previously defined symmetry functions for feature extraction.</p>
+<h3><span class="section-number">6.3.2. </span>Defining the BP Feature Class<a class="headerlink" href="#defining-the-bp-feature-class" title="Permalink to this heading">#</a></h3>
+<p>Now we will create the feature class, which takes input information and uses functions to extract characteristics unique to the called input features. Here we will be using the previously defined symmetry functions for feature extraction.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Feature</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
@@ -650,7 +651,7 @@ from pytorch_lightning import loggers as pl_loggers
 </div>
 </section>
 <section id="defining-the-ani-feature-class">
-<h3><span class="section-number">5.6.2. </span>Defining the ANI Feature Class<a class="headerlink" href="#defining-the-ani-feature-class" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">6.3.3. </span>Defining the ANI Feature Class<a class="headerlink" href="#defining-the-ani-feature-class" title="Permalink to this heading">#</a></h3>
 <p>We will create a similar feature class for ANI that uses the ANI angle symmetry function.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -690,9 +691,8 @@ from pytorch_lightning import loggers as pl_loggers
 </div>
 </div>
 </section>
-</section>
 <section id="creating-the-fitting-neural-network">
-<h2><span class="section-number">5.7. </span>Creating the Fitting Neural Network<a class="headerlink" href="#creating-the-fitting-neural-network" title="Permalink to this heading">#</a></h2>
+<h3><span class="section-number">6.3.4. </span>Creating the Fitting Neural Network<a class="headerlink" href="#creating-the-fitting-neural-network" title="Permalink to this heading">#</a></h3>
 <p>Now we create the Fitting class, which will use the dense neural network for fitting.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -714,7 +714,7 @@ from pytorch_lightning import loggers as pl_loggers
 </div>
 </section>
 <section id="the-behler-parrinello-fitting-neural-network-bp-fnn">
-<h2><span class="section-number">5.8. </span>The Behler-Parrinello Fitting Neural Network (BP-FNN)<a class="headerlink" href="#the-behler-parrinello-fitting-neural-network-bp-fnn" title="Permalink to this heading">#</a></h2>
+<h3><span class="section-number">6.3.5. </span>The Behler-Parrinello Fitting Neural Network (BP-FNN)<a class="headerlink" href="#the-behler-parrinello-fitting-neural-network-bp-fnn" title="Permalink to this heading">#</a></h3>
 <p>We create the BPNN class that can be used for feature extraction with the symmetry functions.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -783,8 +783,9 @@ from pytorch_lightning import loggers as pl_loggers
 </div>
 </div>
 </section>
+</section>
 <section id="importing-data-and-seeding">
-<h2><span class="section-number">5.9. </span>Importing Data and Seeding<a class="headerlink" href="#importing-data-and-seeding" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">6.4. </span>Importing Data and Seeding<a class="headerlink" href="#importing-data-and-seeding" title="Permalink to this heading">#</a></h2>
 <p>We will now import our semiempirical and DFT calculation data. We will then use seeding to generate random but reproducible training.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -820,8 +821,9 @@ from pytorch_lightning import loggers as pl_loggers
 </div>
 </div>
 </div>
-<section id="setting-ani-parameters">
-<h3><span class="section-number">5.9.1. </span>Setting ANI Parameters<a class="headerlink" href="#setting-ani-parameters" title="Permalink to this heading">#</a></h3>
+</section>
+<section id="using-ani-for-feature-extraction">
+<h2><span class="section-number">6.5. </span>Using ANI for Feature Extraction<a class="headerlink" href="#using-ani-for-feature-extraction" title="Permalink to this heading">#</a></h2>
 <p>Here we set the parameters for the ANI model and begin training our BP-FNN.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -862,7 +864,7 @@ from pytorch_lightning import loggers as pl_loggers
 <span class="n">fitting_net</span> <span class="o">=</span> <span class="n">Fitting</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">descriptor</span><span class="o">.</span><span class="n">output_length</span><span class="p">,</span> <span class="n">neuron</span><span class="o">=</span><span class="p">[</span><span class="mi">240</span><span class="p">,</span> <span class="mi">240</span><span class="p">,</span> <span class="mi">240</span><span class="p">])</span>
 <span class="n">model</span> <span class="o">=</span> <span class="n">BPNN</span><span class="p">(</span><span class="n">descriptor</span><span class="p">,</span> <span class="n">fitting_net</span><span class="p">,</span> <span class="n">learning_rate</span><span class="o">=</span><span class="mf">5e-4</span><span class="p">)</span>
 <span class="n">csv_logger</span> <span class="o">=</span> <span class="n">pl_loggers</span><span class="o">.</span><span class="n">CSVLogger</span><span class="p">(</span><span class="s1">&#39;logs_csv/&#39;</span><span class="p">)</span>
-<span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">300</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">csv_logger</span><span class="p">,</span> <span class="n">log_every_n_steps</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">accelerator</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
+<span class="n">trainer</span> <span class="o">=</span> <span class="n">pl</span><span class="o">.</span><span class="n">Trainer</span><span class="p">(</span><span class="n">max_epochs</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">logger</span><span class="o">=</span><span class="n">csv_logger</span><span class="p">,</span> <span class="n">log_every_n_steps</span><span class="o">=</span><span class="mi">20</span><span class="p">,</span> <span class="n">accelerator</span><span class="o">=</span><span class="s1">&#39;auto&#39;</span><span class="p">)</span>
 <span class="n">trainer</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">train_loader</span><span class="p">,</span> <span class="n">val_loader</span><span class="p">)</span>
 <span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
 </pre></div>
@@ -870,8 +872,10 @@ from pytorch_lightning import loggers as pl_loggers
 </div>
 </div>
 </section>
-<section id="saving-model-to-pytorch-file">
-<h3><span class="section-number">5.9.2. </span>Saving model to PyTorch file<a class="headerlink" href="#saving-model-to-pytorch-file" title="Permalink to this heading">#</a></h3>
+<section id="saving-the-model-with-pytorch-files-and-evaluating-the-model-s-accuracy-using-rmsd">
+<h2><span class="section-number">6.6. </span>Saving the Model with PyTorch Files and Evaluating the Model’s Accuracy Using RMSD<a class="headerlink" href="#saving-the-model-with-pytorch-files-and-evaluating-the-model-s-accuracy-using-rmsd" title="Permalink to this heading">#</a></h2>
+<section id="saving-the-model-with-pytorch">
+<h3><span class="section-number">6.6.1. </span>Saving the Model with PyTorch<a class="headerlink" href="#saving-the-model-with-pytorch" title="Permalink to this heading">#</a></h3>
 <p>The following files are saved:</p>
 <p><strong>1) <a class="reference external" href="http://model.pt">model.pt</a></strong></p>
 <ul class="simple">
@@ -883,8 +887,8 @@ from pytorch_lightning import loggers as pl_loggers
 </ul>
 <p>Previously saved models can be loaded with:</p>
 <ul class="simple">
-<li><p>model.load_state_dict(torch.load(’ <strong>1)</strong> ‘))</p></li>
-<li><p>torch.jit.load(’ <strong>2)</strong> ‘)</p></li>
+<li><p>model.load_state_dict(torch.load(”<a class="reference external" href="http://model.pt">model.pt</a>”))</p></li>
+<li><p>torch.jit.load(“model_script.pt”)</p></li>
 </ul>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -903,7 +907,7 @@ from pytorch_lightning import loggers as pl_loggers
 </div>
 </section>
 <section id="plotting-rmsd-for-deltamlp-energy-and-forces">
-<h3><span class="section-number">5.9.3. </span>Plotting RMSD for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP Energy and Forces<a class="headerlink" href="#plotting-rmsd-for-deltamlp-energy-and-forces" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">6.6.2. </span>Plotting RMSD for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP Energy and Forces<a class="headerlink" href="#plotting-rmsd-for-deltamlp-energy-and-forces" title="Permalink to this heading">#</a></h3>
 <p>RMSD for predicted and reference energy and forces are calculated and displayed below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -935,12 +939,12 @@ from pytorch_lightning import loggers as pl_loggers
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/bdc81bd295e5be65a0d3d81ca162179d9607f410369a6db015d1cc2e78fd10d8.png" src="_images/bdc81bd295e5be65a0d3d81ca162179d9607f410369a6db015d1cc2e78fd10d8.png" />
+<img alt="_images/6daa25707ecc7ad2b9bb7f99710f139744b69d60ad91ad1d03e4c12b11fd3ab9.png" src="_images/6daa25707ecc7ad2b9bb7f99710f139744b69d60ad91ad1d03e4c12b11fd3ab9.png" />
 </div>
 </div>
 </section>
 <section id="the-model-weights-and-biases-dictionary">
-<h3><span class="section-number">5.9.4. </span>The Model Weights and Biases Dictionary<a class="headerlink" href="#the-model-weights-and-biases-dictionary" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">6.6.3. </span>The Model Weights and Biases Dictionary<a class="headerlink" href="#the-model-weights-and-biases-dictionary" title="Permalink to this heading">#</a></h3>
 <p>This cell prints the size of the weights and biases used in the trained model for reference.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -965,8 +969,11 @@ fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
 </div>
 </div>
 </section>
+</section>
+<section id="plotting-the-minimization-of-the-loss-function">
+<h2><span class="section-number">6.7. </span>Plotting the Minimization of the Loss Function<a class="headerlink" href="#plotting-the-minimization-of-the-loss-function" title="Permalink to this heading">#</a></h2>
 <section id="plotting-validation-error-for-deltamlp">
-<h3><span class="section-number">5.9.5. </span>Plotting Validation Error for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP<a class="headerlink" href="#plotting-validation-error-for-deltamlp" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">6.7.1. </span>Plotting Validation Error for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP<a class="headerlink" href="#plotting-validation-error-for-deltamlp" title="Permalink to this heading">#</a></h3>
 <p>Validation error for the <span class="math notranslate nohighlight">\(\Delta\)</span>MLP is shown below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -987,12 +994,12 @@ fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/214f199c0185f875527efcc3cd7c922b8797b4dd76b9852e12c759fc9c6d4b29.png" src="_images/214f199c0185f875527efcc3cd7c922b8797b4dd76b9852e12c759fc9c6d4b29.png" />
+<img alt="_images/c2cdbf57882cf4503163b43d9b220e0d322b66751675c2a49e8732375a97bea6.png" src="_images/c2cdbf57882cf4503163b43d9b220e0d322b66751675c2a49e8732375a97bea6.png" />
 </div>
 </div>
 </section>
 <section id="plotting-training-and-validation-loss-for-deltamlp">
-<h3><span class="section-number">5.9.6. </span>Plotting Training and Validation Loss for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP<a class="headerlink" href="#plotting-training-and-validation-loss-for-deltamlp" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">6.7.2. </span>Plotting Training and Validation Loss for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP<a class="headerlink" href="#plotting-training-and-validation-loss-for-deltamlp" title="Permalink to this heading">#</a></h3>
 <p>The loss at each step of the training process is displayed below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1012,14 +1019,14 @@ fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>1152
-365
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>315
+100
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f1c0d4e35e0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7b430b15d0f0&gt;
 </pre></div>
 </div>
-<img alt="_images/dd311402bb8fca96c8b372789aba06b4dadb64cc8d683f0d4edfae9d55d65ec2.png" src="_images/dd311402bb8fca96c8b372789aba06b4dadb64cc8d683f0d4edfae9d55d65ec2.png" />
+<img alt="_images/fc8d323fa69c5a26d3061186f0f25a511a8e249f37c2d1c495cc3dbb3a3223bc.png" src="_images/fc8d323fa69c5a26d3061186f0f25a511a8e249f37c2d1c495cc3dbb3a3223bc.png" />
 </div>
 </div>
 </section>
@@ -1071,7 +1078,7 @@ fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">6. </span>Lesson 6: DeepPot-Smooth Edition Fitting Neural Network with Machine Learning Potentials (DeepPot-SE-FNN MLP)</p>
+        <p class="prev-next-title"><span class="section-number">7. </span>Lesson 6: DeepPot-Smooth Edition Fitting Neural Network with Machine Learning Potentials (DeepPot-SE-FNN MLP)</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1093,28 +1100,35 @@ fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-reaction-coordinate-and-system-size">5.1. Defining the Reaction Coordinate and System Size</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-pytorch-lightning-and-libraries">5.2. Importing PyTorch Lightning and Libraries</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-from-github-mlp-tutorial">5.3. Importing data from GitHub (mlp_tutorial)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-dense-neural-network">5.4. Defining the Dense Neural Network</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-bp-symmetry-functions">5.5. Creating the BP Symmetry Functions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-feature-classes-for-bp-and-ani">5.6. Creating the Feature Classes for BP and ANI</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-bp-feature-class">5.6.1. Defining the BP Feature Class</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-ani-feature-class">5.6.2. Defining the ANI Feature Class</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">5. Behler-Parrinello Fitting Neural Network with Machine Learning Potential (BP-FNN MLP) Models for the Claisen Rearrangement</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-reaction-coordinate-and-system-size">6. Defining the Reaction Coordinate and System Size</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-pytorch-lightning-and-libraries">6.1. Importing PyTorch Lightning and Libraries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-symmetry-functions">6.2. Defining Symmetry Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-neural-network-and-feature-extraction-classes">6.3. Defining Neural Network and Feature Extraction Classes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-sequential-and-dense-classes">6.3.1. Defining Sequential and Dense Classes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-bp-feature-class">6.3.2. Defining the BP Feature Class</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-ani-feature-class">6.3.3. Defining the ANI Feature Class</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-fitting-neural-network">6.3.4. Creating the Fitting Neural Network</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-behler-parrinello-fitting-neural-network-bp-fnn">6.3.5. The Behler-Parrinello Fitting Neural Network (BP-FNN)</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-fitting-neural-network">5.7. Creating the Fitting Neural Network</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-behler-parrinello-fitting-neural-network-bp-fnn">5.8. The Behler-Parrinello Fitting Neural Network (BP-FNN)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-and-seeding">5.9. Importing Data and Seeding</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-ani-parameters">5.9.1. Setting ANI Parameters</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-model-to-pytorch-file">5.9.2. Saving model to PyTorch file</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-rmsd-for-deltamlp-energy-and-forces">5.9.3. Plotting RMSD for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP Energy and Forces</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model-weights-and-biases-dictionary">5.9.4. The Model Weights and Biases Dictionary</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-validation-error-for-deltamlp">5.9.5. Plotting Validation Error for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-training-and-validation-loss-for-deltamlp">5.9.6. Plotting Training and Validation Loss for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-and-seeding">6.4. Importing Data and Seeding</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-ani-for-feature-extraction">6.5. Using ANI for Feature Extraction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-the-model-with-pytorch-files-and-evaluating-the-model-s-accuracy-using-rmsd">6.6. Saving the Model with PyTorch Files and Evaluating the Model’s Accuracy Using RMSD</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-the-model-with-pytorch">6.6.1. Saving the Model with PyTorch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-rmsd-for-deltamlp-energy-and-forces">6.6.2. Plotting RMSD for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP Energy and Forces</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model-weights-and-biases-dictionary">6.6.3. The Model Weights and Biases Dictionary</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-the-minimization-of-the-loss-function">6.7. Plotting the Minimization of the Loss Function</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-validation-error-for-deltamlp">6.7.1. Plotting Validation Error for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-training-and-validation-loss-for-deltamlp">6.7.2. Plotting Training and Validation Loss for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
 </ul>
 </li>
 </ul>
+</li>
+</ul>
+
   </nav></div>
 
 </div></div>
