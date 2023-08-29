@@ -30,8 +30,8 @@ nbclient.exceptions.CellTimeoutError: A cell timed out while it was being execut
 The message was: Cell execution timed out.
 Here is a preview of the cell contents:
 -------------------
-['model.train()', 'likelihood.train()', '', 'def train_model(model, likelihood, x_train, y_train, print_hp=True):', '  training_iter = 100  # using 100 iterations']
+['noise_value = 1.0', '# Create a list of values ranging from (0.1,0.1) to (4.9,4.9)', 'scale_and_length = [[i*.1,j*.1] for i in range(1,50) for j in range(1,50)]', '', 'x_plt = []']
 ...
-['', '        optimizer.step()', '', '#Y_gpr is an array of output values and gradients from the Mueller-Brown potential energy function', 'train_model(model, likelihood, X_gpr, Y_gpr)']
+['plt.xlabel("length scale ($l$)")', 'plt.ylabel("output scale ($σ^2_f$)")', 'plt.colorbar().set_label("-Log Marginal Likelihood",rotation=270, labelpad=12)', 'plt.tight_layout()', 'plt.show()']
 -------------------
 
