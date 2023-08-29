@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>8. Lesson 7: Behler-Parrinello Gaussian Process Regression (BP-GPR) for Machine Learning Potentials &#8212; MLP Tutorial</title>
+    <title>9. Lesson 7: Behler-Parrinello Gaussian Process Regression (BP-GPR) for Machine Learning Potentials &#8212; MLP Tutorial</title>
   
   
   
@@ -168,7 +168,8 @@ const thebe_selector_output = ".output, .cell_output"
 <li class="toctree-l1"><a class="reference internal" href="Lesson5_BP-FNN_MLP.html">5. Behler-Parrinello Fitting Neural Network with Machine Learning Potential (BP-FNN MLP) Models for the Claisen Rearrangement</a></li>
 
 <li class="toctree-l1"><a class="reference internal" href="Lesson6_DeepPot-FNN_MLP.html">7. Lesson 6: DeepPot-Smooth Edition Fitting Neural Network with Machine Learning Potentials (DeepPot-SE-FNN MLP)</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">8. <strong>Lesson 7: Behler-Parrinello Gaussian Process Regression (BP-GPR) for Machine Learning Potentials</strong></a></li>
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">9. <strong>Lesson 7: Behler-Parrinello Gaussian Process Regression (BP-GPR) for Machine Learning Potentials</strong></a></li>
 </ul>
 
     </div>
@@ -393,20 +394,20 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-data-from-github-mlp-class-and-install-gpytorch">8.1. Import data from GitHub (mlp_class) and Install GpyTorch.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-libraries">8.2. Import Libraries</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-the-training-data">8.3. Loading the Training Data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-bp-and-ani-symmetry-functions">8.4. Defining the BP and ANI Symmetry Functions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-bp-feature-class">8.5. Creating the BP Feature Class</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-ani-feature-class">8.6. Creating the ANI Feature Class</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-bp-gpr-class">8.7. Creating the BP-GPR Class</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-ani-parameters">8.8. Setting ANI Parameters</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reshaping-and-initializing">8.9. Reshaping and Initializing</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-the-gpr-hyperparameters">8.10. Training the GPR Hyperparameters</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-of-the-predicted-energy-rmse">8.11. Evaluation of the Predicted Energy (RMSE)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-of-the-predicted-forces-rmse">8.12. Evaluation of the Predicted Forces (RMSE)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-rmsd-for-the-bp-gpr-model">8.13. Plotting RMSD for the BP-GPR Model</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tabulating-the-rmse-for-the-bp-gpr-model">8.14. Tabulating the RMSE for the BP-GPR Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-data-from-github-mlp-class-and-install-gpytorch">9.1. Import data from GitHub (mlp_class) and Install GpyTorch.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-libraries">9.2. Import Libraries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-the-training-data">9.3. Loading the Training Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-bp-and-ani-symmetry-functions">9.4. Defining the BP and ANI Symmetry Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-bp-feature-class">9.5. Creating the BP Feature Class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-ani-feature-class">9.6. Creating the ANI Feature Class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-bp-gpr-class">9.7. Creating the BP-GPR Class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-ani-parameters">9.8. Setting ANI Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reshaping-and-initializing">9.9. Reshaping and Initializing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-the-gpr-hyperparameters">9.10. Training the GPR Hyperparameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-of-the-predicted-energy-rmse">9.11. Evaluation of the Predicted Energy (RMSE)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-of-the-predicted-forces-rmse">9.12. Evaluation of the Predicted Forces (RMSE)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-rmsd-for-the-bp-gpr-model">9.13. Plotting RMSD for the BP-GPR Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tabulating-the-rmse-for-the-bp-gpr-model">9.14. Tabulating the RMSE for the BP-GPR Model</a></li>
 </ul>
             </nav>
         </div>
@@ -420,11 +421,11 @@ document.write(`
                   
   <p><a href="https://colab.research.google.com/github/cc-ats/mlp_tutorial/blob/main/Lesson7_BP-GPR_MLP.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a></p>
 <section class="tex2jax_ignore mathjax_ignore" id="lesson-7-behler-parrinello-gaussian-process-regression-bp-gpr-for-machine-learning-potentials">
-<h1><span class="section-number">8. </span><strong>Lesson 7: Behler-Parrinello Gaussian Process Regression (BP-GPR) for Machine Learning Potentials</strong><a class="headerlink" href="#lesson-7-behler-parrinello-gaussian-process-regression-bp-gpr-for-machine-learning-potentials" title="Permalink to this heading">#</a></h1>
+<h1><span class="section-number">9. </span><strong>Lesson 7: Behler-Parrinello Gaussian Process Regression (BP-GPR) for Machine Learning Potentials</strong><a class="headerlink" href="#lesson-7-behler-parrinello-gaussian-process-regression-bp-gpr-for-machine-learning-potentials" title="Permalink to this heading">#</a></h1>
 <p><span class="math notranslate nohighlight">\(\Delta\)</span>MLP with PyTorch for the claisen rearrangement reaction</p>
 <p>For this tutorial, we will be combining the Gaussian Process Regression (GPR) from Lesson 2 and the symmetry functions from the Behler-Parrinello and ANI models from Lesson 4 to train a <span class="math notranslate nohighlight">\(\Delta\)</span> Machine Learning Potential (<span class="math notranslate nohighlight">\(\Delta\)</span>MLP) model to reproduce the energy and forces for the claisen rearrangement reaction. With a BP-GPR, we can use the BP symmetry functions for feature extraction and the GPR kernel for predicting observables. The goal of this model is to train with data that is from semiempirical (PM3) and DFT (B3LYP) levels of theory. The BP-GPR model will be used to correct the semiempirical values to obtain DFT level accuracy, which is what makes it a <span class="math notranslate nohighlight">\(\Delta\)</span>MLP model.</p>
 <section id="import-data-from-github-mlp-class-and-install-gpytorch">
-<h2><span class="section-number">8.1. </span>Import data from GitHub (mlp_class) and Install GpyTorch.<a class="headerlink" href="#import-data-from-github-mlp-class-and-install-gpytorch" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">9.1. </span>Import data from GitHub (mlp_class) and Install GpyTorch.<a class="headerlink" href="#import-data-from-github-mlp-class-and-install-gpytorch" title="Permalink to this heading">#</a></h2>
 <p>Files from GitHub:</p>
 <ul class="simple">
 <li><p><strong>qm_coord.npy</strong> (2100, 14, 3)</p></li>
@@ -447,7 +448,7 @@ document.write(`
 </div>
 </section>
 <section id="import-libraries">
-<h2><span class="section-number">8.2. </span>Import Libraries<a class="headerlink" href="#import-libraries" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">9.2. </span>Import Libraries<a class="headerlink" href="#import-libraries" title="Permalink to this heading">#</a></h2>
 <ul class="simple">
 <li><p>math, typing (Sequence, Tuple)</p></li>
 <li><p>Torch (nn, nn.functional, Tensor. TensorDataset, DataLoader, random_split)</p></li>
@@ -473,7 +474,7 @@ document.write(`
 </div>
 </section>
 <section id="loading-the-training-data">
-<h2><span class="section-number">8.3. </span>Loading the Training Data<a class="headerlink" href="#loading-the-training-data" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">9.3. </span>Loading the Training Data<a class="headerlink" href="#loading-the-training-data" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -503,7 +504,7 @@ document.write(`
 </div>
 </section>
 <section id="defining-the-bp-and-ani-symmetry-functions">
-<h2><span class="section-number">8.4. </span>Defining the BP and ANI Symmetry Functions<a class="headerlink" href="#defining-the-bp-and-ani-symmetry-functions" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">9.4. </span>Defining the BP and ANI Symmetry Functions<a class="headerlink" href="#defining-the-bp-and-ani-symmetry-functions" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">pairwise_vector</span><span class="p">(</span><span class="n">coords</span><span class="p">:</span> <span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tensor</span><span class="p">:</span>
@@ -558,7 +559,7 @@ document.write(`
 </div>
 </section>
 <section id="creating-the-bp-feature-class">
-<h2><span class="section-number">8.5. </span>Creating the BP Feature Class<a class="headerlink" href="#creating-the-bp-feature-class" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">9.5. </span>Creating the BP Feature Class<a class="headerlink" href="#creating-the-bp-feature-class" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Feature</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
@@ -594,7 +595,7 @@ document.write(`
 </div>
 </section>
 <section id="creating-the-ani-feature-class">
-<h2><span class="section-number">8.6. </span>Creating the ANI Feature Class<a class="headerlink" href="#creating-the-ani-feature-class" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">9.6. </span>Creating the ANI Feature Class<a class="headerlink" href="#creating-the-ani-feature-class" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">FeatureANI</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
@@ -634,7 +635,7 @@ document.write(`
 </div>
 </section>
 <section id="creating-the-bp-gpr-class">
-<h2><span class="section-number">8.7. </span>Creating the BP-GPR Class<a class="headerlink" href="#creating-the-bp-gpr-class" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">9.7. </span>Creating the BP-GPR Class<a class="headerlink" href="#creating-the-bp-gpr-class" title="Permalink to this heading">#</a></h2>
 <p>This class will combine the symmetry functions with the GPR model.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -656,7 +657,7 @@ document.write(`
 </div>
 </section>
 <section id="setting-ani-parameters">
-<h2><span class="section-number">8.8. </span>Setting ANI Parameters<a class="headerlink" href="#setting-ani-parameters" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">9.8. </span>Setting ANI Parameters<a class="headerlink" href="#setting-ani-parameters" title="Permalink to this heading">#</a></h2>
 <p>The ANI model is set to be used and the ANI parameters are defined.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -695,7 +696,7 @@ document.write(`
 </div>
 </section>
 <section id="reshaping-and-initializing">
-<h2><span class="section-number">8.9. </span>Reshaping and Initializing<a class="headerlink" href="#reshaping-and-initializing" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">9.9. </span>Reshaping and Initializing<a class="headerlink" href="#reshaping-and-initializing" title="Permalink to this heading">#</a></h2>
 <p>The atom types and coordinates are reshaped with the energies for use in the regression kernel. Then the marginal likelihood function is initialized.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -716,7 +717,7 @@ document.write(`
 </div>
 </section>
 <section id="training-the-gpr-hyperparameters">
-<h2><span class="section-number">8.10. </span>Training the GPR Hyperparameters<a class="headerlink" href="#training-the-gpr-hyperparameters" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">9.10. </span>Training the GPR Hyperparameters<a class="headerlink" href="#training-the-gpr-hyperparameters" title="Permalink to this heading">#</a></h2>
 <p>Now we can begin training to optimize the GPR hyperparameters.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -757,7 +758,10 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 100/500 - Loss: 1.705   outputscale: 2.948   lengthscale: 3.299   noise: 0.852
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 100/500 - Loss: 1.705   outputscale: 2.947   lengthscale: 3.300   noise: 0.854
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 200/500 - Loss: 1.535   outputscale: 4.565   lengthscale: 3.561   noise: 0.193
 </pre></div>
 </div>
 <div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
@@ -873,7 +877,7 @@ document.write(`
 </div>
 </section>
 <section id="evaluation-of-the-predicted-energy-rmse">
-<h2><span class="section-number">8.11. </span>Evaluation of the Predicted Energy (RMSE)<a class="headerlink" href="#evaluation-of-the-predicted-energy-rmse" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">9.11. </span>Evaluation of the Predicted Energy (RMSE)<a class="headerlink" href="#evaluation-of-the-predicted-energy-rmse" title="Permalink to this heading">#</a></h2>
 <p>We will now calculate the RMSE for the energy and forces predicted by the BP-GPR model.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -922,7 +926,7 @@ Energy Prediction RMSE:  tensor(0.1576, grad_fn=&lt;SqrtBackward0&gt;) Q^2:  ten
 </div>
 </section>
 <section id="evaluation-of-the-predicted-forces-rmse">
-<h2><span class="section-number">8.12. </span>Evaluation of the Predicted Forces (RMSE)<a class="headerlink" href="#evaluation-of-the-predicted-forces-rmse" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">9.12. </span>Evaluation of the Predicted Forces (RMSE)<a class="headerlink" href="#evaluation-of-the-predicted-forces-rmse" title="Permalink to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">auto_grad</span><span class="p">,</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">grad</span><span class="p">(</span><span class="n">y_mean</span><span class="o">.</span><span class="n">sum</span><span class="p">(),</span> <span class="p">[</span><span class="n">qm_coord</span><span class="p">])</span>
@@ -940,7 +944,7 @@ Energy Prediction RMSE:  tensor(0.1576, grad_fn=&lt;SqrtBackward0&gt;) Q^2:  ten
 </div>
 </section>
 <section id="plotting-rmsd-for-the-bp-gpr-model">
-<h2><span class="section-number">8.13. </span>Plotting RMSD for the BP-GPR Model<a class="headerlink" href="#plotting-rmsd-for-the-bp-gpr-model" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">9.13. </span>Plotting RMSD for the BP-GPR Model<a class="headerlink" href="#plotting-rmsd-for-the-bp-gpr-model" title="Permalink to this heading">#</a></h2>
 <p>Here we plot the RMSD for the predicted and reference energy and forces for the BP-GPR model.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -976,7 +980,7 @@ Energy Prediction RMSE:  tensor(0.1576, grad_fn=&lt;SqrtBackward0&gt;) Q^2:  ten
 </div>
 </section>
 <section id="tabulating-the-rmse-for-the-bp-gpr-model">
-<h2><span class="section-number">8.14. </span>Tabulating the RMSE for the BP-GPR Model<a class="headerlink" href="#tabulating-the-rmse-for-the-bp-gpr-model" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">9.14. </span>Tabulating the RMSE for the BP-GPR Model<a class="headerlink" href="#tabulating-the-rmse-for-the-bp-gpr-model" title="Permalink to this heading">#</a></h2>
 <p>Finally, we can tabulate the RMSE for the BP-GPR model.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1077,20 +1081,20 @@ Force RMSE:  tensor(3.8701) Q^2 tensor(0.8277)
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-data-from-github-mlp-class-and-install-gpytorch">8.1. Import data from GitHub (mlp_class) and Install GpyTorch.</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-libraries">8.2. Import Libraries</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-the-training-data">8.3. Loading the Training Data</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-bp-and-ani-symmetry-functions">8.4. Defining the BP and ANI Symmetry Functions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-bp-feature-class">8.5. Creating the BP Feature Class</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-ani-feature-class">8.6. Creating the ANI Feature Class</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-bp-gpr-class">8.7. Creating the BP-GPR Class</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-ani-parameters">8.8. Setting ANI Parameters</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reshaping-and-initializing">8.9. Reshaping and Initializing</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-the-gpr-hyperparameters">8.10. Training the GPR Hyperparameters</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-of-the-predicted-energy-rmse">8.11. Evaluation of the Predicted Energy (RMSE)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-of-the-predicted-forces-rmse">8.12. Evaluation of the Predicted Forces (RMSE)</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-rmsd-for-the-bp-gpr-model">8.13. Plotting RMSD for the BP-GPR Model</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tabulating-the-rmse-for-the-bp-gpr-model">8.14. Tabulating the RMSE for the BP-GPR Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-data-from-github-mlp-class-and-install-gpytorch">9.1. Import data from GitHub (mlp_class) and Install GpyTorch.</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-libraries">9.2. Import Libraries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-the-training-data">9.3. Loading the Training Data</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-bp-and-ani-symmetry-functions">9.4. Defining the BP and ANI Symmetry Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-bp-feature-class">9.5. Creating the BP Feature Class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-ani-feature-class">9.6. Creating the ANI Feature Class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-bp-gpr-class">9.7. Creating the BP-GPR Class</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-ani-parameters">9.8. Setting ANI Parameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#reshaping-and-initializing">9.9. Reshaping and Initializing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-the-gpr-hyperparameters">9.10. Training the GPR Hyperparameters</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-of-the-predicted-energy-rmse">9.11. Evaluation of the Predicted Energy (RMSE)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluation-of-the-predicted-forces-rmse">9.12. Evaluation of the Predicted Forces (RMSE)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-rmsd-for-the-bp-gpr-model">9.13. Plotting RMSD for the BP-GPR Model</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tabulating-the-rmse-for-the-bp-gpr-model">9.14. Tabulating the RMSE for the BP-GPR Model</a></li>
 </ul>
   </nav></div>
 
