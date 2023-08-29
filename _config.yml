@@ -6,8 +6,8 @@
 #######################################################################################
 # Book settings
 title                       : MLP Tutorial  # The title of the book. Will be placed in the left navbar.
-author                      : Xiaoliang Pan  # The author of the book
-copyright                   : "2022"  # Copyright year to be placed in the footer
+author                      : The MLP Tutorial Team # The author of the book
+copyright                   : "2023"  # Copyright year to be placed in the footer
 logo                        : logo.png  # A path to the book logo
 
 # Force re-execution of notebooks on each build.
