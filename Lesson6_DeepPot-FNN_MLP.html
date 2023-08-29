@@ -9,7 +9,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
 
-    <title>6. Lesson 6: DeepPot-Smooth Edition Fitting Neural Network with Machine Learning Potentials (DeepPot-SE-FNN MLP) &#8212; MLP Tutorial</title>
+    <title>7. Lesson 6: DeepPot-Smooth Edition Fitting Neural Network with Machine Learning Potentials (DeepPot-SE-FNN MLP) &#8212; MLP Tutorial</title>
   
   
   
@@ -167,8 +167,8 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">C. Machine Learning Potentials</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="Lesson5_BP-FNN_MLP.html">5. Behler-Parrinello Fitting Neural Network with Machine Learning Potential (BP-FNN MLP) Models for the Claisen Rearrangement</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">6. Lesson 6: DeepPot-Smooth Edition Fitting Neural Network with Machine Learning Potentials (DeepPot-SE-FNN MLP)</a></li>
 
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">7. Lesson 6: DeepPot-Smooth Edition Fitting Neural Network with Machine Learning Potentials (DeepPot-SE-FNN MLP)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="Lesson7_BP-GPR_MLP.html">8. <strong>Lesson 7: Behler-Parrinello Gaussian Process Regression (BP-GPR) for Machine Learning Potentials</strong></a></li>
 </ul>
 
@@ -394,8 +394,6 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">6. Lesson 6: DeepPot-Smooth Edition Fitting Neural Network with Machine Learning Potentials (DeepPot-SE-FNN MLP)</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-reaction-coordinate-and-system-size">7. Defining the Reaction Coordinate and System Size</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-pytorch-lightning-and-libraries">7.1. Importing PyTorch Lightning and  Libraries</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-dense-neural-network">7.2. Defining the Dense Neural Network</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deeppot-se-local-environment">7.3. DeepPot-SE Local Environment</a></li>
@@ -418,9 +416,6 @@ document.write(`
 </ul>
 </li>
 </ul>
-</li>
-</ul>
-
             </nav>
         </div>
     </div>
@@ -433,12 +428,9 @@ document.write(`
                   
   <p><a href="https://colab.research.google.com/github/cc-ats/mlp_tutorial/blob/main/Lesson6_DeepPot-FNN_MLP.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a></p>
 <section class="tex2jax_ignore mathjax_ignore" id="lesson-6-deeppot-smooth-edition-fitting-neural-network-with-machine-learning-potentials-deeppot-se-fnn-mlp">
-<h1><span class="section-number">6. </span>Lesson 6: DeepPot-Smooth Edition Fitting Neural Network with Machine Learning Potentials (DeepPot-SE-FNN MLP)<a class="headerlink" href="#lesson-6-deeppot-smooth-edition-fitting-neural-network-with-machine-learning-potentials-deeppot-se-fnn-mlp" title="Permalink to this heading">#</a></h1>
+<h1><span class="section-number">7. </span>Lesson 6: DeepPot-Smooth Edition Fitting Neural Network with Machine Learning Potentials (DeepPot-SE-FNN MLP)<a class="headerlink" href="#lesson-6-deeppot-smooth-edition-fitting-neural-network-with-machine-learning-potentials-deeppot-se-fnn-mlp" title="Permalink to this heading">#</a></h1>
 <p><span class="math notranslate nohighlight">\(\Delta\)</span> MLP  with PyTorch for the Claisen Rearrangement reaction</p>
 <p>For this tutorial, we will be combining the Fitting Neural Network (FNN) from Lesson 1 and the DeepPot-Smooth Edition (DeepPot-SE) from Lesson 4 to train a <span class="math notranslate nohighlight">\(\Delta\)</span> Machine Learning Potential (<span class="math notranslate nohighlight">\(\Delta\)</span>MLP) model to reproduce the energy and forces for the Claisen Rearrangement reaction. With a DeepPot-SE-FNN, we can utilize the properties from the local environment defined in the DeepPot-SE model for feature extraction and use the FNN for training. The goal of this model is to train with data calculated using semiempirical (PM3) and DFT (B3LYP) levels of theory. The DeepPot-SE-FNN will be used to correct the semiempirical values to obtain DFT level accuracy, which is what makes it a <span class="math notranslate nohighlight">\(\Delta\)</span>MLP model.</p>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="defining-the-reaction-coordinate-and-system-size">
-<h1><span class="section-number">7. </span>Defining the Reaction Coordinate and System Size<a class="headerlink" href="#defining-the-reaction-coordinate-and-system-size" title="Permalink to this heading">#</a></h1>
 <p>The reaction coordinate is <span class="math notranslate nohighlight">\(d_1 -d_2\)</span> with 21 windows.</p>
 <p>Total of 2100 frames (1 ps/window) are saved every 1 fs.</p>
 <img src='https://raw.githubusercontent.com/cc-ats/mlp_class/main/Claisen_Rearrangement/img/pent-4-enal.png' width=200px>
@@ -1020,8 +1012,6 @@ fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">6. Lesson 6: DeepPot-Smooth Edition Fitting Neural Network with Machine Learning Potentials (DeepPot-SE-FNN MLP)</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-reaction-coordinate-and-system-size">7. Defining the Reaction Coordinate and System Size</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-pytorch-lightning-and-libraries">7.1. Importing PyTorch Lightning and  Libraries</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-dense-neural-network">7.2. Defining the Dense Neural Network</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#deeppot-se-local-environment">7.3. DeepPot-SE Local Environment</a></li>
@@ -1044,9 +1034,6 @@ fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
 </ul>
 </li>
 </ul>
-</li>
-</ul>
-
   </nav></div>
 
 </div></div>
