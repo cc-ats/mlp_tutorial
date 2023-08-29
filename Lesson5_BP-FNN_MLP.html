@@ -68,7 +68,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script>DOCUMENTATION_OPTIONS.pagename = 'Lesson5_BP-FNN_MLP';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="7. Lesson 6: DeepPot-Smooth Edition Fitting Neural Network with Machine Learning Potentials (DeepPot-SE-FNN MLP)" href="Lesson6_DeepPot-FNN_MLP.html" />
+    <link rel="next" title="6. Lesson 6: DeepPot-Smooth Edition Fitting Neural Network with Machine Learning Potentials (DeepPot-SE-FNN MLP)" href="Lesson6_DeepPot-FNN_MLP.html" />
     <link rel="prev" title="4. A PyTorch implementation of Deep Potential-Smooth Edition (DeepPot-SE)" href="Lesson4_DeepPot.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -167,9 +167,8 @@ const thebe_selector_output = ".output, .cell_output"
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">C. Machine Learning Potentials</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">5. Behler-Parrinello Fitting Neural Network with Machine Learning Potential (BP-FNN MLP) Models for the Claisen Rearrangement</a></li>
-
-<li class="toctree-l1"><a class="reference internal" href="Lesson6_DeepPot-FNN_MLP.html">7. Lesson 6: DeepPot-Smooth Edition Fitting Neural Network with Machine Learning Potentials (DeepPot-SE-FNN MLP)</a></li>
-<li class="toctree-l1"><a class="reference internal" href="Lesson7_BP-GPR_MLP.html">8. <strong>Lesson 7: Behler-Parrinello Gaussian Process Regression (BP-GPR) for Machine Learning Potentials</strong></a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lesson6_DeepPot-FNN_MLP.html">6. Lesson 6: DeepPot-Smooth Edition Fitting Neural Network with Machine Learning Potentials (DeepPot-SE-FNN MLP)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Lesson7_BP-GPR_MLP.html">7. <strong>Lesson 7: Behler-Parrinello Gaussian Process Regression (BP-GPR) for Machine Learning Potentials</strong></a></li>
 </ul>
 
     </div>
@@ -394,35 +393,30 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">5. Behler-Parrinello Fitting Neural Network with Machine Learning Potential (BP-FNN MLP) Models for the Claisen Rearrangement</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-reaction-coordinate-and-system-size">6. Defining the Reaction Coordinate and System Size</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-pytorch-lightning-and-libraries">6.1. Importing PyTorch Lightning and Libraries</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-symmetry-functions">6.2. Defining Symmetry Functions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-neural-network-and-feature-extraction-classes">6.3. Defining Neural Network and Feature Extraction Classes</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-sequential-and-dense-classes">6.3.1. Defining Sequential and Dense Classes</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-bp-feature-class">6.3.2. Defining the BP Feature Class</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-ani-feature-class">6.3.3. Defining the ANI Feature Class</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-fitting-neural-network">6.3.4. Creating the Fitting Neural Network</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-behler-parrinello-fitting-neural-network-bp-fnn">6.3.5. The Behler-Parrinello Fitting Neural Network (BP-FNN)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-pytorch-lightning-and-libraries">5.1. Importing PyTorch Lightning and Libraries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-symmetry-functions">5.2. Defining Symmetry Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-neural-network-and-feature-extraction-classes">5.3. Defining Neural Network and Feature Extraction Classes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-sequential-and-dense-classes">5.3.1. Defining Sequential and Dense Classes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-bp-feature-class">5.3.2. Defining the BP Feature Class</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-ani-feature-class">5.3.3. Defining the ANI Feature Class</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-fitting-neural-network">5.3.4. Creating the Fitting Neural Network</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-behler-parrinello-fitting-neural-network-bp-fnn">5.3.5. The Behler-Parrinello Fitting Neural Network (BP-FNN)</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-and-seeding">6.4. Importing Data and Seeding</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-ani-for-feature-extraction">6.5. Using ANI for Feature Extraction</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-the-model-with-pytorch-files-and-evaluating-the-model-s-accuracy-using-rmsd">6.6. Saving the Model with PyTorch Files and Evaluating the Model’s Accuracy Using RMSD</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-the-model-with-pytorch">6.6.1. Saving the Model with PyTorch</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-rmsd-for-deltamlp-energy-and-forces">6.6.2. Plotting RMSD for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP Energy and Forces</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model-weights-and-biases-dictionary">6.6.3. The Model Weights and Biases Dictionary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-and-seeding">5.4. Importing Data and Seeding</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-ani-for-feature-extraction">5.5. Using ANI for Feature Extraction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-the-model-with-pytorch-files-and-evaluating-the-model-s-accuracy-using-rmsd">5.6. Saving the Model with PyTorch Files and Evaluating the Model’s Accuracy Using RMSD</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-the-model-with-pytorch">5.6.1. Saving the Model with PyTorch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-rmsd-for-deltamlp-energy-and-forces">5.6.2. Plotting RMSD for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP Energy and Forces</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model-weights-and-biases-dictionary">5.6.3. The Model Weights and Biases Dictionary</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-the-minimization-of-the-loss-function">6.7. Plotting the Minimization of the Loss Function</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-validation-error-for-deltamlp">6.7.1. Plotting Validation Error for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-training-and-validation-loss-for-deltamlp">6.7.2. Plotting Training and Validation Loss for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-the-minimization-of-the-loss-function">5.7. Plotting the Minimization of the Loss Function</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-validation-error-for-deltamlp">5.7.1. Plotting Validation Error for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-training-and-validation-loss-for-deltamlp">5.7.2. Plotting Training and Validation Loss for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
 </ul>
 </li>
 </ul>
-</li>
-</ul>
-
             </nav>
         </div>
     </div>
@@ -436,14 +430,10 @@ document.write(`
   <p><a href="https://colab.research.google.com/github/cc-ats/mlp_tutorial/blob/main/Lesson5_BP-FNN_MLP.ipynb" target="_parent"><img src="https://colab.research.google.com/assets/colab-badge.svg" alt="Open In Colab"/></a></p>
 <section class="tex2jax_ignore mathjax_ignore" id="behler-parrinello-fitting-neural-network-with-machine-learning-potential-bp-fnn-mlp-models-for-the-claisen-rearrangement">
 <h1><span class="section-number">5. </span>Behler-Parrinello Fitting Neural Network with Machine Learning Potential (BP-FNN MLP) Models for the Claisen Rearrangement<a class="headerlink" href="#behler-parrinello-fitting-neural-network-with-machine-learning-potential-bp-fnn-mlp-models-for-the-claisen-rearrangement" title="Permalink to this heading">#</a></h1>
-<p>For this tutorial, we will be combining the Fitting Neural Network (FNN) from Lesson 1 and the Behler-Parrinello Neural Network (BPNN) from Lesson 3 to train a <span class="math notranslate nohighlight">\(\Delta\)</span> Machine Learning Potential (<span class="math notranslate nohighlight">\(\Delta\)</span>MLP) model to reproduce the energy and forces for the claisen rearrangement reaction. With a BP-FNN, we can utilize the symmetry functions from the BPNN model for feature extraction and use the FNN for training. The goal of this model is to train with data that is from the semiempirical (PM3) and DFT (B3LYP) levels of theory. The BP-FNN will be used to correct the semiempirical values to obtain DFT level accuracy, which is what makes it a <span class="math notranslate nohighlight">\(\Delta\)</span>MLP model.</p>
-</section>
-<section class="tex2jax_ignore mathjax_ignore" id="defining-the-reaction-coordinate-and-system-size">
-<h1><span class="section-number">6. </span>Defining the Reaction Coordinate and System Size<a class="headerlink" href="#defining-the-reaction-coordinate-and-system-size" title="Permalink to this heading">#</a></h1>
-<p>The reaction coordinate is <span class="math notranslate nohighlight">\(d_1 -d_2\)</span> with 21 windows.</p>
+<p>For this tutorial, we will be combining the Fitting Neural Network (FNN) from Lesson 1 and the Behler-Parrinello Neural Network (BPNN) from Lesson 3 to train a <span class="math notranslate nohighlight">\(\Delta\)</span> Machine Learning Potential (<span class="math notranslate nohighlight">\(\Delta\)</span>MLP) model to reproduce the energy and forces for the claisen rearrangement reaction. With a BP-FNN, we can utilize the symmetry functions from the BPNN model for feature extraction and use the FNN for training. The goal of this model is to train with data that is from the semiempirical (PM3) and DFT (B3LYP) levels of theory. The BP-FNN will be used to correct the semiempirical values to obtain DFT level accuracy, which is what makes it a <span class="math notranslate nohighlight">\(\Delta\)</span>MLP model.
+The reaction coordinate is <span class="math notranslate nohighlight">\(d_1 -d_2\)</span> with 21 windows.</p>
 <p>Total of 2100 frames (1 ps/window) are saved every 1 fs.</p>
-<img src='https://raw.githubusercontent.com/cc-ats/mlp_class/main/Claisen_Rearrangement/img/pent-4-enal.png' width=200px>
-<div class="cell docutils container">
+<img src='https://raw.githubusercontent.com/cc-ats/mlp_class/main/Claisen_Rearrangement/img/pent-4-enal.png' width=200px><div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">IPython.display</span> <span class="kn">import</span> <span class="n">HTML</span>
 
@@ -456,7 +446,7 @@ document.write(`
 </div>
 <video src='https://github.com/cc-ats/mlp_tutorial/raw/main/Claisen_Rearrangement/img/claisen.mp4'>
 <section id="importing-pytorch-lightning-and-libraries">
-<h2><span class="section-number">6.1. </span>Importing PyTorch Lightning and Libraries<a class="headerlink" href="#importing-pytorch-lightning-and-libraries" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">5.1. </span>Importing PyTorch Lightning and Libraries<a class="headerlink" href="#importing-pytorch-lightning-and-libraries" title="Permalink to this heading">#</a></h2>
 <p>We will first install PyTorch Lightning and import libraries needed to train our machine learning models.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -480,7 +470,7 @@ from pytorch_lightning import loggers as pl_loggers
 </div>
 </section>
 <section id="defining-symmetry-functions">
-<h2><span class="section-number">6.2. </span>Defining Symmetry Functions<a class="headerlink" href="#defining-symmetry-functions" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">5.2. </span>Defining Symmetry Functions<a class="headerlink" href="#defining-symmetry-functions" title="Permalink to this heading">#</a></h2>
 <p>We will define the BP and ANI symmetry functions to ensure that our ML predictions are invariant to translations, rotations, and permutations.</p>
 <ul class="simple">
 <li><p><strong>pairwise_vector:</strong> Distance function for calculating distances between each atom.</p></li>
@@ -544,10 +534,10 @@ from pytorch_lightning import loggers as pl_loggers
 </div>
 </section>
 <section id="defining-neural-network-and-feature-extraction-classes">
-<h2><span class="section-number">6.3. </span>Defining Neural Network and Feature Extraction Classes<a class="headerlink" href="#defining-neural-network-and-feature-extraction-classes" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">5.3. </span>Defining Neural Network and Feature Extraction Classes<a class="headerlink" href="#defining-neural-network-and-feature-extraction-classes" title="Permalink to this heading">#</a></h2>
 <p>We will now define feature extraction classes which will be used in our Behler-Parrinello and ANI neural networks.</p>
 <section id="defining-sequential-and-dense-classes">
-<h3><span class="section-number">6.3.1. </span>Defining Sequential and Dense Classes<a class="headerlink" href="#defining-sequential-and-dense-classes" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">5.3.1. </span>Defining Sequential and Dense Classes<a class="headerlink" href="#defining-sequential-and-dense-classes" title="Permalink to this heading">#</a></h3>
 <p>The Sequential class contains the function for the feed-forward aspect of our neural network.
 The Dense class contains functions to describe a densely connected neural network.</p>
 <div class="cell docutils container">
@@ -614,7 +604,7 @@ The Dense class contains functions to describe a densely connected neural networ
 </div>
 </section>
 <section id="defining-the-bp-feature-class">
-<h3><span class="section-number">6.3.2. </span>Defining the BP Feature Class<a class="headerlink" href="#defining-the-bp-feature-class" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">5.3.2. </span>Defining the BP Feature Class<a class="headerlink" href="#defining-the-bp-feature-class" title="Permalink to this heading">#</a></h3>
 <p>Now we will create the feature class, which takes input information and uses functions to extract characteristics unique to the called input features. Here we will be using the previously defined symmetry functions for feature extraction.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -651,7 +641,7 @@ The Dense class contains functions to describe a densely connected neural networ
 </div>
 </section>
 <section id="defining-the-ani-feature-class">
-<h3><span class="section-number">6.3.3. </span>Defining the ANI Feature Class<a class="headerlink" href="#defining-the-ani-feature-class" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">5.3.3. </span>Defining the ANI Feature Class<a class="headerlink" href="#defining-the-ani-feature-class" title="Permalink to this heading">#</a></h3>
 <p>We will create a similar feature class for ANI that uses the ANI angle symmetry function.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -692,7 +682,7 @@ The Dense class contains functions to describe a densely connected neural networ
 </div>
 </section>
 <section id="creating-the-fitting-neural-network">
-<h3><span class="section-number">6.3.4. </span>Creating the Fitting Neural Network<a class="headerlink" href="#creating-the-fitting-neural-network" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">5.3.4. </span>Creating the Fitting Neural Network<a class="headerlink" href="#creating-the-fitting-neural-network" title="Permalink to this heading">#</a></h3>
 <p>Now we create the Fitting class, which will use the dense neural network for fitting.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -714,7 +704,7 @@ The Dense class contains functions to describe a densely connected neural networ
 </div>
 </section>
 <section id="the-behler-parrinello-fitting-neural-network-bp-fnn">
-<h3><span class="section-number">6.3.5. </span>The Behler-Parrinello Fitting Neural Network (BP-FNN)<a class="headerlink" href="#the-behler-parrinello-fitting-neural-network-bp-fnn" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">5.3.5. </span>The Behler-Parrinello Fitting Neural Network (BP-FNN)<a class="headerlink" href="#the-behler-parrinello-fitting-neural-network-bp-fnn" title="Permalink to this heading">#</a></h3>
 <p>We create the BPNN class that can be used for feature extraction with the symmetry functions.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -785,7 +775,7 @@ The Dense class contains functions to describe a densely connected neural networ
 </section>
 </section>
 <section id="importing-data-and-seeding">
-<h2><span class="section-number">6.4. </span>Importing Data and Seeding<a class="headerlink" href="#importing-data-and-seeding" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">5.4. </span>Importing Data and Seeding<a class="headerlink" href="#importing-data-and-seeding" title="Permalink to this heading">#</a></h2>
 <p>We will now import our semiempirical and DFT calculation data. We will then use seeding to generate random but reproducible training.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -823,7 +813,7 @@ The Dense class contains functions to describe a densely connected neural networ
 </div>
 </section>
 <section id="using-ani-for-feature-extraction">
-<h2><span class="section-number">6.5. </span>Using ANI for Feature Extraction<a class="headerlink" href="#using-ani-for-feature-extraction" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">5.5. </span>Using ANI for Feature Extraction<a class="headerlink" href="#using-ani-for-feature-extraction" title="Permalink to this heading">#</a></h2>
 <p>Here we set the parameters for the ANI model and begin training our BP-FNN.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -873,9 +863,9 @@ The Dense class contains functions to describe a densely connected neural networ
 </div>
 </section>
 <section id="saving-the-model-with-pytorch-files-and-evaluating-the-model-s-accuracy-using-rmsd">
-<h2><span class="section-number">6.6. </span>Saving the Model with PyTorch Files and Evaluating the Model’s Accuracy Using RMSD<a class="headerlink" href="#saving-the-model-with-pytorch-files-and-evaluating-the-model-s-accuracy-using-rmsd" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">5.6. </span>Saving the Model with PyTorch Files and Evaluating the Model’s Accuracy Using RMSD<a class="headerlink" href="#saving-the-model-with-pytorch-files-and-evaluating-the-model-s-accuracy-using-rmsd" title="Permalink to this heading">#</a></h2>
 <section id="saving-the-model-with-pytorch">
-<h3><span class="section-number">6.6.1. </span>Saving the Model with PyTorch<a class="headerlink" href="#saving-the-model-with-pytorch" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">5.6.1. </span>Saving the Model with PyTorch<a class="headerlink" href="#saving-the-model-with-pytorch" title="Permalink to this heading">#</a></h3>
 <p>The following files are saved:</p>
 <p><strong>1) <a class="reference external" href="http://model.pt">model.pt</a></strong></p>
 <ul class="simple">
@@ -907,7 +897,7 @@ The Dense class contains functions to describe a densely connected neural networ
 </div>
 </section>
 <section id="plotting-rmsd-for-deltamlp-energy-and-forces">
-<h3><span class="section-number">6.6.2. </span>Plotting RMSD for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP Energy and Forces<a class="headerlink" href="#plotting-rmsd-for-deltamlp-energy-and-forces" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">5.6.2. </span>Plotting RMSD for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP Energy and Forces<a class="headerlink" href="#plotting-rmsd-for-deltamlp-energy-and-forces" title="Permalink to this heading">#</a></h3>
 <p>RMSD for predicted and reference energy and forces are calculated and displayed below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -945,7 +935,7 @@ The Dense class contains functions to describe a densely connected neural networ
 </div>
 </section>
 <section id="the-model-weights-and-biases-dictionary">
-<h3><span class="section-number">6.6.3. </span>The Model Weights and Biases Dictionary<a class="headerlink" href="#the-model-weights-and-biases-dictionary" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">5.6.3. </span>The Model Weights and Biases Dictionary<a class="headerlink" href="#the-model-weights-and-biases-dictionary" title="Permalink to this heading">#</a></h3>
 <p>This cell prints the size of the weights and biases used in the trained model for reference.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -972,9 +962,9 @@ fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
 </section>
 </section>
 <section id="plotting-the-minimization-of-the-loss-function">
-<h2><span class="section-number">6.7. </span>Plotting the Minimization of the Loss Function<a class="headerlink" href="#plotting-the-minimization-of-the-loss-function" title="Permalink to this heading">#</a></h2>
+<h2><span class="section-number">5.7. </span>Plotting the Minimization of the Loss Function<a class="headerlink" href="#plotting-the-minimization-of-the-loss-function" title="Permalink to this heading">#</a></h2>
 <section id="plotting-validation-error-for-deltamlp">
-<h3><span class="section-number">6.7.1. </span>Plotting Validation Error for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP<a class="headerlink" href="#plotting-validation-error-for-deltamlp" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">5.7.1. </span>Plotting Validation Error for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP<a class="headerlink" href="#plotting-validation-error-for-deltamlp" title="Permalink to this heading">#</a></h3>
 <p>Validation error for the <span class="math notranslate nohighlight">\(\Delta\)</span>MLP is shown below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1000,7 +990,7 @@ fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
 </div>
 </section>
 <section id="plotting-training-and-validation-loss-for-deltamlp">
-<h3><span class="section-number">6.7.2. </span>Plotting Training and Validation Loss for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP<a class="headerlink" href="#plotting-training-and-validation-loss-for-deltamlp" title="Permalink to this heading">#</a></h3>
+<h3><span class="section-number">5.7.2. </span>Plotting Training and Validation Loss for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP<a class="headerlink" href="#plotting-training-and-validation-loss-for-deltamlp" title="Permalink to this heading">#</a></h3>
 <p>The loss at each step of the training process is displayed below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1079,7 +1069,7 @@ fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">7. </span>Lesson 6: DeepPot-Smooth Edition Fitting Neural Network with Machine Learning Potentials (DeepPot-SE-FNN MLP)</p>
+        <p class="prev-next-title"><span class="section-number">6. </span>Lesson 6: DeepPot-Smooth Edition Fitting Neural Network with Machine Learning Potentials (DeepPot-SE-FNN MLP)</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -1101,35 +1091,30 @@ fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">5. Behler-Parrinello Fitting Neural Network with Machine Learning Potential (BP-FNN MLP) Models for the Claisen Rearrangement</a></li>
-<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-reaction-coordinate-and-system-size">6. Defining the Reaction Coordinate and System Size</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-pytorch-lightning-and-libraries">6.1. Importing PyTorch Lightning and Libraries</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-symmetry-functions">6.2. Defining Symmetry Functions</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-neural-network-and-feature-extraction-classes">6.3. Defining Neural Network and Feature Extraction Classes</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-sequential-and-dense-classes">6.3.1. Defining Sequential and Dense Classes</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-bp-feature-class">6.3.2. Defining the BP Feature Class</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-ani-feature-class">6.3.3. Defining the ANI Feature Class</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-fitting-neural-network">6.3.4. Creating the Fitting Neural Network</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-behler-parrinello-fitting-neural-network-bp-fnn">6.3.5. The Behler-Parrinello Fitting Neural Network (BP-FNN)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-pytorch-lightning-and-libraries">5.1. Importing PyTorch Lightning and Libraries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-symmetry-functions">5.2. Defining Symmetry Functions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-neural-network-and-feature-extraction-classes">5.3. Defining Neural Network and Feature Extraction Classes</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-sequential-and-dense-classes">5.3.1. Defining Sequential and Dense Classes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-bp-feature-class">5.3.2. Defining the BP Feature Class</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-the-ani-feature-class">5.3.3. Defining the ANI Feature Class</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-the-fitting-neural-network">5.3.4. Creating the Fitting Neural Network</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-behler-parrinello-fitting-neural-network-bp-fnn">5.3.5. The Behler-Parrinello Fitting Neural Network (BP-FNN)</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-and-seeding">6.4. Importing Data and Seeding</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-ani-for-feature-extraction">6.5. Using ANI for Feature Extraction</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-the-model-with-pytorch-files-and-evaluating-the-model-s-accuracy-using-rmsd">6.6. Saving the Model with PyTorch Files and Evaluating the Model’s Accuracy Using RMSD</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-the-model-with-pytorch">6.6.1. Saving the Model with PyTorch</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-rmsd-for-deltamlp-energy-and-forces">6.6.2. Plotting RMSD for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP Energy and Forces</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model-weights-and-biases-dictionary">6.6.3. The Model Weights and Biases Dictionary</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-data-and-seeding">5.4. Importing Data and Seeding</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-ani-for-feature-extraction">5.5. Using ANI for Feature Extraction</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-the-model-with-pytorch-files-and-evaluating-the-model-s-accuracy-using-rmsd">5.6. Saving the Model with PyTorch Files and Evaluating the Model’s Accuracy Using RMSD</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-the-model-with-pytorch">5.6.1. Saving the Model with PyTorch</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-rmsd-for-deltamlp-energy-and-forces">5.6.2. Plotting RMSD for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP Energy and Forces</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model-weights-and-biases-dictionary">5.6.3. The Model Weights and Biases Dictionary</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-the-minimization-of-the-loss-function">6.7. Plotting the Minimization of the Loss Function</a><ul class="nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-validation-error-for-deltamlp">6.7.1. Plotting Validation Error for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-training-and-validation-loss-for-deltamlp">6.7.2. Plotting Training and Validation Loss for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-the-minimization-of-the-loss-function">5.7. Plotting the Minimization of the Loss Function</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-validation-error-for-deltamlp">5.7.1. Plotting Validation Error for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-training-and-validation-loss-for-deltamlp">5.7.2. Plotting Training and Validation Loss for <span class="math notranslate nohighlight">\(\Delta\)</span>MLP</a></li>
 </ul>
 </li>
 </ul>
-</li>
-</ul>
-
   </nav></div>
 
 </div></div>
