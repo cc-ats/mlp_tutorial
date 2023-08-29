@@ -393,7 +393,7 @@ document.write(`
             </div>
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-pytorch-lightning-and-libraries">3.1. Importing PyTorch Lightning and Libraries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-pytorch-and-libraries">3.1. Importing PyTorch and Libraries</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#symmetry-functions">3.2. Symmetry Functions</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-symmetry-functions">3.2.1. Defining Symmetry Functions</a></li>
 </ul>
@@ -411,9 +411,11 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-the-model-with-pytorch-files-and-evaluating-the-model-s-accuracy-using-rmsd">3.6. Saving the Model with PyTorch Files and Evaluating the Model’s Accuracy Using RMSD</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-the-model-with-pytorch">3.6.1. Saving the Model with PyTorch</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-rmsd-to-evaluate-the-energy-and-force-predictions-of-the-model">3.6.2. Plotting RMSD to Evaluate the Energy and Force Predictions of the Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model-weights-and-biases-dictionary">3.6.3. The Model Weights and Biases Dictionary</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-the-minimization-of-the-loss-function">3.7. Plotting the Minimization of the Loss Function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-training-and-validation-loss">3.8. Plotting Training and Validation Loss</a></li>
 </ul>
             </nav>
         </div>
@@ -429,9 +431,9 @@ document.write(`
 <section class="tex2jax_ignore mathjax_ignore" id="behler-parrinello-symmetry-functions">
 <h1><span class="section-number">3. </span>Behler-Parrinello  Symmetry Functions<a class="headerlink" href="#behler-parrinello-symmetry-functions" title="Permalink to this heading">#</a></h1>
 <p>In this tutorial, we will create Behler-Parrinello and ANI neural networks using atom-centered symmetry functions. The symmetry functions will allow us to ensure that our observables (such as energy) are invariant to translations and rotations.</p>
-<section id="importing-pytorch-lightning-and-libraries">
-<h2><span class="section-number">3.1. </span>Importing PyTorch Lightning and Libraries<a class="headerlink" href="#importing-pytorch-lightning-and-libraries" title="Permalink to this heading">#</a></h2>
-<p>We will first install PyTorch Lightning and import libraries needed to train our machine learning models.</p>
+<section id="importing-pytorch-and-libraries">
+<h2><span class="section-number">3.1. </span>Importing PyTorch and Libraries<a class="headerlink" href="#importing-pytorch-and-libraries" title="Permalink to this heading">#</a></h2>
+<p>We begin by importing PyTorch and required libraries.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>%%capture
@@ -933,6 +935,7 @@ The Dense class contains functions to describe a densely connected neural networ
 </section>
 <section id="plotting-rmsd-to-evaluate-the-energy-and-force-predictions-of-the-model">
 <h3><span class="section-number">3.6.2. </span>Plotting RMSD to Evaluate the Energy and Force Predictions of the Model<a class="headerlink" href="#plotting-rmsd-to-evaluate-the-energy-and-force-predictions-of-the-model" title="Permalink to this heading">#</a></h3>
+<p>RMSD for predicted and reference energy and forces are calculated and displayed below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
@@ -965,6 +968,10 @@ The Dense class contains functions to describe a densely connected neural networ
 <img alt="_images/08a209cad95ea9457542055405079bc96dcb4ff600744bbd9a451747ef1fb192.png" src="_images/08a209cad95ea9457542055405079bc96dcb4ff600744bbd9a451747ef1fb192.png" />
 </div>
 </div>
+</section>
+<section id="the-model-weights-and-biases-dictionary">
+<h3><span class="section-number">3.6.3. </span>The Model Weights and Biases Dictionary<a class="headerlink" href="#the-model-weights-and-biases-dictionary" title="Permalink to this heading">#</a></h3>
+<p>This cell prints the size of the weights and biases used in the trained model for reference.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Model&#39;s state_dict:&quot;</span><span class="p">)</span>
@@ -1017,6 +1024,10 @@ fitting_net.fitting_net.3.bias   	torch.Size([3, 1])
 <img alt="_images/65d938ea8efbbd7f8f7eb74396c6d8bc9a537b198cb976b5112e74d1f3468580.png" src="_images/65d938ea8efbbd7f8f7eb74396c6d8bc9a537b198cb976b5112e74d1f3468580.png" />
 </div>
 </div>
+</section>
+<section id="plotting-training-and-validation-loss">
+<h2><span class="section-number">3.8. </span>Plotting Training and Validation Loss<a class="headerlink" href="#plotting-training-and-validation-loss" title="Permalink to this heading">#</a></h2>
+<p>The loss at each step of the training process is displayed below.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;logs_csv/lightning_logs/version_0/metrics.csv&#39;</span><span class="p">)</span>
@@ -1116,7 +1127,7 @@ Size of the Validation Data: 500
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-pytorch-lightning-and-libraries">3.1. Importing PyTorch Lightning and Libraries</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#importing-pytorch-and-libraries">3.1. Importing PyTorch and Libraries</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#symmetry-functions">3.2. Symmetry Functions</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#defining-symmetry-functions">3.2.1. Defining Symmetry Functions</a></li>
 </ul>
@@ -1134,9 +1145,11 @@ Size of the Validation Data: 500
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-the-model-with-pytorch-files-and-evaluating-the-model-s-accuracy-using-rmsd">3.6. Saving the Model with PyTorch Files and Evaluating the Model’s Accuracy Using RMSD</a><ul class="nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#saving-the-model-with-pytorch">3.6.1. Saving the Model with PyTorch</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-rmsd-to-evaluate-the-energy-and-force-predictions-of-the-model">3.6.2. Plotting RMSD to Evaluate the Energy and Force Predictions of the Model</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#the-model-weights-and-biases-dictionary">3.6.3. The Model Weights and Biases Dictionary</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-the-minimization-of-the-loss-function">3.7. Plotting the Minimization of the Loss Function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plotting-training-and-validation-loss">3.8. Plotting Training and Validation Loss</a></li>
 </ul>
   </nav></div>
 
