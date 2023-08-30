@@ -30,7 +30,7 @@ nbclient.exceptions.CellTimeoutError: A cell timed out while it was being execut
 The message was: Cell execution timed out.
 Here is a preview of the cell contents:
 -------------------
-['training_iter = 500 ', '', '# Find optimal model hyperparameters', 'model.train()', 'likelihood.train()']
+['training_iter = 500', '', '# Find optimal model hyperparameters', 'model.train()', 'likelihood.train()']
 ...
 ['', '# Print Trained hyperparameters', "print('outputscale: ', model.covar_module.outputscale.item())", "print('lengthscale: ', model.covar_module.outputscale.item())", "print('noise: ', model.likelihood.noise.item())"]
 -------------------
