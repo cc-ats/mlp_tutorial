@@ -429,8 +429,8 @@ document.write(`
 <section class="tex2jax_ignore mathjax_ignore" id="lesson-6-deeppot-smooth-edition-fitting-neural-network-with-machine-learning-potentials-deeppot-se-fnn-mlp">
 <h1><span class="section-number">6. </span>Lesson 6: DeepPot-Smooth Edition Fitting Neural Network with Machine Learning Potentials (DeepPot-SE-FNN MLP)<a class="headerlink" href="#lesson-6-deeppot-smooth-edition-fitting-neural-network-with-machine-learning-potentials-deeppot-se-fnn-mlp" title="Permalink to this heading">#</a></h1>
 <p><span class="math notranslate nohighlight">\(\Delta\)</span> MLP  with PyTorch for the Claisen Rearrangement reaction</p>
-<p>For this tutorial, we will be combining the Fitting Neural Network (FNN) from Lesson 1 and the DeepPot-Smooth Edition (DeepPot-SE) from Lesson 4 to train a <span class="math notranslate nohighlight">\(\Delta\)</span> Machine Learning Potential (<span class="math notranslate nohighlight">\(\Delta\)</span>MLP) model to reproduce the energy and forces for the Claisen Rearrangement reaction. With a DeepPot-SE-FNN, we can utilize the properties from the local environment defined in the DeepPot-SE model for feature extraction and use the FNN for training. The goal of this model is to train with data calculated using semiempirical (PM3) and DFT (B3LYP) levels of theory. The DeepPot-SE-FNN will be used to correct the semiempirical values to obtain DFT level accuracy, which is what makes it a <span class="math notranslate nohighlight">\(\Delta\)</span>MLP model.</p>
-<p>The reaction coordinate is <span class="math notranslate nohighlight">\(d_1 -d_2\)</span> with 21 windows.</p>
+<p>For this tutorial, we will be combining the Fitting Neural Network (FNN) from Lesson 1 and the DeepPot-Smooth Edition (DeepPot-SE) from Lesson 4 to train a <span class="math notranslate nohighlight">\(\Delta\)</span> Machine Learning Potential (<span class="math notranslate nohighlight">\(\Delta\)</span>MLP) model to reproduce the energy and forces for the Claisen Rearrangement reaction. With a DeepPot-SE-FNN, we can utilize the properties from the local environment defined in the DeepPot-SE model for feature extraction and use the FNN for training. The goal of this model is to train with data calculated using semiempirical (PM3) and DFT (B3LYP) levels of theory. The DeepPot-SE-FNN will be used to correct the semiempirical values to obtain DFT level accuracy, that makes it a <span class="math notranslate nohighlight">\(\Delta\)</span>MLP model.
+The reaction coordinate is constructed by stretching the <span class="math notranslate nohighlight">\(d_2\)</span> bond distance, while shrinking the <span class="math notranslate nohighlight">\(d_1\)</span> bond distance. The reaction is sampled with 21 windows along the <span class="math notranslate nohighlight">\(d_1-d_2\)</span> reaction coordinate</p>
 <p>Total of 2100 frames (1 ps/window) are saved every 1 fs.</p>
 <img src='https://raw.githubusercontent.com/cc-ats/mlp_class/main/Claisen_Rearrangement/img/pent-4-enal.png' width=200px>
 <div class="cell docutils container">
@@ -780,6 +780,9 @@ s(R_{ji}) =
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pl</span><span class="o">.</span><span class="n">seed_everything</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
 <span class="n">dataset</span> <span class="o">=</span> <span class="n">TensorDataset</span><span class="p">(</span><span class="n">qm_coord</span><span class="p">,</span> <span class="n">atom_types</span><span class="p">,</span> <span class="n">energy</span><span class="p">,</span> <span class="n">qm_gradient</span><span class="p">)</span>
 <span class="n">train</span><span class="p">,</span> <span class="n">val</span> <span class="o">=</span> <span class="n">random_split</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="p">[</span><span class="mi">2016</span><span class="p">,</span> <span class="mi">84</span><span class="p">])</span>
+<span class="c1"># Training Set Size: 2016 (96%)</span>
+<span class="c1"># Test Set Size:       84 ( 4%)</span>
+<span class="c1"># Data Set Size:     2100</span>
 <span class="n">train_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
 <span class="n">val_loader</span> <span class="o">=</span> <span class="n">DataLoader</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
 </pre></div>
@@ -873,7 +876,7 @@ s(R_{ji}) =
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/b0a5e11b56f285a8bcda827bfe220a876578811d2c7813b81021063f1a9cecec.png" src="_images/b0a5e11b56f285a8bcda827bfe220a876578811d2c7813b81021063f1a9cecec.png" />
+<img alt="_images/35ce9a64e0f04aeb884f5e08ba376f43facde6d42196e83f6f0672850fe79910.png" src="_images/35ce9a64e0f04aeb884f5e08ba376f43facde6d42196e83f6f0672850fe79910.png" />
 </div>
 </div>
 </section>
@@ -933,11 +936,11 @@ fitting_net.fitting_net.3.bias 	 torch.Size([3, 1])
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>315
-100
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>945
+300
 </pre></div>
 </div>
-<img alt="_images/7295251d2f6e5f455c0505a279a61f7d445902f07559a6a522bdfa3477df5db9.png" src="_images/7295251d2f6e5f455c0505a279a61f7d445902f07559a6a522bdfa3477df5db9.png" />
+<img alt="_images/17b7ec72b4d8518572f78a33dc56beaea078b3b18b94c456e6831e55d4824fb1.png" src="_images/17b7ec72b4d8518572f78a33dc56beaea078b3b18b94c456e6831e55d4824fb1.png" />
 </div>
 </div>
 </section>
