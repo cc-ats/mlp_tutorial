@@ -760,13 +760,13 @@ s(R_{ji}) =
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Reference Force (kcal/mol/$\AA$)&#39;</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Predicted Force (kcal/mol/$\AA$)&#39;</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="o">-</span><span class="mi">20</span><span class="p">,</span> <span class="mi">18</span><span class="p">,</span> <span class="s1">&#39;RMSD: </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">f1</span> <span class="o">-</span> <span class="n">f2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)),</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
-<span class="n">loss</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;logs_csv/lightning_logs/version_0/metrics.csv&quot;</span><span class="p">)</span>
+<span class="n">loss</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;logs_csv/lightning_logs/version_</span><span class="si">{</span><span class="n">csv_logger</span><span class="o">.</span><span class="n">version</span><span class="si">}</span><span class="s1">/metrics.csv&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/74f4bfee688f12659c5ee6d5da2b03d5832a2bd1f822ebada6b0a9939d2850d5.png" src="_images/74f4bfee688f12659c5ee6d5da2b03d5832a2bd1f822ebada6b0a9939d2850d5.png" />
+<img alt="_images/6de1222bdb7a53d20cc286910dc49a518d8486234f7006024ccd0db0f0a08bdf.png" src="_images/6de1222bdb7a53d20cc286910dc49a518d8486234f7006024ccd0db0f0a08bdf.png" />
 </div>
 </div>
 </section>
@@ -775,7 +775,7 @@ s(R_{ji}) =
 <p>Here we can see the reduction in error with respect to epochs.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loss</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s2">&quot;logs_csv/lightning_logs/version_0/metrics.csv&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">loss</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;logs_csv/lightning_logs/version_</span><span class="si">{</span><span class="n">csv_logger</span><span class="o">.</span><span class="n">version</span><span class="si">}</span><span class="s1">/metrics.csv&#39;</span><span class="p">)</span>
 
 <span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">semilogy</span><span class="p">(</span><span class="n">loss</span><span class="p">[</span><span class="s2">&quot;epoch&quot;</span><span class="p">],</span> <span class="n">loss</span><span class="p">[</span><span class="s2">&quot;train_loss&quot;</span><span class="p">],</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;dodgerblue&#39;</span><span class="p">)</span>
@@ -786,7 +786,7 @@ s(R_{ji}) =
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/7bf420df0972fa7ecde80757122f90bca844d04234f3cc155257224d21d86843.png" src="_images/7bf420df0972fa7ecde80757122f90bca844d04234f3cc155257224d21d86843.png" />
+<img alt="_images/f2ff9c05674d0ac7a7056c606005d04305e63fd15c1eee47936d999abb4921e2.png" src="_images/f2ff9c05674d0ac7a7056c606005d04305e63fd15c1eee47936d999abb4921e2.png" />
 </div>
 </div>
 </section>
