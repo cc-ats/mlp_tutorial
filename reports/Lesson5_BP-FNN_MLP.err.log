@@ -30,8 +30,8 @@ nbclient.exceptions.CellTimeoutError: A cell timed out while it was being execut
 The message was: Cell execution timed out.
 Here is a preview of the cell contents:
 -------------------
-['%%capture', '%%time', 'pl.seed_everything(2)', '', 'ani = True']
+['ds = np.DataSource(None)', 'qm_coord = np.array(np.load(ds.open("https://github.com/cc-ats/mlp_tutorial/raw/main/Claisen_Rearrangement/qm_coord.npy", "rb")), dtype="float32")', 'atom_types = np.loadtxt(ds.open("https://github.com/cc-ats/mlp_tutorial/raw/main/Claisen_Rearrangement/qm_elem.txt", "r"), dtype=int)', 'elems = np.unique(atom_types).tolist()', 'atom_types = np.array([[elems.index(i) for i in atom_types]])']
 ...
-['model = BPNN(descriptor, fitting_net, learning_rate=5e-4)', "csv_logger = pl_loggers.CSVLogger('logs_csv/')", "trainer = pl.Trainer(max_epochs=100, logger=csv_logger, log_every_n_steps=20, accelerator='auto')", 'trainer.fit(model, train_loader, val_loader)', 'model.to(device)']
+['', 'qm_coord = torch.from_numpy(qm_coord).to(device)', 'atom_types = torch.from_numpy(atom_types).to(device)', 'energy = torch.from_numpy(energy).to(device)', 'qm_gradient = torch.from_numpy(qm_gradient).to(device)']
 -------------------
 
