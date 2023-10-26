@@ -1,8 +1,9 @@
 jupyter-book
 matplotlib
+plotly
 numpy
 pandas
-plotly
 torch
 lightning
 kora
+--extra-index-url https://download.pytorch.org/whl/cpu
