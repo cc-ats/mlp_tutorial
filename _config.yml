@@ -13,7 +13,15 @@ logo                        : logo.png  # A path to the book logo
 # Force re-execution of notebooks on each build.
 # See https://jupyterbook.org/content/execute.html
 execute:
-  execute_notebooks: force
+  execute_notebooks: auto
+  run_in_temp: true
+  timeout: 300
+  exclude_patterns:
+    - 'Lesson3_BP.ipynb'
+    - 'Lesson4_DeepPot.ipynb'
+    - 'Lesson5_BP-FNN_MLP.ipynb'
+    - 'Lesson6_DeepPot-FNN_MLP.ipynb'
+    - 'Lesson7_BP-GPR_MLP.ipynb'
 
 only_build_toc_files: true
 
