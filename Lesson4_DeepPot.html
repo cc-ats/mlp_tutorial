@@ -608,7 +608,7 @@ D_i = \left( g_i^1   \right)^T \tilde{\mathcal{R}}^i (\tilde{\mathcal{R}}^i)^T g
 <h2><span class="section-number">4.5. </span>Defining Classes for the Neural Network<a class="headerlink" href="#defining-classes-for-the-neural-network" title="Permalink to this heading">#</a></h2>
 <section id="the-feature-class">
 <h3><span class="section-number">4.5.1. </span>The Feature Class<a class="headerlink" href="#the-feature-class" title="Permalink to this heading">#</a></h3>
-<p>Here we define the feature class, which uses the local environment matrix (<span class="math notranslate nohighlight">\(\mathcal{R}_i\)</span>) and local embedding matrices (<span class="math notranslate nohighlight">\(g^1_i\)</span> and <span class="math notranslate nohighlight">\(g^2_i\)</span>) to construct the encoded feature matrix (<span class="math notranslate nohighlight">\(D_i\)</span>).</p>
+<p>Here we define the feature class, which uses the local environment matrix (<span class="math notranslate nohighlight">\(\tilde{\mathcal{R}}^i\)</span>) and local embedding matrices (<span class="math notranslate nohighlight">\(g^1_i\)</span> and <span class="math notranslate nohighlight">\(g^2_i\)</span>) to construct the encoded feature matrix (<span class="math notranslate nohighlight">\(D_i\)</span>).</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Feature</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
