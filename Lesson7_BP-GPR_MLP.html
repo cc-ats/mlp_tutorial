@@ -778,14 +778,14 @@ from pytorch_lightning import loggers as pl_loggers
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 100/500 - Loss: 1.701   outputscale: 2.948   lengthscale: 3.301   noise: 0.851
-Iter 200/500 - Loss: 1.517   outputscale: 4.565   lengthscale: 3.562   noise: 0.193
-Iter 300/500 - Loss: 1.451   outputscale: 5.942   lengthscale: 3.755   noise: 0.075
-Iter 400/500 - Loss: 1.395   outputscale: 7.174   lengthscale: 3.980   noise: 0.034
-Iter 500/500 - Loss: 1.392   outputscale: 8.245   lengthscale: 4.153   noise: 0.019
-outputscale:  8.255328178405762
-lengthscale:  8.255328178405762
-noise:  0.01911887526512146
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Iter 100/500 - Loss: 1.700   outputscale: 2.948   lengthscale: 3.301   noise: 0.851
+Iter 200/500 - Loss: 1.516   outputscale: 4.564   lengthscale: 3.560   noise: 0.192
+Iter 300/500 - Loss: 1.460   outputscale: 5.940   lengthscale: 3.748   noise: 0.074
+Iter 400/500 - Loss: 1.400   outputscale: 7.171   lengthscale: 3.976   noise: 0.033
+Iter 500/500 - Loss: 1.394   outputscale: 8.245   lengthscale: 4.165   noise: 0.018
+outputscale:  8.256046295166016
+lengthscale:  8.256046295166016
+noise:  0.01762973517179489
 </pre></div>
 </div>
 </div>
@@ -832,8 +832,8 @@ noise:  0.01911887526512146
   warnings.warn(
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(0.0752, grad_fn=&lt;MeanBackward0&gt;)
-Energy Prediction RMSE:  0.04933705925941467 Q^2:  0.9998255372047424
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>tensor(0.0675, grad_fn=&lt;MeanBackward0&gt;)
+Energy Prediction RMSE:  0.050121136009693146 Q^2:  0.9998199343681335
 </pre></div>
 </div>
 </div>
@@ -851,7 +851,7 @@ Energy Prediction RMSE:  0.04933705925941467 Q^2:  0.9998255372047424
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Force RMSE:  4.0737624168396 Q^2 0.8090568780899048
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Force RMSE:  4.071394920349121 Q^2 0.8092787265777588
 </pre></div>
 </div>
 </div>
@@ -879,7 +879,7 @@ Energy Prediction RMSE:  0.04933705925941467 Q^2:  0.9998255372047424
 
 <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;springgreen&#39;</span><span class="p">)</span>
 <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)))),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)))],</span> <span class="p">[</span><span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">))),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">f1</span><span class="p">,</span><span class="n">f2</span><span class="p">)))],</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;k&quot;</span><span class="p">,</span> <span class="n">linewidth</span><span class="o">=</span><span class="mf">1.5</span><span class="p">)</span>
-<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Reference Force (kcal/mol/%\AA$)&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Reference Force (kcal/mol/$\AA$)&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Predicted Force (kcal/mol/$\AA$)&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 <span class="n">ax</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">annotate</span><span class="p">(</span><span class="s1">&#39;RMSD: </span><span class="si">%.3f</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">((</span><span class="n">f1</span> <span class="o">-</span> <span class="n">f2</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span><span class="p">)),</span> <span class="n">xy</span><span class="o">=</span><span class="p">(</span><span class="mf">0.05</span><span class="p">,</span> <span class="mf">0.95</span><span class="p">),</span> <span class="n">xycoords</span><span class="o">=</span><span class="s1">&#39;axes fraction&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
 
@@ -889,7 +889,7 @@ Energy Prediction RMSE:  0.04933705925941467 Q^2:  0.9998255372047424
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/7b9ab96379782f8d4dfe322c4aca00233ef102decefbffd740c06f49e1bf9108.png" src="_images/7b9ab96379782f8d4dfe322c4aca00233ef102decefbffd740c06f49e1bf9108.png" />
+<img alt="_images/97058c1b1d59c15f9c21a579a3165084904ae4bbace2f281ec4b26cfc5d83e59.png" src="_images/97058c1b1d59c15f9c21a579a3165084904ae4bbace2f281ec4b26cfc5d83e59.png" />
 </div>
 </div>
 </section>
@@ -929,8 +929,8 @@ Energy Prediction RMSE:  0.04933705925941467 Q^2:  0.9998255372047424
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Energy Prediction RMSE: 0.0493	 Q^2: 0.9998
-Force Prediction  RMSE: 4.0738	 Q^2: 0.8091
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Energy Prediction RMSE: 0.0501	 Q^2: 0.9998
+Force Prediction  RMSE: 4.0714	 Q^2: 0.8093
 </pre></div>
 </div>
 </div>
